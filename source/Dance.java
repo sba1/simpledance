@@ -170,6 +170,7 @@ public class Dance implements Runnable
 					Image img = (Image)iter.next();
 					img.dispose();
 				}
+				ballroom.dispose();
 			}
 		});
 

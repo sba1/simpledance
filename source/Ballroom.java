@@ -324,8 +324,12 @@ public class Ballroom extends Canvas
 		}
 	} 
 	
+	
+	
 	public void dispose()
 	{
+		super.dispose();
+
 		leftFeetColor.dispose();
 		darkGreyColor.dispose();
 		shineGreyColor.dispose();
@@ -339,9 +343,14 @@ public class Ballroom extends Canvas
 		gridColor.dispose();
 		countFont.dispose();
 		countColor.dispose();
+		leftFeetSelectedColor.dispose();
+		leftFeetColor.dispose();
+		leftFeetBorderColor.dispose();
+		rightFeetSelectedColor.dispose();
+		rightFeetColor.dispose();
+		rightFeetBorderColor.dispose();
 		bufferGC.dispose();
 		bufferImage.dispose();
-		super.dispose();
 	}
 	
 	public Ballroom(Composite comp, int style)
