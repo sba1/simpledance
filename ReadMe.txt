@@ -20,7 +20,7 @@ A Java runtime engine can be obtained for example from
 Sun's Java page at
  http://java.sun.com
 or here a direct link
- ftp://ftp.yars.free.net/pub/software/java/j2re-1_4_1_01-windows-i586-i.exe
+ ftp://ftp.yars.free.net/pub/software/java/j2re-1_4_1_02-windows-i586-i.exe
 
 SimpleDance uses the SWT GUI Library, coming the eclipse open source
 platform. For easier installing procedure these library is included
@@ -38,13 +38,19 @@ Contact
 SimpleDance probably has many bugs. So please send Bugreports to
   sebauer@t-online.de
 Also new Dance patterns would be much appreciated. As I'm a dance
-beginner I cannot do this myselfl. So this depends on you.
+beginner I cannot do this myself. So this depends on you.
 Feel free to send me also suggestion how to improve this software.
 If you miss something just inform me and I'll try to add this in
 one of the next releases.
 
 History
 ~~~~~~~
+0.7 (04//2003)
+ - Finetuned some patterns.
+ - Improved Detailed Step Overview
+ - Added "stop playing" and "play single frames" (both forward and
+   backward) buttons
+
 0.6 (03/28/2003)
  - New Patterns: "Vienesse Walz - Natural Turn" and "Rumba - Rope Spinning"
  - Some new toolbar images created by Martin Merz.
