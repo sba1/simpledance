@@ -16,9 +16,8 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.*;
 
-import Pattern.AnimationInfo;
-
 import gnu.gettext.GettextResource;
+import graphics.swt.SWTContext;
 
 import java.awt.Polygon;
 import java.util.LinkedList;
@@ -59,7 +58,10 @@ public class Ballroom extends Canvas
 	static final int FEETPART_NO = 0;
 	static final int FEETPART_BALE = 1;
 	static final int FEETPART_HEEL = 2;
-
+	
+	private SWTContext context;
+	private Render render;
+	
 	private Color leftFeetColor;
 	private Color leftFeetSelectedColor;
 	private Color leftFeetBorderColor;
@@ -95,7 +97,7 @@ public class Ballroom extends Canvas
 	private int zoomTop = 650;
 	private int coordinatesX = -1;
 	private int coordinatesY = -1;
-	private boolean showAnimation = false;
+	private boolean showAnimationOutline = false;
 	private boolean showNextStep = false;
 	private boolean showPrevStep = false;
 	private boolean showGent = true;
@@ -126,7 +128,7 @@ public class Ballroom extends Canvas
 	private int lastSelectedStepIndex;
 	private int lastSelectedFootIndex;
 	private int lastSelectedWaypoint;
-	
+
 	private boolean [] selectedArray = new boolean[4];
 	
 	/* attributes used when painting */
@@ -197,8 +199,8 @@ public class Ballroom extends Canvas
 	
 	WayPoint transformFeedCoordToPix(WayPoint feetCoord)
 	{
-		int x = (feetCoord.x - zoomLeft) * zoomFactor / 100; // * 6
-		int y = (zoomTop - feetCoord.y) * zoomFactor / 100; // * 6;
+		int x = (feetCoord.x - zoomLeft) * zoomFactor / 100;
+		int y = (zoomTop - feetCoord.y) * zoomFactor / 100;
 		int a = feetCoord.a;
 
 		WayPoint newFeetCoord = new WayPoint(x,y,a);
@@ -330,10 +332,9 @@ public class Ballroom extends Canvas
 			bufferGC = new GC(bufferImage);
 			bufferWidth = getClientArea().width;
 			bufferHeight = getClientArea().height;
+			context.setGC(bufferGC);
 		}
-	} 
-	
-	
+	}
 	
 	public void dispose()
 	{
@@ -364,6 +365,8 @@ public class Ballroom extends Canvas
 		rightFeetBorderColor.dispose();
 		bufferGC.dispose();
 		bufferImage.dispose();
+		render.dispose();
+		context.dispose();
 	}
 	
 	public Ballroom(Composite comp, int style)
@@ -371,6 +374,9 @@ public class Ballroom extends Canvas
 		/* Note since we use a border our client area is proably different */
 		super(comp,style|SWT.NO_BACKGROUND|SWT.V_SCROLL|SWT.H_SCROLL|SWT.BORDER);
 
+		context = new SWTContext(getDisplay());
+		render = new Render(context);
+		
 		leftFeetColor = new Color(getDisplay(),5,5,5);
 		leftFeetSelectedColor = new Color(getDisplay(),250,250,170);
 		leftFeetBorderColor = new Color(getDisplay(),15,15,15);
@@ -453,7 +459,62 @@ public class Ballroom extends Canvas
 				gc.fillRectangle(bounds);
 				
 				drawGrid(gc);
-				drawStep(gc);
+
+				if (pattern != null)
+				{
+					Render.RenderSceneArgs rsa = new Render.RenderSceneArgs();
+					rsa.pattern = pattern;
+					rsa.stepNumber = pattern.getCurrentStepNum();
+					rsa.visibleLeft = zoomLeft;
+					rsa.visibleTop = zoomTop;
+					rsa.visibleWidth = getClientArea().width * 100 / zoomFactor;
+					rsa.visibleHeight = getClientArea().height * 100 / zoomFactor;
+					rsa.pixelWidth = getClientArea().width;
+					rsa.pixelHeight = getClientArea().height;
+
+					rsa.showPrevStep = showPrevStep;
+					rsa.showGradients = showGradients;
+					rsa.showPrevStep = showPrevStep;
+					rsa.insideAnimation = animation;
+					rsa.animationNumber = animationNumber;
+					rsa.animationMaxNumber = animationMaxNumber;
+					rsa.showLady = showLady;
+					rsa.showGent = showGent;
+					rsa.showAnimationOutline = showAnimationOutline;
+					for (int i=0;i<4;i++) rsa.selectedArray[i] = selectedArray[i];
+
+					render.renderScence(rsa);
+
+					if (showCoordinates)
+					{
+						if (coordinatesX != -1 && coordinatesY != -1)
+						{
+							StringBuffer buf = new StringBuffer();
+							buf.append(coordinatesX);
+							buf.append(" ");
+							buf.append(coordinatesY);
+							buf.append("   ");
+							gc.setBackground(ballroomColor);
+							gc.setFont(null);
+							gc.drawText(buf.toString(),4,2);
+						}
+					}
+
+					if (animation && pattern.getCurrentStep() != null)
+					{
+						String count = pattern.getCurrentStep().getCount();
+						if (count != null)
+						{
+							gc.setBackground(ballroomColor);
+							gc.setFont(countFont);
+							Point p = gc.textExtent(count);
+							gc.setForeground(countColor);
+							gc.drawText(count,getClientArea().x + getClientArea().width - 1 - p.x - 20,2);
+						}
+					}
+				}
+				
+
 				e.gc.drawImage(bufferImage,getClientArea().x,getClientArea().y);
 			}
 		});
@@ -724,71 +785,6 @@ public class Ballroom extends Canvas
 		return false;
 	}
 
-    /* mx and my must be ballroom coordinates */
-    private void myDrawCircle(GC gc, WayPoint feetCoord, int mx, int my)
-    {
-    	Point p = transformCoords(feetCoord,mx,my);
-    	p = transformBallroomToPix(p.x,p.y);
-		gc.drawOval(p.x,p.y,2,2);
-    }
-
-	private boolean myPolygonTest(WayPoint feetCoord, boolean mirror, int [] data, int pixSize, int ballroomSize, int tx, int ty)
-	{
-		feetCoord = transformFeedCoordToPix(feetCoord);
-		Polygon polygon = new Polygon();
-		int x = feetCoord.x;
-		int y = feetCoord.y;
-		int a = feetCoord.a;
-
-		for (int i=0;i<data.length;i+=2)
-		{
-			int px = data[i];
-			int py = data[i+1];
-    		
-			if (mirror) px = -px;
-
-    		px = px * ballroomSize  * zoomFactor / 100 / pixSize;
-    		py = py * ballroomSize  * zoomFactor / 100 / pixSize;
-    		
-			double cosa = Math.cos(Math.toRadians(a));
-			double sina = Math.sin(Math.toRadians(a));
-    		
-			int newx = (int) (px * cosa + py * sina) + x;
-			int newy = (int)(- px * sina + py * cosa) + y;
-			
-			polygon.addPoint(newx,newy);
-		}
-		return polygon.contains(tx,ty);
-	}
-	
-    private void myDrawPolygon(GC gc, WayPoint feetCoord, boolean mirror, int [] data, int pixSize, int ballroomSize, boolean closed)
-    {
-		feetCoord = transformFeedCoordToPix(feetCoord);
-		int x = feetCoord.x;
-		int y = feetCoord.y;
-		int a = feetCoord.a;
-		
-    	int [] newData = new int[data.length];
-    	for (int i=0;i<data.length;i+=2)
-    	{
-    		int px = data[i];
-    		int py = data[i+1];
-    		
-    		if (mirror) px = -px;
-    		
-    		px = px * ballroomSize  * zoomFactor / 100 / pixSize;
-    		py = py * ballroomSize  * zoomFactor / 100 / pixSize;
-    		
-    		double cosa = Math.cos(Math.toRadians(a));
-    		double sina = Math.sin(Math.toRadians(a));
-    		
-    		newData[i] = (int)(px * cosa + py * sina) + x;
-    		newData[i+1] = (int)(- px * sina + py * cosa) + y;
-    	}
-    	if (closed) gc.drawPolygon(newData);
-    	else gc.drawPolyline(newData);
-    }
-
 	private int [] calcPolygon(WayPoint feetCoord, boolean mirror, int [] data, int pixSize, int ballroomSize)
 	{
 		feetCoord = transformFeedCoordToPix(feetCoord);
@@ -816,304 +812,18 @@ public class Ballroom extends Canvas
 		return newData;
 	}
 
-	private void myFillPolygon(GC gc, WayPoint feetCoord, boolean mirror, int [] data, int pixSize, int ballroomSize)
+	private boolean myPolygonTest(WayPoint feetCoord, boolean mirror, int [] data, int pixSize, int ballroomSize, int tx, int ty)
 	{
+		Polygon polygon = new Polygon();
 		int [] newData = calcPolygon(feetCoord,mirror,data,pixSize,ballroomSize);
-		gc.fillPolygon(newData);
-	}
-	
-	private void myGradientPolygon(GC gc, RGB startRGB, RGB endRGB, WayPoint feetCoord, boolean mirror, int [] data, int pixSize, int ballroomSize)
-	{
-		int minx,miny,maxx,maxy;
-		int [] newData = calcPolygon(feetCoord,mirror,data,pixSize,ballroomSize);
-		int i;
-
-        /* Find minx, miny, maxx, maxy */
-		minx = maxx = newData[0];
-		miny = maxy = newData[1];
-
-		if ((newData.length & 0x02) == 0) /* even number of pairs */
-		{
-			if (newData[2] < minx) minx = newData[2];
-			else maxx = newData[2];
-			if (newData[3] < miny) miny = newData[3];
-			else maxy = newData[3];
-			i = 4;
-		} else i = 2;
 		
-		while (i<newData.length)
+		for (int i=0;i<data.length;i+=2)
 		{
-			if (newData[i] < newData[i+2])
-			{
-				if (newData[i] < minx) minx = newData[i];
-				else if (newData[i+2] > maxx) maxx = newData[i+2];
-			} else
-			{
-				if (newData[i+2] < minx) minx = newData[i+2];
-				else if (newData[i] > maxx) maxx = newData[i];
-			}
-			i++;
-			if (newData[i] < newData[i+2])
-			{
-				if (newData[i] < miny) miny = newData[i];
-				else if (newData[i+2] > maxy) maxy = newData[i+2];
-			} else
-			{
-				if (newData[i+2] < miny) miny = newData[i+2];
-				else if (newData[i] > maxy) maxy = newData[i];
-			}
-			i+=3;
+   			polygon.addPoint(data[i],data[i+1]);
 		}
-
-        /* Create the image */
-		Rectangle bounds = new Rectangle(minx,miny,maxx-minx+1,maxy-miny+1);
-		ImageData imageData = getRectangleGradient(bounds.width,bounds.height,feetCoord.a,startRGB,endRGB);
-		
-
-		RGB [] maskPaletteData = new RGB[]{new RGB(0,0,0),new RGB(255,255,255)};
-		ImageData maskImageData = new ImageData(bounds.width,bounds.height,8,new PaletteData(maskPaletteData));
-		maskImageData.transparentPixel = 0;
-		Image maskImage = new Image(getDisplay(),maskImageData);
-		GC maskGC = new GC(maskImage);
-		Color white = new Color(getDisplay(),255,255,255);
-		maskGC.setBackground(white);
-
-		for (i=0;i<newData.length;i+=2)
-		{
-			newData[i] -= minx;
-			newData[i+1] -= miny;
-		}
-
-		maskGC.fillPolygon(newData);
-
-		maskGC.dispose();
-		white.dispose();
-
-		// ----------------
-		maskImageData = maskImage.getImageData();
-		final int h = maxy - miny + 1;
-		final int w = maxx - minx + 1;
-		int p = 0;
-		
-		byte [] alphaData = new byte[w*h];
-		byte [] maskData = maskImageData.data;		
-
-		for (int y=0;y<h;y++)
-		{
-			int o = p;
-			for (int x=0;x<w;x++)
-			{
-				if (maskData[o++]!=0) alphaData[x] = -1;
-				else alphaData[x] = 0;
-			}
-			imageData.setAlphas(0,y,w,alphaData,0);
-			p += maskImageData.bytesPerLine;
-		}
-		Image fillImage = new Image(getDisplay(),imageData);
-		// ----------------
-
-/*		maskImageData = maskImage.getImageData();
-		final int h = maxy - miny + 1;
-		final int w = maxx - minx + 1;
-		int p = 0, q = 0;
-		
-		byte [] newMaskData = new byte[((w+7)/8) *h];
-		byte [] maskData = maskImageData.data;		
-
-		for (int y=0;y<h;y++)
-		{
-			int o = p;
-			byte maskBit = (byte)0x80;
-			byte maskByte = 0;
-
-			for (int x=0;x<w;x++)
-			{
-				if (maskData[o++]!=0) maskByte |= maskBit;
-				maskBit = (byte) (maskBit >> 1);
-				if (maskBit == 0)
-				{
-					maskBit = (byte)0x80;
-					newMaskData[q++] = maskByte;
-					maskByte = 0;
-				} 
-			}
-			if (maskByte != 0) newMaskData[q++] = maskByte;
-			p += maskImageData.bytesPerLine;
-		}
-		imageData.maskData = newMaskData;
-		Image fillImage = new Image(getDisplay(),imageData);*/
-
-		// ----------------
-
-/*
-		maskImageData = maskImage.getImageData();
-		maskImageData.transparentPixel = 0;
-		maskImageData = maskImageData.getTransparencyMask();
-		Image fillImage = new Image(getDisplay(),imageData,maskImageData);
-*/
-		// ----------------
-
-		gc.drawImage(fillImage,bounds.x,bounds.y);
-		
-		maskImage.dispose();
-		fillImage.dispose();
-	}
-	
-	private void myDrawText(GC gc, WayPoint feetCoord, String text)
-	{
-		feetCoord = transformFeedCoordToPix(feetCoord);
-		int x = feetCoord.x;
-		int y = feetCoord.y;
-		int a = feetCoord.a;
-		
-		gc.setFont(null);
-
-		x -= gc.textExtent(text).x/2;
-		y -= gc.textExtent(text).y/2;
-		
-		gc.drawText(text,x,y,true);
+		return polygon.contains(tx,ty);
 	}
 
-	private ImageData getRectangleGradient(int width, int height, int angle, RGB startRGB, RGB endRGB)
-	{
-		/* The basic idea of this algorithm is to calc the intersection between the
-		 * diagonal of the rectangle (xs,ys) with dimension (xw,yw) a with the line starting
-		 * at (x,y) (every pixel inside the rectangle) and angle angle with direction vector (vx,vy).
-		 * 
-		 * Having the intersection point we then know the color of the pixel.
-		 * 
-		 * TODO: Turn the algorithm into a incremental one
-		 *       Remove the use of floating point variables
-		 */
-		 
-		ImageData imageData = new ImageData(width,height,24,new PaletteData(0xff,0xff00,0xff0000));
-		byte [] data = imageData.data;
-		int p = 0;
-		double rad = Math.toRadians(angle);
-		double cosarc = Math.cos(rad);
-		double sinarc = Math.sin(rad);
-
-		/* Normalize the angle */
-		if (angle < 0) angle = 360 - ((-angle)%360);
-		if (angle >= 0) angle = angle % 360;
-
-		final int diffR = endRGB.red - startRGB.red;
-		final int diffG = endRGB.green - startRGB.green;
-		final int diffB = endRGB.blue - startRGB.blue;
-
-		int xs,ys,xw,yw;
-
-		int vx = (int)(-cosarc*0x100);
-		int vy = (int)(sinarc*0x100);
-
-		if (angle <= 90 || (angle > 180 && angle <= 270))
-		{
-			/* The to be intersected diagonal goes from the top left edge to the bottom right edge */
-			xs = 0;
-			ys = 0;
-			xw = width;
-			yw = height;
-		} else
-		{
-			/* The to be intersected diagonal goes from the bottom left edge to the top right edge */
-			xs = 0;
-			ys = height;
-			xw = width;
-			yw = -height;
-		}
-		
-		final int xadd,ystart,yadd;
-		
-		if (angle > 90 && angle <= 270)
-		{
-			/* for these angle we have y1 = height - y1. Instead of
-			 * 
-			 *  y1 = height - (-vy*(yw*  xs -xw*  ys)         + yw*(vy*  x -vx*  y))        /(-yw*vx + xw*vy);
-			 * 
-			 * we have
-			 * 
-             *  y1 =          (-vy*(yw*(-xs)-xw*(-ys+height)) + yw*(vy*(-x)-vx*(-y+height)))/(-yw*vx + xw*vy);
-             * 
-             * so height - y1 can be expressed with the normal formular adapting some parameters.
-			 * 
-			 * Note that if one would exchanging startRGB/endRGB the values would only work
-			 * for linear color gradients
-			 */
-			xadd = -1;
-			yadd = -1;
-			ystart = height;
-
-			xs = -xs;
-			ys = -ys + height;
-		} else
-		{
-			xadd = 1;
-			yadd = 1;
-			ystart = 0;
-		}
-
-		int x1,y1;
-
-		/* The formular as shown above is
-		 * 
-		 * 	 y1 = ((-vy*(yw*xs-xw*ys) + yw*(vy*x-vx*y)) /(-yw*vx + xw*vy));
-		 * 
-		 * We see that only yw*(vy*x-vx*y) changes during the loop.
-		 * 
-		 * We write
-		 *   
-		 *   y1(x,y) = (r + yw*(vy*x-vx*y))/t = r/t + yw*(vy*x-vx*y)/t
-		 *   y1(x+1,y) = (r + vw*(vy*(x+1)-vx*y))/t 
-		 *   t*(y1(x+1,y) - y1(x,y)) = yw*(vy*(x+1)-vx*y) - yw*(vy*x-vx*y) = yw*vy;
-		 * 
-		 */
-
-		int r = -vy*(yw*xs-xw*ys); 
-		int t = -yw*vx + xw*vy;
-		int incr_y1 = yw*vy*xadd;
-		
-		int height_square = height*height;
-
-		for (int l = 0, y = ystart; l < height; l++, y+=yadd)
-		{
-			int o = p;
-			int y1_mul_t_accu = r - yw*vx*y;
-
-			for (int c = 0, x = 0; c < width; c++, x+=xadd)
-			{
-				int red,green,blue;
-
-				/* Calculate the intersection of two lines, this is not the fastet way to do but
-				 * it is intuitive. Will be optimzed later */
-//				y1 = (int)((r + yw*(vy*x-vx*y))/t);
-				y1 = y1_mul_t_accu / t;
-				
-				int e = y1 * y1 / height * y1;
-
-				red = startRGB.red + (int)(diffR*e/height_square);
-				green = startRGB.green + (int)(diffG*e/height_square);
-				blue = startRGB.blue + (int)(diffB*e/height_square);
-
-				data[o++] = (byte)blue;
-				data[o++] = (byte)green;
-				data[o++] = (byte)red;
-				
-				y1_mul_t_accu += incr_y1;
-			}
-			p += imageData.bytesPerLine;
-		}
-		
-		return imageData;
-	}
-
-	private void fillRectangleGradient(GC gc, Rectangle bounds, int a, RGB startRGB, RGB endRGB)
-	{
-		ImageData imageData = getRectangleGradient(bounds.width,bounds.height,a,startRGB,endRGB);
-		Image image = new Image(getDisplay(),imageData);
-		gc.drawImage(image,bounds.x,bounds.y);
-		image.dispose();
-	}
-	
 	private void drawGrid(GC gc)
 	{
 		if (showGrid)
@@ -1136,246 +846,6 @@ public class Ballroom extends Canvas
 		}
 	}
 
-	private void drawFoot(GC gc, Step step, WayPoint feetCoord, int footNum, boolean isSelected)
-	{
-		boolean fillBale = true;
-		boolean fillHeel = true;
-
-		Color backgroundColor;
-		Color borderColor;
-		if (step.isFeetLeft(footNum))
-		{
-			if (isSelected) backgroundColor = leftFeetSelectedColor;
-			else backgroundColor = leftFeetColor;
-			borderColor = leftFeetBorderColor;
-		} 
-		else
-		{
-			if (isSelected) backgroundColor = rightFeetSelectedColor;
-			else backgroundColor = rightFeetColor;
-			borderColor = rightFeetBorderColor;
-		} 
-			
-		GraphicsData graphicsData = getGraphicsData(step,footNum);
-
-		int lw = gc.getLineWidth();
-		int type = step.getFeet(footNum).getType(); 
-
-		if (type == Foot.STAND_ON_FOOT)
-		{
-			gc.setForeground(yellowColor);
-			gc.setLineWidth(2);
-		} else
-		{
-			gc.setForeground(borderColor);
-		}
-
-		if (type == Foot.BALL_STEP_STAY || type == Foot.BALL_STAY || type == Foot.TAP)
-		{
-			fillBale = false;
-			fillHeel = false;
-		}
-
-		gc.setBackground(backgroundColor);
-		
-		RGB rgb1;
-		RGB rgb2 = new RGB(0,0,0);
-		Color heelColor;
-		
-		if (step.isFeetFemale(footNum))
-		{
-			if (step.isFeetLeft(footNum)) heelColor = femaleLeftColor;
-			else heelColor = femaleRightColor;
-		} else
-		{
-			if (step.isFeetLeft(footNum)) heelColor = maleLeftColor;
-			else heelColor = maleRightColor;
-		}
-		rgb1 = heelColor.getRGB();
-
-		gc.setBackground(heelColor);
-		if (fillBale)
-		{
-			if (showGradients) myGradientPolygon(gc,rgb1,rgb2,feetCoord,step.isFeetLeft(footNum),graphicsData.baleData,graphicsData.feetDataYSize,graphicsData.realYSize);
-			else myFillPolygon(gc,feetCoord,step.isFeetLeft(footNum),graphicsData.baleData,graphicsData.feetDataYSize,graphicsData.realYSize);
-		} 
-		myDrawPolygon(gc,feetCoord,step.isFeetLeft(footNum),graphicsData.baleData,graphicsData.feetDataYSize,graphicsData.realYSize,true);
-
-		gc.setBackground(heelColor);
-		if (fillHeel) myFillPolygon(gc,feetCoord,step.isFeetLeft(footNum),graphicsData.heelData,graphicsData.feetDataYSize,graphicsData.realYSize);
-		myDrawPolygon(gc,feetCoord,step.isFeetLeft(footNum),graphicsData.heelData,graphicsData.feetDataYSize,graphicsData.realYSize,true);
-
-		if (type == Foot.BALL_STEP || type == Foot.BALL_STEP_STAY || type == Foot.BALL_STAY)
-		{
-			if (type != Foot.BALL_STAY) 
-			{
-				gc.setForeground(redColor);
-				gc.setLineWidth(2);
-			}
-			if (type != Foot.BALL_STEP) myFillPolygon(gc,feetCoord,step.isFeetLeft(footNum),graphicsData.getBale(),graphicsData.feetDataYSize,graphicsData.realYSize);
-			myDrawPolygon(gc,feetCoord,step.isFeetLeft(footNum),graphicsData.getBale(),graphicsData.feetDataYSize,graphicsData.realYSize,false);
-		}
-		
-		if (type == Foot.HEEL_STEP)
-		{
-			gc.setForeground(redColor);
-			gc.setLineWidth(2);
-			myDrawPolygon(gc,feetCoord,step.isFeetLeft(footNum),graphicsData.getHeel(),graphicsData.feetDataYSize,graphicsData.realYSize,false);
-		}
-		
-		if (type == Foot.TAP)
-		{
-			gc.setBackground(redColor);
-			gc.setLineWidth(2);
-			myFillPolygon(gc,feetCoord,step.isFeetLeft(footNum),graphicsData.getBaleTap(),graphicsData.feetDataYSize,graphicsData.realYSize);
-		}
-
-		gc.setLineWidth(lw);
-
-		gc.setForeground(borderColor);
-		if (step.isFeetLeft(footNum)) myDrawText(gc,feetCoord,"L");
-		else myDrawText(gc,feetCoord,"R");
-
-		myDrawCircle(gc,feetCoord,0,0);
-		int ballroomBaleX = graphicsData.baleX * graphicsData.realYSize / graphicsData.feetDataYSize; 
-		int ballroomBaleY = -graphicsData.baleY * graphicsData.realYSize / graphicsData.feetDataYSize; 
-		int ballroomHeelX = graphicsData.heelX * graphicsData.realYSize / graphicsData.feetDataYSize; 
-		int ballroomHeelY = -graphicsData.heelY * graphicsData.realYSize / graphicsData.feetDataYSize; 
-		myDrawCircle(gc,feetCoord,ballroomBaleX,ballroomBaleY);
-		myDrawCircle(gc,feetCoord,ballroomHeelX,ballroomHeelY);
-	}
-
-	private void drawStep(GC gc)
-	{
-		if (showCoordinates)
-		{
-			if (coordinatesX != -1 && coordinatesY != -1)
-			{
-				StringBuffer buf = new StringBuffer();
-				buf.append(coordinatesX);
-				buf.append(" ");
-				buf.append(coordinatesY);
-				buf.append("   ");
-				gc.setBackground(ballroomColor);
-				gc.setFont(null);
-				gc.drawText(buf.toString(),4,2);
-			}
-		}
-
-		if (pattern == null) return;
-		Step step = pattern.getCurrentStep();
-		if (step == null) return;
-		Step previousStep = pattern.getPreviousStep();
-		Step nextStep = pattern.getNextStep();
-
-		if (animation)
-		{
-			String count = step.getCount();
-			if (count != null)
-			{
-				gc.setBackground(ballroomColor);
-				gc.setFont(countFont);
-				Point p = gc.textExtent(count);
-				gc.setForeground(countColor);
-				gc.drawText(count,getClientArea().x + getClientArea().width - 1 - p.x - 20,2);
-			}
-		}
-
-		if (previousStep != null && !animation)
-		{
-			if (showPrevStep)
-			{
-				for (int i=0;i<previousStep.getNumberOfFeets();i++)
-				{
-					if (previousStep.isFeetFemale(i) && !showLady) continue;
-					if (!previousStep.isFeetFemale(i) && !showGent) continue;
-
-					GraphicsData graphicsData = getGraphicsData(step,i);
-					WayPoint wayPoint = previousStep.getStartingWayPoint(i); 
-		
-					if (previousStep.getFeet(i).isLeft()) gc.setBackground(shineGreyColor);
-					else gc.setBackground(darkGreyColor);
-
-					myFillPolygon(gc,wayPoint,step.isFeetLeft(i),graphicsData.baleData,graphicsData.feetDataYSize,graphicsData.realYSize);
-					myFillPolygon(gc,wayPoint,step.isFeetLeft(i),graphicsData.heelData,graphicsData.feetDataYSize,graphicsData.realYSize);
-				}
-			}
-
-			/* Show the animation outline */
-			if (showAnimation)
-			{
-				for (int j=1;j<6;j++)
-				{
-					for (int i=0;i<previousStep.getNumberOfFeets();i++)
-					{
-						if (previousStep.isFeetFemale(i) && !showLady) continue;
-						if (!previousStep.isFeetFemale(i) && !showGent) continue;
-
-						if (selectedArray[i]) gc.setForeground(animationSelectedColor);
-						else gc.setForeground(animationColor);
-
- 						GraphicsData graphicsData = getGraphicsData(previousStep,i);
-						WayPoint feetCoord = previousStep.getFeet(i).getInterpolatedWayPoint(step.getStartingWayPoint(i),step.getFeet(i).isLongRotation(),j,6);
-
-						myDrawPolygon(gc,feetCoord,previousStep.isFeetLeft(i),graphicsData.heelData,graphicsData.feetDataYSize,graphicsData.realYSize, true);
-						myDrawPolygon(gc,feetCoord,previousStep.isFeetLeft(i),graphicsData.baleData,graphicsData.feetDataYSize,graphicsData.realYSize, true);
-					}
-				}
-			}
-		}
-	
-		for (int i=0;i<step.getNumberOfFeets();i++)
-		{
-			boolean isSelected = selectedArray[i];
-
-			if (step.isFeetFemale(i) && !showLady) continue;
-			if (!step.isFeetFemale(i) && !showGent) continue;
-
-			WayPoint feetCoord;
-			
-			if (animation && nextStep != null)
-			{
-				feetCoord = step.getFeet(i).getInterpolatedWayPoint(nextStep.getStartingWayPoint(i),nextStep.getFeet(i).isLongRotation(),animationNumber,animationMaxNumber);
-			}
-			else
-			{
-				feetCoord = step.getStartingWayPoint(i);
-			}
-
-			if (animation)
-			{
-				/* Use the next step if possible, because when animation runs it looks better to display the type of the next step
-				 * TODO: Maybe it would better to change this so that the next step type is only used if the foot has been moved? */
-
-/*				if (animationNumber > 2 && nextStep != null) drawFoot(gc,nextStep,feetCoord,i,isSelected);
-				else */drawFoot(gc,step,feetCoord,i,isSelected);
-			}
-			else drawFoot(gc,step,feetCoord,i,isSelected);
-			
-			if (showPrevStep && previousStep != null && !animation)
-			{
-				gc.setForeground(lineColor);
-				feetCoord = previousStep.getStartingWayPoint(i);
-				Point p1 = transformBallroomToPix(feetCoord.x,feetCoord.y);
-				Point p2;
-				WayPoint wayPoint;
-				
-				for (int k=1;k<previousStep.getFeet(i).getNumOfWayPoints();k++)
-				{
-					wayPoint = previousStep.getFeet(i).getFeetCoord(k);
-					p2 = transformBallroomToPix(wayPoint.x,wayPoint.y);
-					gc.drawLine(p1.x,p1.y,p2.x,p2.y);
-					gc.drawOval(p1.x-1,p1.y-1,2,2);
-					p1 = p2;
-				}
-				wayPoint = step.getFeet(i).getStartingWayPoint();
-				p2 = transformBallroomToPix(wayPoint.x,wayPoint.y);
-				gc.drawLine(p1.x,p1.y,p2.x,p2.y);
-				gc.drawOval(p1.x-1,p1.y-1,2,2);
-			}
-		}
-	}
-	
 	/**
 	 * Returns the pattern.
 	 * @return Pattern
@@ -1395,16 +865,36 @@ public class Ballroom extends Canvas
 	
 	public void zoomIn()
 	{
+		int oldBallroomWidth = this.getClientArea().width * 100 / zoomFactor;
+		int oldBallroomHeight = this.getClientArea().height * 100 / zoomFactor;
+
 		zoomFactor = zoomFactor * 3 / 2;
+		
+		int ballroomWidth = this.getClientArea().width * 100 / zoomFactor;
+		int ballroomHeight = this.getClientArea().height * 100 / zoomFactor;
+		
+		zoomLeft += (oldBallroomWidth - ballroomWidth)/2;
+		zoomTop -= (oldBallroomHeight - ballroomHeight)/2;
+		
 		redraw();
 		refreshScrollBars();
 	}
 
 	public void zoomOut()
 	{
+		int oldBallroomWidth = this.getClientArea().width * 100 / zoomFactor;
+		int oldBallroomHeight = this.getClientArea().height * 100 / zoomFactor;
+
 		if (zoomFactor == 25) return;
 		zoomFactor = zoomFactor * 2 / 3;
 		if (zoomFactor < 25) zoomFactor = 25;
+
+		int ballroomWidth = this.getClientArea().width * 100 / zoomFactor;
+		int ballroomHeight = this.getClientArea().height * 100 / zoomFactor;
+		
+		zoomLeft += (oldBallroomWidth - ballroomWidth)/2;
+		zoomTop -= (oldBallroomHeight - ballroomHeight)/2;
+
 		redraw();
 		refreshScrollBars();
 	}
@@ -1413,9 +903,9 @@ public class Ballroom extends Canvas
 	 * Returns the showAnimation.
 	 * @return boolean
 	 */
-	public boolean isShowAnimation()
+	public boolean isShowAnimationOutline()
 	{
-		return showAnimation;
+		return showAnimationOutline;
 	}
 
 	/**
@@ -1461,9 +951,9 @@ public class Ballroom extends Canvas
 	 * Sets the showAnimation.
 	 * @param showAnimation The showAnimation to set
 	 */
-	public void setShowAnimation(boolean showAnimation)
+	public void setShowAnimationOutline(boolean showAnimation)
 	{
-		this.showAnimation = showAnimation;
+		this.showAnimationOutline = showAnimation;
 		redraw();
 		update();
 	}
@@ -1633,7 +1123,7 @@ public class Ballroom extends Canvas
 	
 	private void animationCalcAnimFrames()
 	{
-		AnimationInfo ai = pattern.getAnimationInfo(25);
+		Pattern.AnimationInfo ai = pattern.getAnimationInfo(25);
 
 		Step step = pattern.getCurrentStep();
 		int framesperstep = ai.framesperbeat;

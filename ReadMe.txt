@@ -48,6 +48,8 @@ History
 0.8 (07/05/2003)
  - Implemented Gradientfill for Foot steps and some cosmetical changes
  - Added "View" Menu
+ - Added possibility to export the steps as PDF file
+ - Added some patterns
 
 0.7 (05/04/2003)
  - Finetuned some patterns.

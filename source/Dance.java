@@ -25,8 +25,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.*;
 
-import Pattern.PatternInfo;
-
 /**
  * @author sebauer
  *
@@ -186,7 +184,7 @@ public class Dance implements Runnable
 					case TOOLBAR_SAVEAS: savePatternAs(); break;
 					case TOOLBAR_ZOOM_IN: ballroom.zoomIn(); break;
 					case TOOLBAR_ZOOM_OUT: ballroom.zoomOut(); break;
-					case TOOLBAR_SHOW_ANIM: ballroom.setShowAnimation(((ToolItem)event.widget).getSelection()); break;
+					case TOOLBAR_SHOW_ANIM: ballroom.setShowAnimationOutline(((ToolItem)event.widget).getSelection()); break;
 					case TOOLBAR_SHOW_PREV: ballroom.setShowPrevStep(((ToolItem)event.widget).getSelection()); break;
 					case TOOLBAR_SHOW_NEXT: ballroom.setShowNextStep(((ToolItem)event.widget).getSelection()); break;
 					case TOOLBAR_SHOW_GENT: ballroom.setShowGent(((ToolItem)event.widget).getSelection()); break;
@@ -1333,7 +1331,7 @@ public class Dance implements Runnable
 
 						for (int j=0;j<allPatternsArray[i].size();j++)
 						{
-							PatternInfo pi = (PatternInfo) allPatternsArray[i].get(j);
+							Pattern.PatternInfo pi = (Pattern.PatternInfo) allPatternsArray[i].get(j);
 							MenuItem subItem = new MenuItem(subMenu,0);
 							subItem.setText(pi.name);
 							subItem.setData(pi.data);
@@ -1548,7 +1546,7 @@ public class Dance implements Runnable
 		String fileName = fileDialog.open();
 		if (fileName != null)
 		{
-			PDFOutput.write(fileName,pattern);
+			PDFOutput.write(fileName,pattern,getDisplay());
 		}
 		
 	}
