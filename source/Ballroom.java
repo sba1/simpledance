@@ -4,8 +4,8 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.ScrollBar;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
-import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.MouseMoveListener;
@@ -75,6 +75,7 @@ public class Ballroom extends Canvas
 	private Color countColor;
 	private Color gridColor;
 	private Color yellowColor;
+	private Color redColor;
 	private Cursor cursor;
 	private Menu contextMenu;
 	private Font countFont;
@@ -334,6 +335,7 @@ public class Ballroom extends Canvas
 		animationColor.dispose();
 		animationSelectedColor.dispose();
 		yellowColor.dispose();
+		redColor.dispose();
 		gridColor.dispose();
 		countFont.dispose();
 		countColor.dispose();
@@ -362,6 +364,7 @@ public class Ballroom extends Canvas
 		lineColor = new Color(getDisplay(),255,255,0);
 		
 		yellowColor = new Color(getDisplay(),240,240,0);
+		redColor = new Color(getDisplay(),240,0,0);
 
 		animationColor = new Color(getDisplay(),230,230,230);
 		animationSelectedColor = new Color(getDisplay(),255,255,255);
@@ -403,12 +406,8 @@ public class Ballroom extends Canvas
 		scrollbar.setSelection(zoomLeft);
 		scrollbar.addSelectionListener(selectionListener);
 		
-		addControlListener(new ControlListener()
+		addControlListener(new ControlAdapter()
 		{
-			public void controlMoved(ControlEvent event)
-			{
-			}
-
 			public void controlResized(ControlEvent event)
 			{
 				refreshScrollBars();
@@ -717,7 +716,7 @@ public class Ballroom extends Canvas
 		return polygon.contains(tx,ty);
 	}
 	
-    private void myDrawPolygon(GC gc, WayPoint feetCoord, boolean mirror, int [] data, int pixSize, int ballroomSize)
+    private void myDrawPolygon(GC gc, WayPoint feetCoord, boolean mirror, int [] data, int pixSize, int ballroomSize, boolean closed)
     {
 		feetCoord = transformFeedCoordToPix(feetCoord);
 		int x = feetCoord.x;
@@ -741,7 +740,8 @@ public class Ballroom extends Canvas
     		newData[i] = (int)(px * cosa + py * sina) + x;
     		newData[i+1] = (int)(- px * sina + py * cosa) + y;
     	}
-    	gc.drawPolygon(newData);
+    	if (closed) gc.drawPolygon(newData);
+    	else gc.drawPolyline(newData);
     }
 
 	private void myFillPolygon(GC gc, WayPoint feetCoord, boolean mirror, int [] data, int pixSize, int ballroomSize)
@@ -853,11 +853,18 @@ public class Ballroom extends Canvas
 		gc.setBackground(backgroundColor);
 
 		myFillPolygon(gc,feetCoord,step.isFeetLeft(footNum),graphicsData.baleData,graphicsData.feetDataYSize,graphicsData.realYSize);
-		myDrawPolygon(gc,feetCoord,step.isFeetLeft(footNum),graphicsData.baleData,graphicsData.feetDataYSize,graphicsData.realYSize);
+		myDrawPolygon(gc,feetCoord,step.isFeetLeft(footNum),graphicsData.baleData,graphicsData.feetDataYSize,graphicsData.realYSize,true);
 
 		myFillPolygon(gc,feetCoord,step.isFeetLeft(footNum),graphicsData.heelData,graphicsData.feetDataYSize,graphicsData.realYSize);
-		myDrawPolygon(gc,feetCoord,step.isFeetLeft(footNum),graphicsData.heelData,graphicsData.feetDataYSize,graphicsData.realYSize);
-		
+		myDrawPolygon(gc,feetCoord,step.isFeetLeft(footNum),graphicsData.heelData,graphicsData.feetDataYSize,graphicsData.realYSize,true);
+
+		if (step.getFeet(footNum).getType() == Foot.BALL_STEP)
+		{
+			gc.setForeground(redColor);
+			gc.setLineWidth(2);
+			myDrawPolygon(gc,feetCoord,step.isFeetLeft(footNum),graphicsData.getBale(),graphicsData.feetDataYSize,graphicsData.realYSize,false);
+		}
+
 		gc.setLineWidth(lw);
 
 		gc.setForeground(borderColor);
@@ -943,8 +950,8 @@ public class Ballroom extends Canvas
 
  						GraphicsData graphicsData = getGraphicsData(previousStep,i);
 						WayPoint feetCoord = previousStep.getFeet(i).getInterpolatedWayPoint(step.getStartingWayPoint(i),j,6);
-						myDrawPolygon(gc,feetCoord,previousStep.isFeetLeft(i),graphicsData.heelData,graphicsData.feetDataYSize,graphicsData.realYSize);
-						myDrawPolygon(gc,feetCoord,previousStep.isFeetLeft(i),graphicsData.baleData,graphicsData.feetDataYSize,graphicsData.realYSize);
+						myDrawPolygon(gc,feetCoord,previousStep.isFeetLeft(i),graphicsData.heelData,graphicsData.feetDataYSize,graphicsData.realYSize, true);
+						myDrawPolygon(gc,feetCoord,previousStep.isFeetLeft(i),graphicsData.baleData,graphicsData.feetDataYSize,graphicsData.realYSize, true);
 					}
 				}
 			}
@@ -1294,7 +1301,7 @@ public class Ballroom extends Canvas
 		zoomTop = bounds[1] + 20;
 		int zoomRight = bounds[2] + 10;
 		int zoomBottom = bounds[3] - 20; 
-		
+
 		zoomFactor = this.getClientArea().width * 100 / (zoomRight - zoomLeft + 1);  
 		int newZoomFactor = this.getClientArea().height * 100 / (zoomTop - zoomBottom + 1);
 		if (newZoomFactor < zoomFactor) zoomFactor = newZoomFactor;
