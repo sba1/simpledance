@@ -19,14 +19,14 @@ public class Fraction
 	 * @param y
 	 * @return the GCD looked for
 	 */ 
-	private int ggT(int x, int y)
+	private int gcd(int x, int y)
 	{
 	  if (x>y)
 	  {
-		return ggT(x-y,y);
+		return gcd(x-y,y);
 	  } else if (y>x)
 	  {
-		return ggT(y-x,x);
+		return gcd(y-x,x);
 	  } else return x;
 	}
 	
@@ -41,7 +41,7 @@ public class Fraction
 			denominator = 1;
 			return;
 		}
-		int ggt = ggT(Math.abs(nominator),denominator);
+		int ggt = gcd(Math.abs(nominator),denominator);
 		nominator /= ggt;
 		denominator /= ggt;
 	}
