@@ -23,13 +23,14 @@ public class Pattern
 	static final int DANCE_VIENESSE_WALZ = 2;
 	static final int DANCE_TANGO = 3;
 	static final int DANCE_FOXTROTT = 4;
-	static final int DANCE_SLOWFOX = 5;
-	static final int DANCE_CHA_CHA_CHA = 6;
-	static final int DANCE_RUMBA = 7;
-	static final int DANCE_JIVE = 8;
-	static final int DANCE_SAMBA = 9;
-	static final int DACNE_PASO_DOBLE = 10;
-	static final int DANCE_MAX = 11;
+	static final int DANCE_QUICKSTEP = 5;
+	static final int DANCE_SLOWFOX = 6;
+	static final int DANCE_CHA_CHA_CHA = 7;
+	static final int DANCE_RUMBA = 8;
+	static final int DANCE_JIVE = 9;
+	static final int DANCE_SAMBA = 10;
+	static final int DACNE_PASO_DOBLE = 11;
+	static final int DANCE_MAX = 12;
 	
 	static final String typeNames[] =
 	{
