@@ -3,3 +3,4 @@ build
 graphics.svg
 META-INF
 javadoc
+.classpath
