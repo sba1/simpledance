@@ -279,7 +279,7 @@ public class DetailedOverviewCanvas extends Canvas
 				int w = endX-startX+1;
 				if (currentFrac.nominator != 0  && !isLast)
 				{
-					w -= columnWidths[i+1] * currentFrac.nominator / currentFrac.denominatior;
+					w -= columnWidths[i+1] * currentFrac.nominator / currentFrac.denominator;
 				} else
 				{
 					setNewStartX = true;
