@@ -45,6 +45,7 @@
     <zipfileset dir="images" includes="**.gif" prefix="images" />
   </jar>
   
+  <copy file="libintl.jar" todir="${dist}"/> 
   <copy file="ReadMe.txt" todir="${dist}"/>
   <copy todir="${dist}/patterns">
     <fileset dir="patterns"/>
