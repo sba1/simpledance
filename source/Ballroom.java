@@ -822,6 +822,9 @@ public class Ballroom extends Canvas
 
 	private void drawFoot(GC gc, Step step, WayPoint feetCoord, int footNum, boolean isSelected)
 	{
+		boolean fillBale = true;
+		boolean fillHeel = true;
+
 		Color backgroundColor;
 		Color borderColor;
 		if (step.isFeetLeft(footNum))
@@ -840,8 +843,9 @@ public class Ballroom extends Canvas
 		GraphicsData graphicsData = getGraphicsData(step,footNum);
 
 		int lw = gc.getLineWidth();
+		int type = step.getFeet(footNum).getType(); 
 
-		if (step.getFeet(footNum).getType() == Foot.STAND_ON_FOOT)
+		if (type == Foot.STAND_ON_FOOT)
 		{
 			gc.setForeground(yellowColor);
 			gc.setLineWidth(2);
@@ -850,19 +854,26 @@ public class Ballroom extends Canvas
 			gc.setForeground(borderColor);
 		}
 
+		if (type == Foot.BALL_STEP_STAY || type == Foot.BALL_STAY)
+		{
+			fillBale = false;
+			fillHeel = false;
+		}
+
 		gc.setBackground(backgroundColor);
 
-		myFillPolygon(gc,feetCoord,step.isFeetLeft(footNum),graphicsData.baleData,graphicsData.feetDataYSize,graphicsData.realYSize);
+		if (fillBale) myFillPolygon(gc,feetCoord,step.isFeetLeft(footNum),graphicsData.baleData,graphicsData.feetDataYSize,graphicsData.realYSize);
 		myDrawPolygon(gc,feetCoord,step.isFeetLeft(footNum),graphicsData.baleData,graphicsData.feetDataYSize,graphicsData.realYSize,true);
 
-		myFillPolygon(gc,feetCoord,step.isFeetLeft(footNum),graphicsData.heelData,graphicsData.feetDataYSize,graphicsData.realYSize);
+		if (fillHeel) myFillPolygon(gc,feetCoord,step.isFeetLeft(footNum),graphicsData.heelData,graphicsData.feetDataYSize,graphicsData.realYSize);
 		myDrawPolygon(gc,feetCoord,step.isFeetLeft(footNum),graphicsData.heelData,graphicsData.feetDataYSize,graphicsData.realYSize,true);
 
-		if (step.getFeet(footNum).getType() == Foot.BALL_STEP)
+		if (type == Foot.BALL_STEP || type == Foot.BALL_STEP_STAY || type == Foot.BALL_STAY)
 		{
 			gc.setForeground(redColor);
 			gc.setLineWidth(2);
-			myDrawPolygon(gc,feetCoord,step.isFeetLeft(footNum),graphicsData.getBale(),graphicsData.feetDataYSize,graphicsData.realYSize,false);
+			if (type != Foot.BALL_STEP) myFillPolygon(gc,feetCoord,step.isFeetLeft(footNum),graphicsData.getBale(),graphicsData.feetDataYSize,graphicsData.realYSize);
+			if (type != Foot.BALL_STAY) myDrawPolygon(gc,feetCoord,step.isFeetLeft(footNum),graphicsData.getBale(),graphicsData.feetDataYSize,graphicsData.realYSize,false);
 		}
 
 		gc.setLineWidth(lw);
