@@ -826,19 +826,46 @@ public class Ballroom extends Canvas
 	{
 		int minx,miny,maxx,maxy;
 		int [] newData = calcPolygon(feetCoord,mirror,data,pixSize,ballroomSize);
-		
+		int i;
+
+        /* Find minx, miny, maxx, maxy */
 		minx = maxx = newData[0];
 		miny = maxy = newData[1];
-		
-		/* TODO: Optimize via algorithmn shown in "Introduction to algorithms */
-		for (int i=2;i<newData.length;i+=2)
+
+		if ((newData.length & 0x02) == 0) /* even number of pairs */
 		{
-			if (newData[i] < minx) minx = newData[i];
-			else if (newData[i] > maxx) maxx = newData[i];
-			if (newData[i+1] < miny) miny = newData[i+1];
-			else if (newData[i+1] > maxy) maxy = newData[i+1];
-		}
+			if (newData[2] < minx) minx = newData[2];
+			else maxx = newData[2];
+			if (newData[3] < miny) miny = newData[3];
+			else maxy = newData[3];
+			i = 4;
+		} else i = 2;
 		
+		while (i<newData.length)
+		{
+			if (newData[i] < newData[i+2])
+			{
+				if (newData[i] < minx) minx = newData[i];
+				else if (newData[i+2] > maxx) maxx = newData[i+2];
+			} else
+			{
+				if (newData[i+2] < minx) minx = newData[i+2];
+				else if (newData[i] > maxx) maxx = newData[i];
+			}
+			i++;
+			if (newData[i] < newData[i+2])
+			{
+				if (newData[i] < miny) miny = newData[i];
+				else if (newData[i+2] > maxy) maxy = newData[i+2];
+			} else
+			{
+				if (newData[i+2] < miny) miny = newData[i+2];
+				else if (newData[i] > maxy) maxy = newData[i];
+			}
+			i+=3;
+		}
+
+        /* Create the image */
 		Rectangle bounds = new Rectangle(minx,miny,maxx-minx+1,maxy-miny+1);
 		ImageData imageData = getRectangleGradient(bounds.width,bounds.height,feetCoord.a,startRGB,endRGB);
 		
@@ -851,7 +878,7 @@ public class Ballroom extends Canvas
 		Color white = new Color(getDisplay(),255,255,255);
 		maskGC.setBackground(white);
 
-		for (int i=0;i<newData.length;i+=2)
+		for (i=0;i<newData.length;i+=2)
 		{
 			newData[i] -= minx;
 			newData[i+1] -= miny;
