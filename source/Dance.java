@@ -98,6 +98,9 @@ public class Dance implements Runnable
 	private Text stepCountText;
 	private Combo durationCombo;
 	
+	/* all created images, which are disposed in dispose() */
+	private LinkedList imageList = new LinkedList();
+	
 	private PatternProp patternPropShell;
 	private DetailedOverviewShell detailedOverviewShell;
 	private TimerThread timerThread;
@@ -153,6 +156,19 @@ public class Dance implements Runnable
 				{
 					timerThread.interrupt();
 					timerThread = null;
+				}
+			}
+		});
+		
+		shell.addDisposeListener(new DisposeListener()
+		{
+			public void widgetDisposed(DisposeEvent event)
+			{
+				ListIterator iter = imageList.listIterator();
+				while (iter.hasNext())
+				{
+					Image img = (Image)iter.next();
+					img.dispose();
 				}
 			}
 		});
@@ -242,19 +258,22 @@ public class Dance implements Runnable
 
 		toolbar = new ToolBar(coolbar,SWT.FLAT);
 		toolitem = new ToolItem(toolbar,0);
-		Image image = createImage("images/zoomin.gif"); 
+		Image image = createImage("images/zoomin.gif");
+		imageList.add(image); 
 		toolitem.setImage(image);
 		toolitem.setToolTipText(_("Zoom in"));
 		toolitem.setData(new Integer(TOOLBAR_ZOOM_IN));
 		toolitem.addSelectionListener(selectionListener);
 		toolitem = new ToolItem(toolbar,0);
 		image = createImage("images/zoomout.gif"); 
+		imageList.add(image);
 		toolitem.setImage(image);
 		toolitem.setToolTipText(_("Zoom out"));
 		toolitem.setData(new Integer(TOOLBAR_ZOOM_OUT));
 		toolitem.addSelectionListener(selectionListener);
 		toolitem = new ToolItem(toolbar,SWT.CHECK);
 		image = createImage("images/showgrid.gif");
+		imageList.add(image);
 		toolitem.setImage(image);
 		toolitem.setToolTipText(_("Show the dancefloor's grid"));
 		toolitem.setData(new Integer(TOOLBAR_SHOW_GRID));
@@ -262,18 +281,21 @@ public class Dance implements Runnable
 		toolitem.setSelection(true);
 		toolitem = new ToolItem(toolbar,SWT.CHECK);
 		image = createImage("images/showprev.gif");
+		imageList.add(image);
 		toolitem.setImage(image);
 		toolitem.setToolTipText(_("Show previous step"));
 		toolitem.setData(new Integer(TOOLBAR_SHOW_PREV));
 		toolitem.addSelectionListener(selectionListener);
 		toolitem = new ToolItem(toolbar,SWT.CHECK);
 		image = createImage("images/shownext.gif");
+		imageList.add(image);
 		toolitem.setImage(image);
 		toolitem.setToolTipText(_("Show next step"));
 		toolitem.setData(new Integer(TOOLBAR_SHOW_NEXT));
 		toolitem.addSelectionListener(selectionListener);
 		toolitem = new ToolItem(toolbar,SWT.CHECK);
 		image = createImage("images/showgent.gif");
+		imageList.add(image);
 		toolitem.setImage(image);
 		toolitem.setToolTipText(_("Show feet of gent"));
 		toolitem.setData(new Integer(TOOLBAR_SHOW_GENT));
@@ -281,6 +303,7 @@ public class Dance implements Runnable
 		toolitem.setSelection(true);
 		toolitem = new ToolItem(toolbar,SWT.CHECK);
 		image = createImage("images/showlady.gif");
+		imageList.add(image);
 		toolitem.setImage(image);
 		toolitem.setToolTipText(_("Show feet of lady"));
 		toolitem.setData(new Integer(TOOLBAR_SHOW_LADY));
@@ -288,12 +311,14 @@ public class Dance implements Runnable
 		toolitem.setSelection(true);
 		toolitem = new ToolItem(toolbar,SWT.CHECK);
 		image = createImage("images/showanim.gif");
+		imageList.add(image);
 		toolitem.setImage(image);
 		toolitem.setToolTipText(_("Show animation"));
 		toolitem.setData(new Integer(TOOLBAR_SHOW_ANIM));
 		toolitem.addSelectionListener(selectionListener);
 		toolitem = new ToolItem(toolbar,SWT.DROP_DOWN);
 		image = createImage("images/showanimno.gif");
+		imageList.add(image);
 		toolitem.setImage(image);
 		toolitem.setToolTipText(_("Select the number of Animationframes"));
 		toolitem.addSelectionListener(new FramesDropDownSelectionListener(shell));
