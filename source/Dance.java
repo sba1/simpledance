@@ -1565,9 +1565,17 @@ public class Dance implements Runnable
 			Document document = new Document();
 			try
 			{
+				int i;
+
 				PdfWriter.getInstance(document, new FileOutputStream(fileName));
 				document.open();
-				document.add(new Paragraph("Hello World"));
+
+				for (i=0;i<pattern.getStepLength();i++)
+				{
+					document.add(new Paragraph(_("Step") + " " + i));
+				}
+	
+				
 				document.close();
 			} catch (FileNotFoundException e)
 			{
