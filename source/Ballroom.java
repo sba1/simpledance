@@ -862,8 +862,8 @@ public class Ballroom extends Canvas
 
 		maskImageData = maskImage.getImageData();
 		
-		int h = maxy - miny + 1;
-		int w = maxx - minx + 1;
+		final int h = maxy - miny + 1;
+		final int w = maxx - minx + 1;
 		int p = 0;
 		
 		byte [] alphaData = new byte[w*h];
@@ -871,9 +871,10 @@ public class Ballroom extends Canvas
 		
 		for (int y=0;y<h;y++)
 		{
+			int o = p;
 			for (int x=0;x<w;x++)
 			{
-				if (maskData[x+p]!=0) alphaData[x] = -1;
+				if (maskData[o++]!=0) alphaData[x] = -1;
 				else alphaData[x] = 0;
 			}
 			imageData.setAlphas(0,y,w,alphaData,0);
@@ -914,7 +915,7 @@ public class Ballroom extends Canvas
 		 *       Remove the use of floating point variables
 		 */
 		 
-		ImageData imageData = new ImageData(width,height,24,new PaletteData(0xff0000,0xff00,0xff));
+		ImageData imageData = new ImageData(width,height,24,new PaletteData(0xff,0xff00,0xff0000));
 		byte [] data = imageData.data;
 		int p = 0;
 		double rad = Math.toRadians(angle);
@@ -925,9 +926,9 @@ public class Ballroom extends Canvas
 		if (angle < 0) angle = 360 - ((-angle)%360);
 		if (angle >= 0) angle = angle % 360;
 
-		int diffR = endRGB.red - startRGB.red;
-		int diffG = endRGB.green - startRGB.green;
-		int diffB = endRGB.blue - startRGB.blue;
+		final int diffR = endRGB.red - startRGB.red;
+		final int diffG = endRGB.green - startRGB.green;
+		final int diffB = endRGB.blue - startRGB.blue;
 
 		int xs,ys,xw,yw;
 
@@ -950,7 +951,7 @@ public class Ballroom extends Canvas
 			yw = -height;
 		}
 		
-		int xadd,ystart,yadd;
+		final int xadd,ystart,yadd;
 		
 		if (angle > 90 && angle <= 270)
 		{
@@ -999,6 +1000,8 @@ public class Ballroom extends Canvas
 		int r = -vy*(yw*xs-xw*ys); 
 		int t = -yw*vx + xw*vy;
 		int incr_y1 = yw*vy*xadd;
+		
+		int height_square = height*height;
 
 		for (int l = 0, y = ystart; l < height; l++, y+=yadd)
 		{
@@ -1015,15 +1018,14 @@ public class Ballroom extends Canvas
 				y1 = y1_mul_t_accu / t;
 				
 				int e = y1 * y1 / height * y1;
-				int f = height * height;
-					
-				red = startRGB.red + (int)(diffR*e/f);
-				green = startRGB.green + (int)(diffG*e/f);
-				blue = startRGB.blue + (int)(diffB*e/f);
 
-				data[o++] = (byte)red;
-				data[o++] = (byte)green;
+				red = startRGB.red + (int)(diffR*e/height_square);
+				green = startRGB.green + (int)(diffG*e/height_square);
+				blue = startRGB.blue + (int)(diffB*e/height_square);
+
 				data[o++] = (byte)blue;
+				data[o++] = (byte)green;
+				data[o++] = (byte)red;
 				
 				y1_mul_t_accu += incr_y1;
 			}
