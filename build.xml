@@ -1,7 +1,10 @@
+<?xml version="1.0"?>
+
 <project name="SimpleDance" default="dist" basedir=".">
 
  <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
 
+ <property name="gettextpath" location="D:\cygwin\bin"/>
  <property name="src" location="."/>
  <property name="build" location="build"/>
  <property name="dist" location="D:\SimpleDance"/>
@@ -11,12 +14,27 @@
   <mkdir dir="${build}"/>
  </target>
 
- <target name="locale">
+ <target name="locale" depends="">
+
+<!--  <exec executable="${gettextpath}\\bash">
+   <arg line="- -login createbundles"/>
+  </exec>
+-->
+  <exec executable="${gettextpath}\\bash" dir="${gettextpath}">
+   <arg line="--login msgfmt"/>
+   <arg file="po/de.po"/>
+   <arg line="--verbose --java2 -rSimpleDanceBundle -lde -d"/>
+   <arg file="bin"/>
+   
+   <env key="JAVAC" value="/cygdrive/d/cygwin/bin/gcj"/>
+  </exec>
+
  </target>
 
- <target name="compile" depends="init,locale">
+<!-- <target name="compile" depends="init,locale">
   <javac srcdir="${src}" destdir="${build}"/>
  </target>
+-->
 
  <target name="dist" depends="" description="generate the distribution">
   <mkdir dir="${dist}"/>
