@@ -45,8 +45,9 @@ one of the next releases.
 
 History
 ~~~~~~~
-0.7 (04//2003)
+0.7 (05/04/2003)
  - Finetuned some patterns.
+ - Added "Disco Fox - Basic Movement"
  - Improved Detailed Step Overview
  - Added "stop playing" and "play single frames" (both forward and
    backward) buttons
