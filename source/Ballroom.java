@@ -869,16 +869,16 @@ public class Ballroom extends Canvas
 		byte [] alphaData = new byte[w*h];
 		byte [] maskData = maskImageData.data;		
 		
-//		for (int y=0;y<h;y++)
-//		{
-//			for (int x=0;x<w;x++)
-//			{
-//				if (maskData[x+p]!=0) alphaData[x] = -1;
-//				else alphaData[x] = 0;
-//			}
-//			imageData.setAlphas(0,y,w,alphaData,0);
-//			p += maskImageData.bytesPerLine;
-//		}
+		for (int y=0;y<h;y++)
+		{
+			for (int x=0;x<w;x++)
+			{
+				if (maskData[x+p]!=0) alphaData[x] = -1;
+				else alphaData[x] = 0;
+			}
+			imageData.setAlphas(0,y,w,alphaData,0);
+			p += maskImageData.bytesPerLine;
+		}
 		
 		Image fillImage = new Image(getDisplay(),imageData);
 		gc.drawImage(fillImage,bounds.x,bounds.y);
@@ -905,10 +905,8 @@ public class Ballroom extends Canvas
 	private ImageData getRectangleGradient(int width, int height, int angle, RGB startRGB, RGB endRGB)
 	{
 		/* The basic idea of this algorithm is to calc the intersection between the
-		 * line starting at (xs,ys) and ending at (xe,ye) a with the line starting at (x,y) (every
-		 * pixel inside the rectangle) and angle a.
-		 * (or another explanation would be to transform the coordinates of (x,y) into the
-		 * coordinates of the rectangle by rotation around (xs,ys) with angle a)
+		 * diagonal of the rectangle (xs,ys) with dimension (xw,yw) a with the line starting
+		 * at (x,y) (every pixel inside the rectangle) and angle angle with direction vector (vx,vy)
 		 * 
 		 * Having the intersection point we simply interpolate the color of the pixel.
 		 */
@@ -953,66 +951,46 @@ public class Ballroom extends Canvas
 			vy = sinarc;
 		}
 		
+		int xadd,ystart,yadd;
+		
 		if (angle > 90 && angle <= 270)
 		{
+			xadd = -1;
+			yadd = -1;
+			ystart = height;
+
 			xs = -xs;
 			ys = -ys + height;
-			
-//			double t = (-vy*(yw*  xs -xw*  ys)         + yw*(vy*  x -vx*  y))        /(-yw*vx + xw*vy);
-//			double t = (-vy*(yw*(-xs)-xw*(-ys+height)) + yw*(vy*(-x)-vx*(-y+height)))/(-yw*vx + xw*vy);
-
+		} else
+		{
+			xadd = 1;
+			yadd = 1;
+			ystart = 0;
 		}
 
 		int x1,y1;
 
-		if (angle > 90 && angle <= 270)
+		for (int l = 0, y = ystart; l < height; l++, y+=yadd)
 		{
-			for (int l = 0, y = height; l < height; l++, y--)
+			int o = p;
+			for (int c = 0, x = 0; c < width; c++, x+=xadd)
 			{
-				int o = p;
-				for (int x = 0; x > -width; x--)
-				{
-					int red,green,blue;
+				int red,green,blue;
 
-					y1 = (int)((-vy*(yw*xs-xw*ys) + yw*(vy*x-vx*y)) /(-yw*vx + xw*vy));
+				y1 = (int)((-vy*(yw*xs-xw*ys) + yw*(vy*x-vx*y)) /(-yw*vx + xw*vy));
 
-					long c = y1 * y1 * y1;
-					long d = height * height * height;
+				long e = y1 * y1 * y1;
+				long f = height * height * height;
 					
-					red = startRGB.red + (int)(diffR*c/d);
-					green = startRGB.green + (int)(diffG*c/d);
-					blue = startRGB.blue + (int)(diffB*c/d);
+				red = startRGB.red + (int)(diffR*e/f);
+				green = startRGB.green + (int)(diffG*e/f);
+				blue = startRGB.blue + (int)(diffB*e/f);
 
-					data[o++] = (byte)red;
-					data[o++] = (byte)green;
-					data[o++] = (byte)blue;
-				}
-				p += imageData.bytesPerLine;
+				data[o++] = (byte)red;
+				data[o++] = (byte)green;
+				data[o++] = (byte)blue;
 			}
-		} else
-		{
-			for (int l = 0, y = 0; l < height; l++, y++)
-			{
-				int o = p;
-				for (int x = 0; x < width; x++)
-				{
-					int red,green,blue;
-
-					y1 = (int)((-vy*(yw*xs-xw*ys)+yw*(vy*x-vx*y))/(-yw*vx + xw*vy));
-
-					long c = y1 * y1 * y1;
-					long d = height * height * height;
-					
-			    	red = startRGB.red + (int)(diffR*c/d);
-					green = startRGB.green + (int)(diffG*c/d);
-					blue = startRGB.blue + (int)(diffB*c/d);
-
-					data[o++] = (byte)red;
-					data[o++] = (byte)green;
-					data[o++] = (byte)blue;
-				}
-				p += imageData.bytesPerLine;
-			}
+			p += imageData.bytesPerLine;
 		}
 		
 		return imageData;
