@@ -1,0 +1,44 @@
+<project name="SimpleDance" default="dist" basedir=".">
+
+ <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
+
+ <property name="src" location="."/>
+ <property name="build" location="build"/>
+ <property name="dist" location="C:\Windows\Desktop\SimpleDance"/>
+
+ <target name="init">
+  <tstamp/>
+  <mkdir dir="${build}"/>
+ </target>
+
+ <target name="locale">
+ </target>
+
+ <target name="compile" depends="init,locale">
+  <javac srcdir="${src}" destdir="${build}"/>
+ </target>
+
+ <target name="dist" depends="" description="generate the distribution">
+  <mkdir dir="${dist}"/>
+  <delete file="${dist}/simpledance.jar"/>
+
+  <jar destfile="${dist}/simpledance.jar">
+    <fileset dir="bin" includes="**.class"/>
+    <zipfileset dir="images" includes="**.gif" prefix="images" />
+  </jar>
+  
+  <copy file="ReadMe.txt" todir="${dist}"/>
+  <copy todir="${dist}/patterns">
+    <fileset dir="patterns"/>
+  </copy>
+
+ </target>
+
+</project>
+
+<!--
+xgettext - -default-domain=SimpleDance - -keyword=_ ../*.java
+msgmerge de.po SimpleDance.po
+msgfmt de.po - -java2 -d . -r SimpleDanceBundle -lde
+
+-->
