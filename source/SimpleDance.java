@@ -1,3 +1,4 @@
+import org.eclipse.swt.graphics.DeviceData;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
@@ -13,7 +14,14 @@ public class SimpleDance
 {
 	public static void main(String[] args)
 	{
-		Display display = new Display();
+		boolean showLeaks = false;
+		if (args.length >= 1 && args[0].equalsIgnoreCase("--show-leaks"))
+			showLeaks = true;
+
+		DeviceData data = new DeviceData();
+		data.tracking = showLeaks;
+		Display display = new Display(data);
+
 		Dance dance = new Dance();
 		Shell shell = dance.open(display);
 		
@@ -25,6 +33,18 @@ public class SimpleDance
 			if (!display.readAndDispatch())
 				display.sleep();
 		}
+
+		if (showLeaks)
+		{
+			Sleak sleak = new Sleak();
+			sleak.open();
+			while (!sleak.shell.isDisposed())
+			{
+				if (!display.readAndDispatch())
+					display.sleep();
+			}
+		}
+
 		display.dispose();
 	}
 }
