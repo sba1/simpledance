@@ -191,11 +191,11 @@ msgstr "Einfügen"
 
 #: /cygdrive/d/eclipse/workspace/simpledance/source/Dance.java:948
 msgid "Enter relative coordinates"
-msgstr ""
+msgstr "Relative Koordinaten eingeben"
 
 #: /cygdrive/d/eclipse/workspace/simpledance/source/Dance.java:1004
 msgid "Initial"
-msgstr ""
+msgstr "Ausgang"
 
 #: /cygdrive/d/eclipse/workspace/simpledance/source/Dance.java:1287
 msgid "This file already exists. Are you sure to overwrite it?"
@@ -275,15 +275,15 @@ msgstr ""
 
 #: /cygdrive/d/eclipse/workspace/simpledance/source/PatternProp.java:142
 msgid "Apply"
-msgstr ""
+msgstr "Übernehmen"
 
 #: /cygdrive/d/eclipse/workspace/simpledance/source/PatternProp.java:170
 msgid "Reset"
-msgstr ""
+msgstr "Zurück"
 
 #: /cygdrive/d/eclipse/workspace/simpledance/source/PatternProp.java:181
 msgid "Close"
-msgstr ""
+msgstr "Schließen"
 
 #: /cygdrive/d/eclipse/workspace/simpledance/source/Step.java:17
 msgid "Unspecified"
@@ -295,11 +295,11 @@ msgstr ""
 
 #: /cygdrive/d/eclipse/workspace/simpledance/source/Step.java:19
 msgid "Heel step"
-msgstr ""
+msgstr "Fersenschritt"
 
 #: /cygdrive/d/eclipse/workspace/simpledance/source/Step.java:20
 msgid "Ball step"
-msgstr ""
+msgstr "Ballenschritt"
 
 #: /cygdrive/d/eclipse/workspace/simpledance/source/Step.java:21
 msgid "Ball step (stay)"
