@@ -783,7 +783,7 @@ public class Ballroom extends Canvas
 		x -= gc.textExtent(text).x/2;
 		y -= gc.textExtent(text).y/2;
 		
-		gc.drawText(text,x,y);
+		gc.drawText(text,x,y,true);
 	}
 
 /*	private void fillRectangleGradient(GC gc, Rectangle bounds, int a, RGB startColor, RGB endColor)
@@ -870,10 +870,13 @@ public class Ballroom extends Canvas
 
 		if (type == Foot.BALL_STEP || type == Foot.BALL_STEP_STAY || type == Foot.BALL_STAY)
 		{
-			gc.setForeground(redColor);
-			gc.setLineWidth(2);
+			if (type != Foot.BALL_STAY) 
+			{
+				gc.setForeground(redColor);
+				gc.setLineWidth(2);
+			}
 			if (type != Foot.BALL_STEP) myFillPolygon(gc,feetCoord,step.isFeetLeft(footNum),graphicsData.getBale(),graphicsData.feetDataYSize,graphicsData.realYSize);
-			if (type != Foot.BALL_STAY) myDrawPolygon(gc,feetCoord,step.isFeetLeft(footNum),graphicsData.getBale(),graphicsData.feetDataYSize,graphicsData.realYSize,false);
+			myDrawPolygon(gc,feetCoord,step.isFeetLeft(footNum),graphicsData.getBale(),graphicsData.feetDataYSize,graphicsData.realYSize,false);
 		}
 
 		gc.setLineWidth(lw);
