@@ -45,7 +45,10 @@ one of the next releases.
 
 History
 ~~~~~~~
-
+0.6 (03/28/2003)
+ - New Patterns: "Vienesse Walz - Natural Turn" and "Rumba - Rope Spinning"
+ - Some new toolbar images created by Martin Merz.
+ 
 0.5 (03/06/2003)
  - Added two samba dance patterns
  - Some step types are now visualized
