@@ -930,8 +930,9 @@ public class Ballroom extends Canvas
 		int diffB = endRGB.blue - startRGB.blue;
 
 		int xs,ys,xw,yw;
-		double vx = -cosarc;
-		double vy = sinarc;
+
+		int vx = (int)(-cosarc*0x100);
+		int vy = (int)(sinarc*0x100);
 
 		if (angle <= 90 || (angle > 180 && angle <= 270))
 		{
@@ -981,17 +982,38 @@ public class Ballroom extends Canvas
 
 		int x1,y1;
 
+		/* The formular as shown above is
+		 * 
+		 * 	 y1 = ((-vy*(yw*xs-xw*ys) + yw*(vy*x-vx*y)) /(-yw*vx + xw*vy));
+		 * 
+		 * We see that only yw*(vy*x-vx*y) changes during the loop.
+		 * 
+		 * We write
+		 *   
+		 *   y1(x,y) = (r + yw*(vy*x-vx*y))/t = r/t + yw*(vy*x-vx*y)/t
+		 *   y1(x+1,y) = (r + vw*(vy*(x+1)-vx*y))/t 
+		 *   t*(y1(x+1,y) - y1(x,y)) = yw*(vy*(x+1)-vx*y) - yw*(vy*x-vx*y) = yw*vy;
+		 * 
+		 */
+
+		int r = -vy*(yw*xs-xw*ys); 
+		int t = -yw*vx + xw*vy;
+		int incr_y1 = yw*vy*xadd;
+
 		for (int l = 0, y = ystart; l < height; l++, y+=yadd)
 		{
 			int o = p;
+			int y1_mul_t_akku = r - yw*vx*y;
+
 			for (int c = 0, x = 0; c < width; c++, x+=xadd)
 			{
 				int red,green,blue;
 
 				/* Calculate the intersection of two lines, this is not the fastet way to do but
 				 * it is intuitive. Will be optimzed later */
-				y1 = (int)((-vy*(yw*xs-xw*ys) + yw*(vy*x-vx*y)) /(-yw*vx + xw*vy));
-
+//				y1 = (int)((r + yw*(vy*x-vx*y))/t);
+				y1 = y1_mul_t_akku / t;
+				
 				long e = y1 * y1 * y1;
 				long f = height * height * height;
 					
@@ -1002,6 +1024,8 @@ public class Ballroom extends Canvas
 				data[o++] = (byte)red;
 				data[o++] = (byte)green;
 				data[o++] = (byte)blue;
+				
+				y1_mul_t_akku += incr_y1;
 			}
 			p += imageData.bytesPerLine;
 		}
