@@ -46,6 +46,10 @@ one of the next releases.
 History
 ~~~~~~~
 
+0.5 (03/06/2003)
+ - Added two samba dance patterns
+ - Some step types are now visualized
+
 0.4 (03/02/2003)
  - Added scrollbars to detailed overview
  - Added some new dance patterns
