@@ -134,6 +134,10 @@ public class Dance implements Runnable
 		{
 			image = new Image(shell.getDisplay(),getClass().getResourceAsStream(name));
 		}
+		if (image != null)
+		{
+			imageList.add(image);
+		} 
 		return image;
 	}
 	
@@ -221,19 +225,27 @@ public class Dance implements Runnable
 		
 		ToolBar toolbar = new ToolBar(coolbar,SWT.FLAT);
 		toolitem = new ToolItem(toolbar,0);
-		toolitem.setText(_("New..."));
+		Image image = createImage("images/new.gif");
+		toolitem.setImage(image);
+		toolitem.setToolTipText(_("Creates a new dance pattern"));
 		toolitem.setData(new Integer(TOOLBAR_NEW));
 		toolitem.addSelectionListener(selectionListener);
 		toolitem = new ToolItem(toolbar,SWT.DROP_DOWN);
-		toolitem.setText(_("Open..."));
+		image = createImage("images/open.gif");
+		toolitem.setImage(image);
+		toolitem.setToolTipText(_("Opens a dance pattern"));
 		toolitem.setData(new Integer(TOOLBAR_OPEN));
 		toolitem.addSelectionListener(new OpenDropDownSelectionListener(shell));
 		toolitem = new ToolItem(toolbar,0);
-		toolitem.setText(_("Save"));
+		image = createImage("images/save.gif");
+		toolitem.setImage(image);
+		toolitem.setToolTipText(_("Stores current dance pattern"));
 		toolitem.setData(new Integer(TOOLBAR_SAVE));
 		toolitem.addSelectionListener(selectionListener);
 		toolitem = new ToolItem(toolbar,0);
-		toolitem.setText(_("Save as..."));
+		image = createImage("images/saveas.gif");
+		toolitem.setImage(image);
+		toolitem.setToolTipText(_("Stores the current dance pattern under a given filename"));
 		toolitem.setData(new Integer(TOOLBAR_SAVEAS));
 		toolitem.addSelectionListener(selectionListener);
 
@@ -246,7 +258,9 @@ public class Dance implements Runnable
 
 		toolbar = new ToolBar(coolbar,SWT.FLAT);
 		toolitem = new ToolItem(toolbar,0);
-		toolitem.setText(_("Play"));
+		image = createImage("images/play.gif");
+		toolitem.setImage(image);
+		toolitem.setToolTipText(_("Plays the whole sequence"));
 		toolitem.setData(new Integer(TOOLBAR_PLAY));
 		toolitem.addSelectionListener(selectionListener);
 
@@ -259,22 +273,19 @@ public class Dance implements Runnable
 
 		toolbar = new ToolBar(coolbar,SWT.FLAT);
 		toolitem = new ToolItem(toolbar,0);
-		Image image = createImage("images/zoomin.gif");
-		imageList.add(image); 
+		image = createImage("images/zoomin.gif");
 		toolitem.setImage(image);
 		toolitem.setToolTipText(_("Zoom in"));
 		toolitem.setData(new Integer(TOOLBAR_ZOOM_IN));
 		toolitem.addSelectionListener(selectionListener);
 		toolitem = new ToolItem(toolbar,0);
 		image = createImage("images/zoomout.gif"); 
-		imageList.add(image);
 		toolitem.setImage(image);
 		toolitem.setToolTipText(_("Zoom out"));
 		toolitem.setData(new Integer(TOOLBAR_ZOOM_OUT));
 		toolitem.addSelectionListener(selectionListener);
 		toolitem = new ToolItem(toolbar,SWT.CHECK);
 		image = createImage("images/showgrid.gif");
-		imageList.add(image);
 		toolitem.setImage(image);
 		toolitem.setToolTipText(_("Show the dancefloor's grid"));
 		toolitem.setData(new Integer(TOOLBAR_SHOW_GRID));
@@ -282,21 +293,18 @@ public class Dance implements Runnable
 		toolitem.setSelection(true);
 		toolitem = new ToolItem(toolbar,SWT.CHECK);
 		image = createImage("images/showprev.gif");
-		imageList.add(image);
 		toolitem.setImage(image);
 		toolitem.setToolTipText(_("Show previous step"));
 		toolitem.setData(new Integer(TOOLBAR_SHOW_PREV));
 		toolitem.addSelectionListener(selectionListener);
 		toolitem = new ToolItem(toolbar,SWT.CHECK);
 		image = createImage("images/shownext.gif");
-		imageList.add(image);
 		toolitem.setImage(image);
 		toolitem.setToolTipText(_("Show next step"));
 		toolitem.setData(new Integer(TOOLBAR_SHOW_NEXT));
 		toolitem.addSelectionListener(selectionListener);
 		toolitem = new ToolItem(toolbar,SWT.CHECK);
 		image = createImage("images/showgent.gif");
-		imageList.add(image);
 		toolitem.setImage(image);
 		toolitem.setToolTipText(_("Show feet of gent"));
 		toolitem.setData(new Integer(TOOLBAR_SHOW_GENT));
@@ -304,7 +312,6 @@ public class Dance implements Runnable
 		toolitem.setSelection(true);
 		toolitem = new ToolItem(toolbar,SWT.CHECK);
 		image = createImage("images/showlady.gif");
-		imageList.add(image);
 		toolitem.setImage(image);
 		toolitem.setToolTipText(_("Show feet of lady"));
 		toolitem.setData(new Integer(TOOLBAR_SHOW_LADY));
@@ -312,14 +319,12 @@ public class Dance implements Runnable
 		toolitem.setSelection(true);
 		toolitem = new ToolItem(toolbar,SWT.CHECK);
 		image = createImage("images/showanim.gif");
-		imageList.add(image);
 		toolitem.setImage(image);
 		toolitem.setToolTipText(_("Show animation"));
 		toolitem.setData(new Integer(TOOLBAR_SHOW_ANIM));
 		toolitem.addSelectionListener(selectionListener);
 		toolitem = new ToolItem(toolbar,SWT.DROP_DOWN);
 		image = createImage("images/showanimno.gif");
-		imageList.add(image);
 		toolitem.setImage(image);
 		toolitem.setToolTipText(_("Select the number of Animationframes"));
 		toolitem.addSelectionListener(new FramesDropDownSelectionListener(shell));
@@ -552,7 +557,7 @@ public class Dance implements Runnable
 		Button bt;
 		bt = new Button(movementComposite,0);
 		bt.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL));
-		bt.setText("UL");
+		bt.setImage(createImage("images/navul.gif"));
 		bt.addSelectionListener(new SelectionAdapter()
 		{
 			public void widgetSelected(SelectionEvent ev)
@@ -565,7 +570,7 @@ public class Dance implements Runnable
 
 		bt = new Button(movementComposite,0);
 		bt.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL));
-		bt.setText("U");
+		bt.setImage(createImage("images/navu.gif"));
 		bt.addSelectionListener(new SelectionAdapter()
 		{
 			public void widgetSelected(SelectionEvent ev)
@@ -577,7 +582,7 @@ public class Dance implements Runnable
 		});
 		bt = new Button(movementComposite,0);
 		bt.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL));
-		bt.setText("UR");
+		bt.setImage(createImage("images/navur.gif"));
 		bt.addSelectionListener(new SelectionAdapter()
 		{
 			public void widgetSelected(SelectionEvent ev)
@@ -590,7 +595,7 @@ public class Dance implements Runnable
 
 		bt = new Button(movementComposite,0);
 		bt.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL));
-		bt.setText("L");
+		bt.setImage(createImage("images/navl.gif"));
 		bt.addSelectionListener(new SelectionAdapter()
 		{
 			public void widgetSelected(SelectionEvent ev)
@@ -603,7 +608,7 @@ public class Dance implements Runnable
 		new Label(movementComposite,0);
 		bt = new Button(movementComposite,0);
 		bt.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL));
-		bt.setText("R");
+		bt.setImage(createImage("images/navr.gif"));
 		bt.addSelectionListener(new SelectionAdapter()
 		{
 			public void widgetSelected(SelectionEvent ev)
@@ -616,7 +621,7 @@ public class Dance implements Runnable
 
 		bt = new Button(movementComposite,0);
 		bt.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL));
-		bt.setText("DL");
+		bt.setImage(createImage("images/navdl.gif"));
 		bt.addSelectionListener(new SelectionAdapter()
 		{
 			public void widgetSelected(SelectionEvent ev)
@@ -628,7 +633,7 @@ public class Dance implements Runnable
 		});
 		bt = new Button(movementComposite,0);
 		bt.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL));
-		bt.setText("D");
+		bt.setImage(createImage("images/navd.gif"));
 		bt.addSelectionListener(new SelectionAdapter()
 		{
 			public void widgetSelected(SelectionEvent ev)
@@ -640,7 +645,7 @@ public class Dance implements Runnable
 		});
 		bt = new Button(movementComposite,0);
 		bt.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL));
-		bt.setText("DR");
+		bt.setImage(createImage("images/navdr.gif"));
 		bt.addSelectionListener(new SelectionAdapter()
 		{
 			public void widgetSelected(SelectionEvent ev)
@@ -655,6 +660,7 @@ public class Dance implements Runnable
 		Composite rotationComposite = new Composite(movementComposite,0);
 		gridData = new GridData();
 		gridData.horizontalSpan = 3;
+		gridData.horizontalAlignment = GridData.CENTER;
 		rotationComposite.setLayoutData(gridData);
 		gridLayout = new GridLayout(2,false);
 		gridLayout.marginWidth = 0;
@@ -663,7 +669,7 @@ public class Dance implements Runnable
 
 		bt = new Button(rotationComposite,0);
 		bt.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL));
-		bt.setText("Rot ->");
+		bt.setImage(createImage("images/rotl.gif"));
 		bt.addSelectionListener(new SelectionAdapter()
 		{
 			public void widgetSelected(SelectionEvent ev)
@@ -675,7 +681,7 @@ public class Dance implements Runnable
 		});
 		bt = new Button(rotationComposite,0);
 		bt.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL));
-		bt.setText("Rot <-");
+		bt.setImage(createImage("images/rotr.gif"));
 		bt.addSelectionListener(new SelectionAdapter()
 		{
 			public void widgetSelected(SelectionEvent ev)
