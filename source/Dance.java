@@ -583,13 +583,13 @@ public class Dance implements Runnable
 		toolitem.setData(new Integer(TOOLBAR_PLAY));
 		toolitem.addSelectionListener(selectionListener);
 
-		toolitem = new ToolItem(toolbar,0);
+/*		toolitem = new ToolItem(toolbar,0);
 		image = createImage("images/playstop.gif");
 		toolitem.setImage(image);
 		toolitem.setToolTipText(_("Stops the playing"));
 		toolitem.setData(new Integer(TOOLBAR_PLAYSTOP));
 		toolitem.addSelectionListener(selectionListener);
-
+*/
 		coolitem = new CoolItem(coolbar,0);
 		coolitem.setControl(toolbar);
 		pushSize = toolbar.computeSize(SWT.DEFAULT, SWT.DEFAULT);
