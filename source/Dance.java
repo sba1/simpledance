@@ -112,6 +112,7 @@ public class Dance implements Runnable
 	private TimerThread timerThread;
 
 	private boolean coordinatesAreRelative = true;
+	private boolean useGradients = true;
 
 	private Text createInteger(Composite parent, ModifyListener modifyListener, Object data)
 	{
@@ -917,6 +918,7 @@ public class Dance implements Runnable
 		
 		createFileMenu(menuBar);
 		createEditMenu(menuBar);
+		createViewMenu(menuBar);
 	
 		return menuBar;
 	}
@@ -1015,7 +1017,7 @@ public class Dance implements Runnable
 		item.setText(_("Edit"));
 		item.setMenu(menu);
 
-		// File -> New Contact
+		// Edit -> Cut
 		MenuItem subItem = new MenuItem(menu, SWT.NULL);
 		subItem.setText(_("Cut"));
 		subItem.setAccelerator(SWT.CTRL + 'X');
@@ -1073,6 +1075,49 @@ public class Dance implements Runnable
 				MenuItem mi = (MenuItem)event.widget;
 				coordinatesAreRelative = mi.getSelection();
 				refreshStepCoordiantes();
+			}
+		});
+	}
+	
+	private void createViewMenu(Menu menuBar)
+	{
+		Menu menu = new Menu(shell, SWT.DROP_DOWN);
+		MenuItem item = new MenuItem(menuBar, SWT.CASCADE);
+		item.setText(_("View"));
+		item.setMenu(menu);
+
+		MenuItem subItem = new MenuItem(menu, SWT.NULL);
+		subItem.setText(_("Zoom in"));
+		subItem.addSelectionListener(new SelectionAdapter()
+		{
+			public void widgetSelected(SelectionEvent arg0)
+			{
+				ballroom.zoomIn();
+			}
+		});
+		
+		subItem = new MenuItem(menu, SWT.NULL);
+		subItem.setText(_("Zoom out"));
+		subItem.addSelectionListener(new SelectionAdapter()
+		{
+			public void widgetSelected(SelectionEvent arg0)
+			{
+				ballroom.zoomOut();
+			}
+		});
+		
+		subItem = new MenuItem(menu, SWT.SEPARATOR);
+		
+		subItem = new MenuItem(menu, SWT.CHECK);
+		subItem.setText(_("Show gradients"));
+		subItem.setSelection(useGradients);
+		subItem.addSelectionListener(new SelectionAdapter()
+		{
+			public void widgetSelected(SelectionEvent event)
+			{
+				MenuItem mi = (MenuItem)event.widget;
+				useGradients = mi.getSelection();
+				ballroom.setShowGradients(useGradients);
 			}
 		});
 	}
@@ -1531,8 +1576,11 @@ public class Dance implements Runnable
 
 		if (!ballroom.animationNext())
 		{
-			timerThread.interrupt();
-			timerThread = null;
+			if (timerThread != null)
+			{
+				timerThread.interrupt();
+				timerThread = null;
+			}
 			ballroom.animationStop();
 		}
 	}
