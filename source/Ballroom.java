@@ -906,9 +906,12 @@ public class Ballroom extends Canvas
 	{
 		/* The basic idea of this algorithm is to calc the intersection between the
 		 * diagonal of the rectangle (xs,ys) with dimension (xw,yw) a with the line starting
-		 * at (x,y) (every pixel inside the rectangle) and angle angle with direction vector (vx,vy)
+		 * at (x,y) (every pixel inside the rectangle) and angle angle with direction vector (vx,vy).
 		 * 
-		 * Having the intersection point we simply interpolate the color of the pixel.
+		 * Having the intersection point we then know the color of the pixel.
+		 * 
+		 * TODO: Turn the algorithm into a incremental one
+		 *       Remove the use of floating point variables
 		 */
 		 
 		ImageData imageData = new ImageData(width,height,24,new PaletteData(0xff0000,0xff00,0xff));
@@ -918,9 +921,7 @@ public class Ballroom extends Canvas
 		double cosarc = Math.cos(rad);
 		double sinarc = Math.sin(rad);
 
-		int sinarc_fixed = (int)(sinarc*0x10000);
-		int cosarc_fixed = (int)(cosarc*0x10000);
-
+		/* Normalize the angle */
 		if (angle < 0) angle = 360 - ((-angle)%360);
 		if (angle >= 0) angle = angle % 360;
 
@@ -929,32 +930,33 @@ public class Ballroom extends Canvas
 		int diffB = endRGB.blue - startRGB.blue;
 
 		int xs,ys,xw,yw;
-		double vx,vy;
+		double vx = -cosarc;
+		double vy = sinarc;
 
 		if (angle <= 90 || (angle > 180 && angle <= 270))
 		{
+			/* The to be intersected diagonal goes from the top left edge to the bottom right edge */
 			xs = 0;
 			ys = 0;
 			xw = width;
 			yw = height;
-
-			vx = -cosarc;
-			vy = sinarc;
 		} else
 		{
+			/* The to be intersected diagonal goes from the bottom left edge to the top right edge */
 			xs = 0;
 			ys = height;
 			xw = width;
 			yw = -height;
-
-			vx = -cosarc;
-			vy = sinarc;
 		}
 		
 		int xadd,ystart,yadd;
 		
 		if (angle > 90 && angle <= 270)
 		{
+			/* for these angle we have y1 = height - y1, which can be expressed by
+			 * setting some values to diffent one. Note that if one would exchanging
+			 * startRGB/endRGB the values would only work for linear color gradients
+			 */
 			xadd = -1;
 			yadd = -1;
 			ystart = height;
@@ -977,6 +979,8 @@ public class Ballroom extends Canvas
 			{
 				int red,green,blue;
 
+				/* Calculate the intersection of two lines, this is not the fastet way to do but
+				 * it is intuitive. Will be optimzed later */
 				y1 = (int)((-vy*(yw*xs-xw*ys) + yw*(vy*x-vx*y)) /(-yw*vx + xw*vy));
 
 				long e = y1 * y1 * y1;
