@@ -67,6 +67,7 @@ public class Dance implements Runnable
 	static final int TOOLBAR_SHOW_LADY = 11;
 	static final int TOOLBAR_SHOW_GRID = 12;
 	static final int TOOLBAR_PLAY = 13;
+	static final int TOOLBAR_PLAYSTOP = 14;
 
 	private Pattern pattern;
 	private Step copiedStep;
@@ -151,6 +152,319 @@ public class Dance implements Runnable
 		String str = text.getText();
 		if (!str.equals(value + ""))
 			text.setText(value + "");
+	}
+
+	
+	/**
+	 * Creates the navigation composite (for movement and rotation)
+	 * 
+	 * @param parent is the parent composite where this composite is added to
+	 * @return the navigation composite
+	 */
+	private Composite createNavigationComposite(Composite parent)
+	{
+		Composite navigationComposite = new Composite(parent, 0);
+
+		GridLayout gridLayout = new GridLayout(3, false);
+		gridLayout.marginWidth = 0;
+		gridLayout.marginHeight = 0;
+		navigationComposite.setLayout(gridLayout);
+
+		Button bt;
+		bt = new Button(navigationComposite, 0);
+		bt.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL));
+		bt.setImage(createImage("images/navul.gif"));
+		bt.addSelectionListener(new SelectionAdapter()
+		{
+			public void widgetSelected(SelectionEvent ev)
+			{
+				ballroom.moveSelectedFeets(-1, 1);
+				refreshStepCoordiantes();
+				detailedOverviewShell.refresh();
+			}
+		});
+
+		bt = new Button(navigationComposite, 0);
+		bt.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL));
+		bt.setImage(createImage("images/navu.gif"));
+		bt.addSelectionListener(new SelectionAdapter()
+		{
+			public void widgetSelected(SelectionEvent ev)
+			{
+				ballroom.moveSelectedFeets(0, 1);
+				refreshStepCoordiantes();
+				detailedOverviewShell.refresh();
+			}
+		});
+		bt = new Button(navigationComposite, 0);
+		bt.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL));
+		bt.setImage(createImage("images/navur.gif"));
+		bt.addSelectionListener(new SelectionAdapter()
+		{
+			public void widgetSelected(SelectionEvent ev)
+			{
+				ballroom.moveSelectedFeets(1, 1);
+				refreshStepCoordiantes();
+				detailedOverviewShell.refresh();
+			}
+		});
+
+		bt = new Button(navigationComposite, 0);
+		bt.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL));
+		bt.setImage(createImage("images/navl.gif"));
+		bt.addSelectionListener(new SelectionAdapter()
+		{
+			public void widgetSelected(SelectionEvent ev)
+			{
+				ballroom.moveSelectedFeets(-1, 0);
+				refreshStepCoordiantes();
+				detailedOverviewShell.refresh();
+			}
+		});
+		new Label(navigationComposite, 0);
+		bt = new Button(navigationComposite, 0);
+		bt.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL));
+		bt.setImage(createImage("images/navr.gif"));
+		bt.addSelectionListener(new SelectionAdapter()
+		{
+			public void widgetSelected(SelectionEvent ev)
+			{
+				ballroom.moveSelectedFeets(1, 0);
+				refreshStepCoordiantes();
+				detailedOverviewShell.refresh();
+			}
+		});
+
+		bt = new Button(navigationComposite, 0);
+		bt.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL));
+		bt.setImage(createImage("images/navdl.gif"));
+		bt.addSelectionListener(new SelectionAdapter()
+		{
+			public void widgetSelected(SelectionEvent ev)
+			{
+				ballroom.moveSelectedFeets(-1, -1);
+				refreshStepCoordiantes();
+				detailedOverviewShell.refresh();
+			}
+		});
+		bt = new Button(navigationComposite, 0);
+		bt.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL));
+		bt.setImage(createImage("images/navd.gif"));
+		bt.addSelectionListener(new SelectionAdapter()
+		{
+			public void widgetSelected(SelectionEvent ev)
+			{
+				ballroom.moveSelectedFeets(0, -1);
+				refreshStepCoordiantes();
+				detailedOverviewShell.refresh();
+			}
+		});
+		bt = new Button(navigationComposite, 0);
+		bt.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL));
+		bt.setImage(createImage("images/navdr.gif"));
+		bt.addSelectionListener(new SelectionAdapter()
+		{
+			public void widgetSelected(SelectionEvent ev)
+			{
+				ballroom.moveSelectedFeets(1, -1);
+				refreshStepCoordiantes();
+				detailedOverviewShell.refresh();
+			}
+		});
+
+		/* rotation */
+		Composite rotationComposite = new Composite(navigationComposite, 0);
+		GridData gridData = new GridData();
+		gridData.horizontalSpan = 3;
+		gridData.horizontalAlignment = GridData.CENTER;
+		rotationComposite.setLayoutData(gridData);
+		gridLayout = new GridLayout(2, false);
+		gridLayout.marginWidth = 0;
+		gridLayout.marginHeight = 0;
+		rotationComposite.setLayout(gridLayout);
+
+		bt = new Button(rotationComposite, 0);
+		bt.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL));
+		bt.setImage(createImage("images/rotl.gif"));
+		bt.addSelectionListener(new SelectionAdapter()
+		{
+			public void widgetSelected(SelectionEvent ev)
+			{
+				ballroom.rotateSelectedFeets(10);
+				refreshStepCoordiantes();
+				detailedOverviewShell.refresh();
+			}
+		});
+		bt = new Button(rotationComposite, 0);
+		bt.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL));
+		bt.setImage(createImage("images/rotr.gif"));
+		bt.addSelectionListener(new SelectionAdapter()
+		{
+			public void widgetSelected(SelectionEvent ev)
+			{
+				ballroom.rotateSelectedFeets(-10);
+				refreshStepCoordiantes();
+				detailedOverviewShell.refresh();
+			}
+		});
+		return navigationComposite;
+	}
+
+	/**
+	 * Creates the step coordinates composite (for editing and selecting)
+	 * 
+	 * @param parent is the parent composite where this composite is added to
+	 * @return the step coordinates composite
+	 */
+	private Composite createStepCoordinatesComposite(Composite parent)
+	{
+		Composite stepCoordinatesComposite = new Composite(parent, 0);
+		GridLayout gridLayout = new GridLayout(7, false);
+		gridLayout.marginWidth = 0;
+		gridLayout.marginHeight = 0;
+		stepCoordinatesComposite.setLayout(gridLayout);
+		ModifyListener modifyListener = new ModifyListener()
+		{
+			public void modifyText(ModifyEvent event)
+			{
+				/* called when the user pressed enter */
+				if (pattern == null) return;
+				Step step = pattern.getCurrentStep();
+				if (step == null) return;
+
+				try
+				{
+					int newInt =
+						Integer.parseInt(((Text) event.widget).getText());
+					int which = ((Integer) event.widget.getData()).intValue();
+					WayPoint feetCoord = step.getStartingWayPoint(which / 3);
+					Step fakeStep = getFakeStep();
+					WayPoint fakeWayPoint =
+						fakeStep.getStartingWayPoint(which / 3);
+
+					switch (which % 3)
+					{
+						case 0 :
+							feetCoord.x = fakeWayPoint.x + newInt;
+							break;
+						case 1 :
+							feetCoord.y = fakeWayPoint.y + newInt;
+							break;
+						case 2 :
+							feetCoord.a = fakeWayPoint.a + newInt;
+							break;
+					}
+					ballroom.redraw();
+					detailedOverviewShell.refresh();
+				}
+				catch (NumberFormatException e)
+				{
+				}
+			}
+		};
+
+		SelectionListener checkboxListener = new SelectionAdapter()
+		{
+			public void widgetSelected(SelectionEvent arg0)
+			{
+				boolean[] selectedArray = new boolean[4];
+				selectedArray[0] = gentLeftSelectedButton.getSelection();
+				selectedArray[1] = gentRightSelectedButton.getSelection();
+				selectedArray[2] = ladyLeftSelectedButton.getSelection();
+				selectedArray[3] = ladyRightSelectedButton.getSelection();
+				ballroom.setSelectionArray(selectedArray);
+			}
+		};
+
+		SelectionListener comboListener = new SelectionAdapter()
+		{
+			public void widgetSelected(SelectionEvent event)
+			{
+				if (pattern == null) return;
+				Step step = pattern.getCurrentStep();
+				if (step == null) return;
+
+				int feet = ((Integer) (event.widget.getData())).intValue();
+				step.getFeet(feet).setType(
+					((Combo) event.widget).getSelectionIndex());
+				ballroom.redraw();
+			}
+		};
+
+		Label label;
+		label = new Label(stepCoordinatesComposite, 0);
+		label.setText(_("Gent"));
+		GridData gridData = new GridData();
+		gridData.horizontalAlignment = GridData.END;
+		label.setLayoutData(gridData);
+
+		label = new Label(stepCoordinatesComposite, 0);
+		label.setText(_("L"));
+		gentLeftXText = createInteger(stepCoordinatesComposite,modifyListener,new Integer(0));
+		gentLeftYText = createInteger(stepCoordinatesComposite,modifyListener,new Integer(1));
+		gentLeftAngleText = createInteger(stepCoordinatesComposite, modifyListener,	new Integer(2));
+		gentLeftTypeCombo = new Combo(stepCoordinatesComposite, SWT.READ_ONLY);
+		for (int j = 0; j < Step.stepTypes.length; j++)
+			gentLeftTypeCombo.add(Step.stepTypes[j]);
+		gentLeftTypeCombo.setData(new Integer(0));
+		gentLeftTypeCombo.select(0);
+		gentLeftTypeCombo.addSelectionListener(comboListener);
+		gentLeftSelectedButton = new Button(stepCoordinatesComposite, SWT.CHECK);
+		gentLeftSelectedButton.addSelectionListener(checkboxListener);
+
+		label = new Label(stepCoordinatesComposite, 0);
+		label = new Label(stepCoordinatesComposite, 0);
+		label.setText(_("R"));
+		gentRightXText = createInteger(stepCoordinatesComposite,modifyListener,new Integer(3));
+		gentRightYText = createInteger(stepCoordinatesComposite,modifyListener,new Integer(4));
+		gentRightAngleText = createInteger(stepCoordinatesComposite,modifyListener,new Integer(5));
+		gentRightTypeCombo = new Combo(stepCoordinatesComposite, SWT.READ_ONLY);
+		for (int j = 0; j < Step.stepTypes.length; j++)
+			gentRightTypeCombo.add(Step.stepTypes[j]);
+		gentRightTypeCombo.select(0);
+		gentRightTypeCombo.addSelectionListener(comboListener);
+		gentRightTypeCombo.setData(new Integer(1));
+		gentRightSelectedButton =
+			new Button(stepCoordinatesComposite, SWT.CHECK);
+		gentRightSelectedButton.addSelectionListener(checkboxListener);
+
+		label = new Label(stepCoordinatesComposite, 0);
+		label.setText(_("Lady"));
+		gridData = new GridData();
+		label.setLayoutData(gridData);
+
+		label = new Label(stepCoordinatesComposite, 0);
+		label.setText(_("L"));
+		ladyLeftXText = createInteger(stepCoordinatesComposite,modifyListener,new Integer(6));
+		ladyLeftYText =	createInteger(stepCoordinatesComposite,modifyListener,new Integer(7));
+		ladyLeftAngleText =	createInteger(stepCoordinatesComposite,modifyListener,new Integer(8));
+		ladyLeftTypeCombo = new Combo(stepCoordinatesComposite, SWT.READ_ONLY);
+		for (int j = 0; j < Step.stepTypes.length; j++)
+			ladyLeftTypeCombo.add(Step.stepTypes[j]);
+		ladyLeftTypeCombo.select(0);
+		ladyLeftTypeCombo.setData(new Integer(2));
+		ladyLeftTypeCombo.addSelectionListener(comboListener);
+		ladyLeftSelectedButton =
+			new Button(stepCoordinatesComposite, SWT.CHECK);
+		ladyLeftSelectedButton.addSelectionListener(checkboxListener);
+
+		label = new Label(stepCoordinatesComposite, 0);
+		label = new Label(stepCoordinatesComposite, 0);
+		label.setText(_("R"));
+		ladyRightXText = createInteger(stepCoordinatesComposite,modifyListener,new Integer(9));
+		ladyRightYText = createInteger(stepCoordinatesComposite,modifyListener,new Integer(10));
+		ladyRightAngleText = createInteger(stepCoordinatesComposite,modifyListener,	new Integer(11));
+		ladyRightTypeCombo = new Combo(stepCoordinatesComposite, SWT.READ_ONLY);
+		for (int j = 0; j < Step.stepTypes.length; j++)
+			ladyRightTypeCombo.add(Step.stepTypes[j]);
+		ladyRightTypeCombo.select(0);
+		ladyRightTypeCombo.setData(new Integer(3));
+		ladyRightTypeCombo.addSelectionListener(comboListener);
+		ladyRightSelectedButton =
+			new Button(stepCoordinatesComposite, SWT.CHECK);
+		ladyRightSelectedButton.addSelectionListener(checkboxListener);
+		
+		return stepCoordinatesComposite;
 	}
 	
 	public Shell open(Display display)
@@ -267,6 +581,13 @@ public class Dance implements Runnable
 		toolitem.setImage(image);
 		toolitem.setToolTipText(_("Plays the whole sequence"));
 		toolitem.setData(new Integer(TOOLBAR_PLAY));
+		toolitem.addSelectionListener(selectionListener);
+
+		toolitem = new ToolItem(toolbar,0);
+		image = createImage("images/playstop.gif");
+		toolitem.setImage(image);
+		toolitem.setToolTipText(_("Stops the playing"));
+		toolitem.setData(new Integer(TOOLBAR_PLAYSTOP));
 		toolitem.addSelectionListener(selectionListener);
 
 		coolitem = new CoolItem(coolbar,0);
@@ -468,242 +789,27 @@ public class Dance implements Runnable
 		gridData.horizontalAlignment = GridData.FILL;
 
 		stepDetailGroup.setLayoutData(gridData);
-		stepDetailGroup.setLayout(new GridLayout(9,false));
+		stepDetailGroup.setLayout(new GridLayout(3,false));
 		
-		ModifyListener modifyListener = new ModifyListener()
-		{
-			public void modifyText(ModifyEvent event)
-			{
-				/* called when the user pressed enter */
-				if (pattern == null) return;
-				Step step = pattern.getCurrentStep();
-				if (step == null) return;
-
-				try
-				{
-					int newInt = Integer.parseInt(((Text)event.widget).getText());
-					int which = ((Integer)event.widget.getData()).intValue();
-					WayPoint feetCoord = step.getStartingWayPoint(which/3);
-					Step fakeStep = getFakeStep();
-					WayPoint fakeWayPoint = fakeStep.getStartingWayPoint(which/3);
-
-					switch (which % 3)
-					{
-						case	0: feetCoord.x = fakeWayPoint.x + newInt;break;  
-						case	1: feetCoord.y = fakeWayPoint.y + newInt;break;
-						case	2: feetCoord.a = fakeWayPoint.a + newInt;break;
-					}
-					ballroom.redraw();
-					detailedOverviewShell.refresh();
-				} catch(NumberFormatException e)
-				{
-				}
-			}
-		};
-		
-		SelectionListener checkboxListener = new SelectionAdapter()
-		{
-			public void widgetSelected(SelectionEvent arg0)
-			{
-				boolean [] selectedArray = new boolean[4];
-				selectedArray[0] = gentLeftSelectedButton.getSelection();
-				selectedArray[1] = gentRightSelectedButton.getSelection();
-				selectedArray[2] = ladyLeftSelectedButton.getSelection();
-				selectedArray[3] = ladyRightSelectedButton.getSelection();
-				ballroom.setSelectionArray(selectedArray);
-			}
-		};
-
-		SelectionListener comboListener = new SelectionAdapter()
-		{
-			public void widgetSelected(SelectionEvent event)
-			{
-				if (pattern == null) return;
-				Step step = pattern.getCurrentStep();
-				if (step == null) return; 
-				
-				int feet = ((Integer)(event.widget.getData())).intValue();
-				step.getFeet(feet).setType(((Combo)event.widget).getSelectionIndex());
-				ballroom.redraw();
-			}
-		};
-
-		Label label;
-		label = new Label(stepDetailGroup,0);
-		label.setText(_("Gent"));
+		/* stepCoordinates */
+		Composite stepCoordinatesComposite = createStepCoordinatesComposite(stepDetailGroup);
 		gridData = new GridData();
-		gridData.horizontalAlignment = GridData.END;
-		label.setLayoutData(gridData);
-
-		label = new Label(stepDetailGroup,0);
-		label.setText(_("L"));
-		gentLeftXText = createInteger(stepDetailGroup,modifyListener,new Integer(0));
-		gentLeftYText = createInteger(stepDetailGroup,modifyListener,new Integer(1));
-		gentLeftAngleText = createInteger(stepDetailGroup,modifyListener,new Integer(2));
-		gentLeftTypeCombo = new Combo(stepDetailGroup,SWT.READ_ONLY);
-		for (int j=0;j<Step.stepTypes.length;j++)
-			gentLeftTypeCombo.add(Step.stepTypes[j]);
-		gentLeftTypeCombo.setData(new Integer(0));
-		gentLeftTypeCombo.select(0);
-		gentLeftTypeCombo.addSelectionListener(comboListener);
-		gentLeftSelectedButton = new Button(stepDetailGroup,SWT.CHECK);
-		gentLeftSelectedButton.addSelectionListener(checkboxListener);
+		gridData.verticalAlignment = GridData.CENTER;
+		stepCoordinatesComposite.setLayoutData(gridData);
 		
 		/* movement */
-		Composite movementComposite = new Composite(stepDetailGroup,0);
+		Composite movementComposite = createNavigationComposite(stepDetailGroup);
 		gridData = new GridData();
-		gridData.verticalSpan = 4;
+		gridData.verticalAlignment = GridData.CENTER;
 		movementComposite.setLayoutData(gridData);
-		GridLayout gridLayout = new GridLayout(3,false);
-		gridLayout.marginWidth = 0;
-		gridLayout.marginHeight = 0;
-		movementComposite.setLayout(gridLayout);
 
-		Button bt;
-		bt = new Button(movementComposite,0);
-		bt.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL));
-		bt.setImage(createImage("images/navul.gif"));
-		bt.addSelectionListener(new SelectionAdapter()
-		{
-			public void widgetSelected(SelectionEvent ev)
-			{
-				ballroom.moveSelectedFeets(-1,1);
-				refreshStepCoordiantes();
-				detailedOverviewShell.refresh();
-			}
-		});
-
-		bt = new Button(movementComposite,0);
-		bt.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL));
-		bt.setImage(createImage("images/navu.gif"));
-		bt.addSelectionListener(new SelectionAdapter()
-		{
-			public void widgetSelected(SelectionEvent ev)
-			{
-				ballroom.moveSelectedFeets(0,1);
-				refreshStepCoordiantes();
-				detailedOverviewShell.refresh();
-			}
-		});
-		bt = new Button(movementComposite,0);
-		bt.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL));
-		bt.setImage(createImage("images/navur.gif"));
-		bt.addSelectionListener(new SelectionAdapter()
-		{
-			public void widgetSelected(SelectionEvent ev)
-			{
-				ballroom.moveSelectedFeets(1,1);
-				refreshStepCoordiantes();
-				detailedOverviewShell.refresh();
-			}
-		});
-
-		bt = new Button(movementComposite,0);
-		bt.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL));
-		bt.setImage(createImage("images/navl.gif"));
-		bt.addSelectionListener(new SelectionAdapter()
-		{
-			public void widgetSelected(SelectionEvent ev)
-			{
-				ballroom.moveSelectedFeets(-1,0);
-				refreshStepCoordiantes();
-				detailedOverviewShell.refresh();
-			}
-		});
-		new Label(movementComposite,0);
-		bt = new Button(movementComposite,0);
-		bt.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL));
-		bt.setImage(createImage("images/navr.gif"));
-		bt.addSelectionListener(new SelectionAdapter()
-		{
-			public void widgetSelected(SelectionEvent ev)
-			{
-				ballroom.moveSelectedFeets(1,0);
-				refreshStepCoordiantes();
-				detailedOverviewShell.refresh();
-			}
-		});
-
-		bt = new Button(movementComposite,0);
-		bt.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL));
-		bt.setImage(createImage("images/navdl.gif"));
-		bt.addSelectionListener(new SelectionAdapter()
-		{
-			public void widgetSelected(SelectionEvent ev)
-			{
-				ballroom.moveSelectedFeets(-1,-1);
-				refreshStepCoordiantes();
-				detailedOverviewShell.refresh();
-			}
-		});
-		bt = new Button(movementComposite,0);
-		bt.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL));
-		bt.setImage(createImage("images/navd.gif"));
-		bt.addSelectionListener(new SelectionAdapter()
-		{
-			public void widgetSelected(SelectionEvent ev)
-			{
-				ballroom.moveSelectedFeets(0,-1);
-				refreshStepCoordiantes();
-				detailedOverviewShell.refresh();
-			}
-		});
-		bt = new Button(movementComposite,0);
-		bt.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL));
-		bt.setImage(createImage("images/navdr.gif"));
-		bt.addSelectionListener(new SelectionAdapter()
-		{
-			public void widgetSelected(SelectionEvent ev)
-			{
-				ballroom.moveSelectedFeets(1,-1);
-				refreshStepCoordiantes();
-				detailedOverviewShell.refresh();
-			}
-		});
-
-		/* rotation */
-		Composite rotationComposite = new Composite(movementComposite,0);
-		gridData = new GridData();
-		gridData.horizontalSpan = 3;
-		gridData.horizontalAlignment = GridData.CENTER;
-		rotationComposite.setLayoutData(gridData);
-		gridLayout = new GridLayout(2,false);
-		gridLayout.marginWidth = 0;
-		gridLayout.marginHeight = 0;
-		rotationComposite.setLayout(gridLayout);
-
-		bt = new Button(rotationComposite,0);
-		bt.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL));
-		bt.setImage(createImage("images/rotl.gif"));
-		bt.addSelectionListener(new SelectionAdapter()
-		{
-			public void widgetSelected(SelectionEvent ev)
-			{
-				ballroom.rotateSelectedFeets(10);
-				refreshStepCoordiantes();
-				detailedOverviewShell.refresh();
-			}
-		});
-		bt = new Button(rotationComposite,0);
-		bt.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL));
-		bt.setImage(createImage("images/rotr.gif"));
-		bt.addSelectionListener(new SelectionAdapter()
-		{
-			public void widgetSelected(SelectionEvent ev)
-			{
-				ballroom.rotateSelectedFeets(-10);
-				refreshStepCoordiantes();
-				detailedOverviewShell.refresh();
-			}
-		});
-
+		/* stuff */
 		Composite stuffComposite = new Composite(stepDetailGroup,0);
-		gridLayout = new GridLayout(4,false);
+		GridLayout gridLayout = new GridLayout(4,false);
 		gridLayout.marginWidth = 0;
 		gridLayout.marginHeight = 0;
 		stuffComposite.setLayout(gridLayout);
 		gridData = new GridData();
-		gridData.verticalSpan = 4;
 		gridData.grabExcessHorizontalSpace = true;
 		gridData.grabExcessVerticalSpace = true;
 		gridData.verticalAlignment = GridData.FILL;
@@ -774,55 +880,6 @@ public class Dance implements Runnable
 		gridData.horizontalAlignment = GridData.FILL;
 		stepDescriptionStyledText.setLayoutData(gridData);
 
-		label = new Label(stepDetailGroup,0);
-		label = new Label(stepDetailGroup,0);
-		label.setText(_("R"));
-		gentRightXText = createInteger(stepDetailGroup,modifyListener,new Integer(3));
-		gentRightYText = createInteger(stepDetailGroup,modifyListener,new Integer(4));
-		gentRightAngleText = createInteger(stepDetailGroup,modifyListener,new Integer(5));
-		gentRightTypeCombo = new Combo(stepDetailGroup,SWT.READ_ONLY);
-		for (int j=0;j<Step.stepTypes.length;j++)
-			gentRightTypeCombo.add(Step.stepTypes[j]);
-		gentRightTypeCombo.select(0);
-		gentRightTypeCombo.addSelectionListener(comboListener);
-		gentRightTypeCombo.setData(new Integer(1));
-		gentRightSelectedButton = new Button(stepDetailGroup,SWT.CHECK);
-		gentRightSelectedButton.addSelectionListener(checkboxListener);
-
-		label = new Label(stepDetailGroup,0);
-		label.setText(_("Lady"));
-		gridData = new GridData();
-		label.setLayoutData(gridData);
-
-		label = new Label(stepDetailGroup,0);
-		label.setText(_("L"));
-		ladyLeftXText = createInteger(stepDetailGroup,modifyListener,new Integer(6));
-		ladyLeftYText = createInteger(stepDetailGroup,modifyListener,new Integer(7));
-		ladyLeftAngleText = createInteger(stepDetailGroup,modifyListener,new Integer(8));
-		ladyLeftTypeCombo = new Combo(stepDetailGroup,SWT.READ_ONLY);
-		for (int j=0;j<Step.stepTypes.length;j++)
-			ladyLeftTypeCombo.add(Step.stepTypes[j]);
-		ladyLeftTypeCombo.select(0);
-		ladyLeftTypeCombo.setData(new Integer(2));
-		ladyLeftTypeCombo.addSelectionListener(comboListener);
-		ladyLeftSelectedButton = new Button(stepDetailGroup,SWT.CHECK);
-		ladyLeftSelectedButton.addSelectionListener(checkboxListener);
-
-		label = new Label(stepDetailGroup,0);
-		label = new Label(stepDetailGroup,0);
-		label.setText(_("R"));
-		ladyRightXText = createInteger(stepDetailGroup,modifyListener,new Integer(9));
-		ladyRightYText = createInteger(stepDetailGroup,modifyListener,new Integer(10));
-		ladyRightAngleText = createInteger(stepDetailGroup,modifyListener,new Integer(11));
-		ladyRightTypeCombo = new Combo(stepDetailGroup,SWT.READ_ONLY);
-		for (int j=0;j<Step.stepTypes.length;j++)
-			ladyRightTypeCombo.add(Step.stepTypes[j]);
-		ladyRightTypeCombo.select(0);
-		ladyRightTypeCombo.setData(new Integer(3));
-		ladyRightTypeCombo.addSelectionListener(comboListener);
-		ladyRightSelectedButton = new Button(stepDetailGroup,SWT.CHECK);
-		ladyRightSelectedButton.addSelectionListener(checkboxListener);
-
 		createMenuBar();
 
 		patternPropShell = new PatternProp(shell);
@@ -831,7 +888,7 @@ public class Dance implements Runnable
 		shell.open();
 		return shell;
 	}
-	
+
 	private Menu createMenuBar()
 	{
 		Menu menuBar = new Menu(shell, SWT.BAR);
