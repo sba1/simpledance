@@ -679,7 +679,7 @@ public class Dance implements Runnable
 		{
 			public void widgetSelected(SelectionEvent ev)
 			{
-				ballroom.rotateSelectedFeets(-10);
+				ballroom.rotateSelectedFeets(10);
 				refreshStepCoordiantes();
 				detailedOverviewShell.refresh();
 			}
@@ -691,7 +691,7 @@ public class Dance implements Runnable
 		{
 			public void widgetSelected(SelectionEvent ev)
 			{
-				ballroom.rotateSelectedFeets(10);
+				ballroom.rotateSelectedFeets(-10);
 				refreshStepCoordiantes();
 				detailedOverviewShell.refresh();
 			}
