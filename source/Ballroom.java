@@ -816,6 +816,46 @@ public class Ballroom extends Canvas
 		}
 	}
 
+	private void drawFoot(GC gc, Step step, WayPoint feetCoord, int footNum, boolean isSelected)
+	{
+		Color backgroundColor;
+		Color borderColor;
+		if (step.isFeetLeft(footNum))
+		{
+			if (isSelected) backgroundColor = leftFeetSelectedColor;
+			else backgroundColor = leftFeetColor;
+			borderColor = leftFeetBorderColor;
+		} 
+		else
+		{
+			if (isSelected) backgroundColor = rightFeetSelectedColor;
+			else backgroundColor = rightFeetColor;
+			borderColor = rightFeetBorderColor;
+		} 
+			
+		GraphicsData graphicsData = getGraphicsData(step,footNum);
+
+		gc.setForeground(borderColor);		
+		gc.setBackground(backgroundColor);		
+
+		myFillPolygon(gc,feetCoord,step.isFeetLeft(footNum),graphicsData.baleData,graphicsData.feetDataYSize,graphicsData.realYSize);
+		myDrawPolygon(gc,feetCoord,step.isFeetLeft(footNum),graphicsData.baleData,graphicsData.feetDataYSize,graphicsData.realYSize);
+
+		myFillPolygon(gc,feetCoord,step.isFeetLeft(footNum),graphicsData.heelData,graphicsData.feetDataYSize,graphicsData.realYSize);
+		myDrawPolygon(gc,feetCoord,step.isFeetLeft(footNum),graphicsData.heelData,graphicsData.feetDataYSize,graphicsData.realYSize);
+
+		if (step.isFeetLeft(footNum)) myDrawText(gc,feetCoord,"L");
+		else myDrawText(gc,feetCoord,"R");
+
+		myDrawCircle(gc,feetCoord,0,0);
+		int ballroomBaleX = graphicsData.baleX * graphicsData.realYSize / graphicsData.feetDataYSize; 
+		int ballroomBaleY = -graphicsData.baleY * graphicsData.realYSize / graphicsData.feetDataYSize; 
+		int ballroomHeelX = graphicsData.heelX * graphicsData.realYSize / graphicsData.feetDataYSize; 
+		int ballroomHeelY = -graphicsData.heelY * graphicsData.realYSize / graphicsData.feetDataYSize; 
+		myDrawCircle(gc,feetCoord,ballroomBaleX,ballroomBaleY);
+		myDrawCircle(gc,feetCoord,ballroomHeelX,ballroomHeelY);
+	}
+
 	private void drawStep(GC gc)
 	{
 		if (showCoordinates)
@@ -896,52 +936,18 @@ public class Ballroom extends Canvas
 		for (int i=0;i<step.getNumberOfFeets();i++)
 		{
 			boolean isSelected = selectedArray[i];
-			Color backgroundColor;
-			Color borderColor;
 
 			if (step.isFeetFemale(i) && !showLady) continue;
 			if (!step.isFeetFemale(i) && !showGent) continue;
 
-			if (step.isFeetLeft(i))
-			{
-				 if (isSelected) backgroundColor = leftFeetSelectedColor;
-				 else backgroundColor = leftFeetColor;
-				 borderColor = leftFeetBorderColor;
-			} 
-			else
-			{
-				if (isSelected) backgroundColor = rightFeetSelectedColor;
-				else backgroundColor = rightFeetColor;
-				borderColor = rightFeetBorderColor;
-			} 
-			
-			GraphicsData graphicsData = getGraphicsData(step,i);
 			WayPoint feetCoord;
 			
 			if (animation && nextStep != null)
 				feetCoord = step.getFeet(i).getInterpolatedWayPoint(nextStep.getStartingWayPoint(i),animationNumber,animationMaxNumber);
 			else
-				feetCoord = step.getStartingWayPoint(i); 
+				feetCoord = step.getStartingWayPoint(i);
 
-			gc.setForeground(borderColor);		
-			gc.setBackground(backgroundColor);		
-
-			myFillPolygon(gc,feetCoord,step.isFeetLeft(i),graphicsData.baleData,graphicsData.feetDataYSize,graphicsData.realYSize);
-			myDrawPolygon(gc,feetCoord,step.isFeetLeft(i),graphicsData.baleData,graphicsData.feetDataYSize,graphicsData.realYSize);
-
-			myFillPolygon(gc,feetCoord,step.isFeetLeft(i),graphicsData.heelData,graphicsData.feetDataYSize,graphicsData.realYSize);
-			myDrawPolygon(gc,feetCoord,step.isFeetLeft(i),graphicsData.heelData,graphicsData.feetDataYSize,graphicsData.realYSize);
-
-			if (step.isFeetLeft(i)) myDrawText(gc,feetCoord,"L");
-			else myDrawText(gc,feetCoord,"R");
-
-			myDrawCircle(gc,feetCoord,0,0);
-			int ballroomBaleX = graphicsData.baleX * graphicsData.realYSize / graphicsData.feetDataYSize; 
-			int ballroomBaleY = -graphicsData.baleY * graphicsData.realYSize / graphicsData.feetDataYSize; 
-			int ballroomHeelX = graphicsData.heelX * graphicsData.realYSize / graphicsData.feetDataYSize; 
-			int ballroomHeelY = -graphicsData.heelY * graphicsData.realYSize / graphicsData.feetDataYSize; 
-			myDrawCircle(gc,feetCoord,ballroomBaleX,ballroomBaleY);
-			myDrawCircle(gc,feetCoord,ballroomHeelX,ballroomHeelY);
+			drawFoot(gc,step,feetCoord,i,isSelected);
 			
 			if (showPrevStep && previousStep != null && !animation)
 			{
@@ -981,8 +987,6 @@ public class Ballroom extends Canvas
 	 */
 	public void setPattern(Pattern pattern) {
 		this.pattern = pattern;
-//		redraw();
-//		update();
 		viewWholePattern();
 	}
 	
