@@ -74,6 +74,7 @@ public class Ballroom extends Canvas
 	private Color animationSelectedColor;
 	private Color countColor;
 	private Color gridColor;
+	private Color yellowColor;
 	private Cursor cursor;
 	private Menu contextMenu;
 	private Font countFont;
@@ -332,6 +333,7 @@ public class Ballroom extends Canvas
 		lineColor.dispose();
 		animationColor.dispose();
 		animationSelectedColor.dispose();
+		yellowColor.dispose();
 		gridColor.dispose();
 		countFont.dispose();
 		countColor.dispose();
@@ -358,6 +360,8 @@ public class Ballroom extends Canvas
 		ballroomColor = new Color(getDisplay(),96,108,175);
 		
 		lineColor = new Color(getDisplay(),255,255,0);
+		
+		yellowColor = new Color(getDisplay(),240,240,0);
 
 		animationColor = new Color(getDisplay(),230,230,230);
 		animationSelectedColor = new Color(getDisplay(),255,255,255);
@@ -835,15 +839,28 @@ public class Ballroom extends Canvas
 			
 		GraphicsData graphicsData = getGraphicsData(step,footNum);
 
-		gc.setForeground(borderColor);		
-		gc.setBackground(backgroundColor);		
+		int lw = gc.getLineWidth();
+
+		if (step.getFeet(footNum).getType() == Foot.STAND_ON_FOOT)
+		{
+			gc.setForeground(yellowColor);
+			gc.setLineWidth(2);
+		} else
+		{
+			gc.setForeground(borderColor);
+		}
+
+		gc.setBackground(backgroundColor);
 
 		myFillPolygon(gc,feetCoord,step.isFeetLeft(footNum),graphicsData.baleData,graphicsData.feetDataYSize,graphicsData.realYSize);
 		myDrawPolygon(gc,feetCoord,step.isFeetLeft(footNum),graphicsData.baleData,graphicsData.feetDataYSize,graphicsData.realYSize);
 
 		myFillPolygon(gc,feetCoord,step.isFeetLeft(footNum),graphicsData.heelData,graphicsData.feetDataYSize,graphicsData.realYSize);
 		myDrawPolygon(gc,feetCoord,step.isFeetLeft(footNum),graphicsData.heelData,graphicsData.feetDataYSize,graphicsData.realYSize);
+		
+		gc.setLineWidth(lw);
 
+		gc.setForeground(borderColor);
 		if (step.isFeetLeft(footNum)) myDrawText(gc,feetCoord,"L");
 		else myDrawText(gc,feetCoord,"R");
 

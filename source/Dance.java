@@ -488,6 +488,7 @@ public class Dance implements Runnable
 				
 				int feet = ((Integer)(event.widget.getData())).intValue();
 				step.getFeet(feet).setType(((Combo)event.widget).getSelectionIndex());
+				ballroom.redraw();
 			}
 		};
 
