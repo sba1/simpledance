@@ -57,15 +57,15 @@ msgstr "Zoom -"
 
 #: /cygdrive/d/eclipse/workspace/simpledance/source/Dance.java:256
 msgid "Show the dancefloor's grid"
-msgstr ""
+msgstr "Zeige Tanzflächenmsuter"
 
 #: /cygdrive/d/eclipse/workspace/simpledance/source/Dance.java:263
 msgid "Show previous step"
-msgstr ""
+msgstr "Vorherigen Schritt zeigen"
 
 #: /cygdrive/d/eclipse/workspace/simpledance/source/Dance.java:269
 msgid "Show next step"
-msgstr ""
+msgstr "Nächsten Schritt zeigen"
 
 #: /cygdrive/d/eclipse/workspace/simpledance/source/Dance.java:275
 msgid "Show feet of gent"
@@ -251,7 +251,7 @@ msgstr ""
 
 #: /cygdrive/d/eclipse/workspace/simpledance/source/PatternProp.java:69
 msgid "Edit pattern properties"
-msgstr ""
+msgstr "Tanzfigureneigenschaften ändern..."
 
 #: /cygdrive/d/eclipse/workspace/simpledance/source/PatternProp.java:78
 msgid "Type"
@@ -271,7 +271,7 @@ msgstr ""
 
 #: /cygdrive/d/eclipse/workspace/simpledance/source/PatternProp.java:126
 msgid "Beats per slow step"
-msgstr ""
+msgstr "Schläge pro langsamen Schritt"
 
 #: /cygdrive/d/eclipse/workspace/simpledance/source/PatternProp.java:142
 msgid "Apply"
@@ -307,7 +307,7 @@ msgstr ""
 
 #: /cygdrive/d/eclipse/workspace/simpledance/source/Step.java:22
 msgid "Stay on ball"
-msgstr ""
+msgstr "Auf Ballen bleiben"
 
 #: /cygdrive/d/eclipse/workspace/simpledance/source/Step.java:23
 msgid "Foot in the air"
@@ -315,7 +315,7 @@ msgstr ""
 
 #: /cygdrive/d/eclipse/workspace/simpledance/source/Step.java:24
 msgid "Heel turn"
-msgstr ""
+msgstr "Fersendrehung"
 
 #: /cygdrive/d/eclipse/workspace/simpledance/source/Step.java:25
 msgid "Stand on foot"
