@@ -17,6 +17,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.*;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
@@ -125,15 +126,19 @@ public class Dance implements Runnable
 	
 	private Image createImage(String name)
 	{
-		Image image;
+		ImageData source;
 		try
 		{
-			image = new Image(shell.getDisplay(),name);
+			source = new ImageData(name);
 		}
 		catch(Exception e)
 		{
-			image = new Image(shell.getDisplay(),getClass().getResourceAsStream(name));
+			source = new ImageData(getClass().getResourceAsStream(name));
+
 		}
+		ImageData mask = source.getTransparencyMask();
+		Image image = new Image(shell.getDisplay(), source, mask);
+
 		if (image != null)
 		{
 			imageList.add(image);
