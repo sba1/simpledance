@@ -887,6 +887,13 @@ public class Ballroom extends Canvas
 			if (type != Foot.BALL_STEP) myFillPolygon(gc,feetCoord,step.isFeetLeft(footNum),graphicsData.getBale(),graphicsData.feetDataYSize,graphicsData.realYSize);
 			myDrawPolygon(gc,feetCoord,step.isFeetLeft(footNum),graphicsData.getBale(),graphicsData.feetDataYSize,graphicsData.realYSize,false);
 		}
+		
+		if (type == Foot.HEEL_STEP)
+		{
+			gc.setForeground(redColor);
+			gc.setLineWidth(2);
+			myDrawPolygon(gc,feetCoord,step.isFeetLeft(footNum),graphicsData.getHeel(),graphicsData.feetDataYSize,graphicsData.realYSize,false);
+		}
 
 		gc.setLineWidth(lw);
 
