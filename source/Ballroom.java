@@ -342,7 +342,8 @@ public class Ballroom extends Canvas
 	
 	public Ballroom(Composite comp, int style)
 	{
-		super(comp,style|SWT.NO_BACKGROUND|SWT.V_SCROLL|SWT.H_SCROLL);
+		/* Note since we use a border our client area is proably different */
+		super(comp,style|SWT.NO_BACKGROUND|SWT.V_SCROLL|SWT.H_SCROLL|SWT.BORDER);
 
 		leftFeetColor = new Color(getDisplay(),250,250,250);
 		leftFeetSelectedColor = new Color(getDisplay(),250,250,170);
