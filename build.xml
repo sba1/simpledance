@@ -4,7 +4,7 @@
 
  <property name="src" location="."/>
  <property name="build" location="build"/>
- <property name="dist" location="C:\Windows\Desktop\SimpleDance"/>
+ <property name="dist" location="D:\SimpleDance"/>
 
  <target name="init">
   <tstamp/>
