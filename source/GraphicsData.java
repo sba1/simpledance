@@ -83,7 +83,6 @@ public class GraphicsData
 	static private int gentHeelY = 29; 
 	static private int [] gentHeel = new int []
 	{
-		-12,14,
 		12,14,
 		12,30,
 		10,35,
@@ -94,7 +93,8 @@ public class GraphicsData
 		-5,39,
 		-8,37,
 		-10,35,
-		-12,30
+		-12,30,
+		-12,14,
 	};
 
 	static private int gentBaleStart = 0;
@@ -168,5 +168,10 @@ public class GraphicsData
 			array[i]=baleData[i + baleStart*2];
 		}
 		return array;
+	}
+	
+	public int [] getHeel()
+	{
+		return heelData;
 	}
 }
