@@ -4,3 +4,4 @@ graphics.svg
 META-INF
 javadoc
 .classpath
+*.dll
