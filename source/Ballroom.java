@@ -102,6 +102,7 @@ public class Ballroom extends Canvas
 	private boolean showLady = true;
 	private boolean showCoordinates = true;
 	private boolean showGrid = true;
+	private boolean showGradients = true;
 
 	class CoordinateInfo
 	{
@@ -387,8 +388,8 @@ public class Ballroom extends Canvas
 		yellowColor = new Color(getDisplay(),240,240,0);
 		redColor = new Color(getDisplay(),240,0,0);
 
-		animationColor = new Color(getDisplay(),230,230,230);
-		animationSelectedColor = new Color(getDisplay(),255,255,255);
+		animationColor = new Color(getDisplay(),200,200,54);
+		animationSelectedColor = new Color(getDisplay(),200,200,54);
 		gridColor = new Color(getDisplay(),0,0,0);
 
 		countColor = new Color(getDisplay(),255,255,255);
@@ -844,6 +845,7 @@ public class Ballroom extends Canvas
 
 		RGB [] maskPaletteData = new RGB[]{new RGB(0,0,0),new RGB(255,255,255)};
 		ImageData maskImageData = new ImageData(bounds.width,bounds.height,8,new PaletteData(maskPaletteData));
+		maskImageData.transparentPixel = 0;
 		Image maskImage = new Image(getDisplay(),maskImageData);
 		GC maskGC = new GC(maskImage);
 		Color white = new Color(getDisplay(),255,255,255);
@@ -860,15 +862,15 @@ public class Ballroom extends Canvas
 		maskGC.dispose();
 		white.dispose();
 
+		// ----------------
 		maskImageData = maskImage.getImageData();
-		
 		final int h = maxy - miny + 1;
 		final int w = maxx - minx + 1;
 		int p = 0;
 		
 		byte [] alphaData = new byte[w*h];
 		byte [] maskData = maskImageData.data;		
-		
+
 		for (int y=0;y<h;y++)
 		{
 			int o = p;
@@ -880,8 +882,50 @@ public class Ballroom extends Canvas
 			imageData.setAlphas(0,y,w,alphaData,0);
 			p += maskImageData.bytesPerLine;
 		}
-		
 		Image fillImage = new Image(getDisplay(),imageData);
+		// ----------------
+
+/*		maskImageData = maskImage.getImageData();
+		final int h = maxy - miny + 1;
+		final int w = maxx - minx + 1;
+		int p = 0, q = 0;
+		
+		byte [] newMaskData = new byte[((w+7)/8) *h];
+		byte [] maskData = maskImageData.data;		
+
+		for (int y=0;y<h;y++)
+		{
+			int o = p;
+			byte maskBit = (byte)0x80;
+			byte maskByte = 0;
+
+			for (int x=0;x<w;x++)
+			{
+				if (maskData[o++]!=0) maskByte |= maskBit;
+				maskBit = (byte) (maskBit >> 1);
+				if (maskBit == 0)
+				{
+					maskBit = (byte)0x80;
+					newMaskData[q++] = maskByte;
+					maskByte = 0;
+				} 
+			}
+			if (maskByte != 0) newMaskData[q++] = maskByte;
+			p += maskImageData.bytesPerLine;
+		}
+		imageData.maskData = newMaskData;
+		Image fillImage = new Image(getDisplay(),imageData);*/
+
+		// ----------------
+
+/*
+		maskImageData = maskImage.getImageData();
+		maskImageData.transparentPixel = 0;
+		maskImageData = maskImageData.getTransparencyMask();
+		Image fillImage = new Image(getDisplay(),imageData,maskImageData);
+*/
+		// ----------------
+
 		gc.drawImage(fillImage,bounds.x,bounds.y);
 		
 		maskImage.dispose();
@@ -1122,7 +1166,12 @@ public class Ballroom extends Canvas
 		}
 		rgb1 = heelColor.getRGB();
 
-		if (fillBale) myGradientPolygon(gc,rgb1,rgb2,feetCoord,step.isFeetLeft(footNum),graphicsData.baleData,graphicsData.feetDataYSize,graphicsData.realYSize);
+		gc.setBackground(heelColor);
+		if (fillBale)
+		{
+			if (showGradients) myGradientPolygon(gc,rgb1,rgb2,feetCoord,step.isFeetLeft(footNum),graphicsData.baleData,graphicsData.feetDataYSize,graphicsData.realYSize);
+			else myFillPolygon(gc,feetCoord,step.isFeetLeft(footNum),graphicsData.baleData,graphicsData.feetDataYSize,graphicsData.realYSize);
+		} 
 		myDrawPolygon(gc,feetCoord,step.isFeetLeft(footNum),graphicsData.baleData,graphicsData.feetDataYSize,graphicsData.realYSize,true);
 
 		gc.setBackground(heelColor);
@@ -1240,6 +1289,7 @@ public class Ballroom extends Canvas
 
  						GraphicsData graphicsData = getGraphicsData(previousStep,i);
 						WayPoint feetCoord = previousStep.getFeet(i).getInterpolatedWayPoint(step.getStartingWayPoint(i),step.getFeet(i).isLongRotation(),j,6);
+
 						myDrawPolygon(gc,feetCoord,previousStep.isFeetLeft(i),graphicsData.heelData,graphicsData.feetDataYSize,graphicsData.realYSize, true);
 						myDrawPolygon(gc,feetCoord,previousStep.isFeetLeft(i),graphicsData.baleData,graphicsData.feetDataYSize,graphicsData.realYSize, true);
 					}
@@ -1408,6 +1458,13 @@ public class Ballroom extends Canvas
 	public void setShowGrid(boolean showGrid)
 	{
 		this.showGrid = showGrid;
+		redraw();
+		update();
+	}
+	
+	public void setShowGradients(boolean showGradients)
+	{
+		this.showGradients = showGradients;
 		redraw();
 		update();
 	}
