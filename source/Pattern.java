@@ -223,20 +223,34 @@ public class Pattern
 		this.currentStepNum = currentStepNum;
 	}
 
-	public void addWayPoint(int footNum)
+	public void addWayPoint(int footNum, int wayPointIndex)
 	{
 		Step prevStep = getPreviousStep();
 		if (prevStep == null) return;
 		Step step = getCurrentStep();
 		if (step == null) return;
 		
-		WayPoint prevFeetCoord = prevStep.getStartingWayPoint(footNum);
-		WayPoint thisFeetCoord = step.getStartingWayPoint(footNum);
+		WayPoint prevFeetCoord;
+		WayPoint thisFeetCoord;
+
+		if (wayPointIndex == 0)
+		{
+			prevFeetCoord = prevStep.getFeet(footNum).getLastWayPoint();
+			thisFeetCoord = step.getStartingWayPoint(footNum);
+		} else
+		{
+			prevFeetCoord = prevStep.getFeet(footNum).getFeetCoord(wayPointIndex-1);
+			thisFeetCoord = prevStep.getFeet(footNum).getFeetCoord(wayPointIndex);
+		}
 		
 		WayPoint newFeetCoord = new WayPoint(
 			(prevFeetCoord.x + thisFeetCoord.x)/2,
 			(prevFeetCoord.y + thisFeetCoord.y)/2,0);
-		prevStep.getFeet(footNum).addWayPoint(newFeetCoord,1);
+			
+		/* if wayPointIndex equals 0 it means that the waypoint has
+		 * to be inserted as last waypoint of the previous step */
+		if (wayPointIndex == 0) wayPointIndex = prevStep.getFeet(footNum).getNumOfWayPoints();
+		prevStep.getFeet(footNum).addWayPoint(newFeetCoord,wayPointIndex);
 	}
 
 	public void removeAllWayPoints(int footNum)

@@ -116,6 +116,7 @@ public class Ballroom extends Canvas
 	private int dragOperation;
 	private int contextFeetIndex;
 	private int contextStepIndex;
+	private int contextWayPoint;
 
 	private int lastSelectedStepIndex;
 	private int lastSelectedFootIndex;
@@ -557,6 +558,7 @@ public class Ballroom extends Canvas
 			
 			public void mouseDown(MouseEvent ev)
 			{
+				boolean rejectWayPointRequest = false;
 				if (pattern == null) return;
 				Step step = pattern.getCurrentStep();
 				if (step == null) return;
@@ -564,6 +566,7 @@ public class Ballroom extends Canvas
 
 				lastSelectedFootIndex = -1;
 				CoordinateInfo ci = getPixCoordinateInfo(ev.x,ev.y,step);
+
 				if (ci.feetIndex != -1)
 				{
 					if (ci.feetPart != FEETPART_NO || ci.waypoint == 0)
@@ -587,7 +590,7 @@ public class Ballroom extends Canvas
 							lastSelectedStepIndex = pattern.getCurrentStepNum() - 1;
 							lastSelectedFootIndex = ci.feetIndex;
 							dragOperation = DRAG_MOVE_WAYPOINT;
-						}
+						} else rejectWayPointRequest = true;
 					}
 				}
 
@@ -630,8 +633,9 @@ public class Ballroom extends Canvas
 					if (ci.feetIndex != -1)
 					{
 						contextFeetIndex = ci.feetIndex;
-						contextStepIndex = pattern.getCurrentStepNum();
-
+						contextStepIndex = lastSelectedStepIndex;
+						contextWayPoint = ci.waypoint;
+						
 						menuItem = new MenuItem(contextMenu, SWT.CHECK);
 						menuItem.setText(_("Rotate around long angle"));
 						menuItem.setSelection(pattern.getStep(contextStepIndex).getFeet(contextFeetIndex).isLongRotation());
@@ -644,28 +648,30 @@ public class Ballroom extends Canvas
 							}
 						});
 						new MenuItem(contextMenu, SWT.BAR);
-						menuItem = new MenuItem(contextMenu, 0);
-						menuItem.setText(_("Insert way point"));
-						menuItem.addSelectionListener(new SelectionAdapter()
+						if (!rejectWayPointRequest)
 						{
-							public void widgetSelected(SelectionEvent e) {
-								contextMenu.setVisible(false);
-								pattern.addWayPoint(contextFeetIndex);
-								redraw();
-							}
-						});
-						menuItem = new MenuItem(contextMenu, 0);
-						menuItem.setText(_("Remove all way points"));
-						menuItem.addSelectionListener(new SelectionAdapter()
-						{
-							public void widgetSelected(SelectionEvent e) {
-								contextMenu.setVisible(false);
-								pattern.removeAllWayPoints(contextFeetIndex);
-								redraw();
-							}
-						});
-						
-						menuItem = new MenuItem(contextMenu,SWT.SEPARATOR);
+							menuItem = new MenuItem(contextMenu, 0);
+							menuItem.setText(_("Insert way point"));
+							menuItem.addSelectionListener(new SelectionAdapter()
+							{
+								public void widgetSelected(SelectionEvent e) {
+									contextMenu.setVisible(false);
+									pattern.addWayPoint(contextFeetIndex,lastSelectedWaypoint);
+									redraw();
+								}
+							});
+							menuItem = new MenuItem(contextMenu, 0);
+							menuItem.setText(_("Remove all way points"));
+							menuItem.addSelectionListener(new SelectionAdapter()
+							{
+								public void widgetSelected(SelectionEvent e) {
+									contextMenu.setVisible(false);
+									pattern.removeAllWayPoints(contextFeetIndex);
+									redraw();
+								}
+							});
+							menuItem = new MenuItem(contextMenu,SWT.SEPARATOR);
+						}
 					}
 					contextMenu.setVisible(true);
 					

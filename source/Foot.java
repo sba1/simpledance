@@ -57,6 +57,12 @@ public class Foot
 	{
 		return (WayPoint)wayPointList.getFirst();
 	}
+
+	public WayPoint getLastWayPoint()
+	{
+		return (WayPoint)wayPointList.getLast();
+	}
+
 	
 	public WayPoint getFeetCoord(int i)
 	{
@@ -234,5 +240,4 @@ public class Foot
 	{
 		return longRotation;
 	}
-
 }
