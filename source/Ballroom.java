@@ -126,6 +126,9 @@ public class Ballroom extends Canvas
 	
 	/* attributes used when painting */
 	private boolean animation;
+	private boolean animationSingleStep;
+	private boolean animationBackward;
+	private int animationDrawnSteps;
 	private int animationNumber;
 	private int animationMaxNumber;
 
@@ -881,7 +884,7 @@ public class Ballroom extends Canvas
 			gc.setForeground(borderColor);
 		}
 
-		if (type == Foot.BALL_STEP_STAY || type == Foot.BALL_STAY)
+		if (type == Foot.BALL_STEP_STAY || type == Foot.BALL_STAY || type == Foot.TAP)
 		{
 			fillBale = false;
 			fillHeel = false;
@@ -911,6 +914,13 @@ public class Ballroom extends Canvas
 			gc.setForeground(redColor);
 			gc.setLineWidth(2);
 			myDrawPolygon(gc,feetCoord,step.isFeetLeft(footNum),graphicsData.getHeel(),graphicsData.feetDataYSize,graphicsData.realYSize,false);
+		}
+		
+		if (type == Foot.TAP)
+		{
+			gc.setBackground(redColor);
+			gc.setLineWidth(2);
+			myFillPolygon(gc,feetCoord,step.isFeetLeft(footNum),graphicsData.getBaleTap(),graphicsData.feetDataYSize,graphicsData.realYSize);
 		}
 
 		gc.setLineWidth(lw);
@@ -984,6 +994,7 @@ public class Ballroom extends Canvas
 				}
 			}
 
+			/* Show the animation outline */
 			if (showAnimation)
 			{
 				for (int j=1;j<6;j++)
@@ -1015,11 +1026,23 @@ public class Ballroom extends Canvas
 			WayPoint feetCoord;
 			
 			if (animation && nextStep != null)
+			{
 				feetCoord = step.getFeet(i).getInterpolatedWayPoint(nextStep.getStartingWayPoint(i),nextStep.getFeet(i).isLongRotation(),animationNumber,animationMaxNumber);
+			}
 			else
+			{
 				feetCoord = step.getStartingWayPoint(i);
+			}
 
-			drawFoot(gc,step,feetCoord,i,isSelected);
+			if (animation)
+			{
+				/* Use the next step if possible, because when animation runs it looks better to display the type of the next step
+				 * TODO: Maybe it would better to change this so that the next step type is only used if the foot has been moved? */
+
+/*				if (animationNumber > 2 && nextStep != null) drawFoot(gc,nextStep,feetCoord,i,isSelected);
+				else */drawFoot(gc,step,feetCoord,i,isSelected);
+			}
+			else drawFoot(gc,step,feetCoord,i,isSelected);
 			
 			if (showPrevStep && previousStep != null && !animation)
 			{
@@ -1283,10 +1306,18 @@ public class Ballroom extends Canvas
 	{
 		ballroomListenerList.remove(listener);
 	}
-
-	public void animationInit()
+	
+	public void animationInit(boolean singleStep, boolean backward)
 	{
 		animation = true;
+		animationSingleStep = singleStep;
+		animationBackward = backward;
+		animationDrawnSteps = 0;
+		animationCalcAnimFrames();
+	}
+	
+	private void animationCalcAnimFrames()
+	{
 		AnimationInfo ai = pattern.getAnimationInfo(25);
 
 		Step step = pattern.getCurrentStep();
@@ -1308,24 +1339,50 @@ public class Ballroom extends Canvas
 			{
 			}
 		}
-
-		animationNumber = 0;
 		animationMaxNumber = framesperstep;
+		animationNumber = 0;
 	}
 	
+	/**
+	 * Interate the animation.
+	 * 
+	 * @return false if animation has been completed (depending
+	 *          on the parameters given at animationInit().
+	 */
 	public boolean animationNext()
 	{
-		if (animationNumber >= animationMaxNumber)
+		if (animationBackward)
 		{
-			int newStepNum = pattern.getCurrentStepNum()+1;
-			if (newStepNum >= pattern.getStepLength())
+			if (animationNumber == 0)
 			{
-				return false;
+				/* Abort animation if step has been completed and only one step should be displayed */
+				animationDrawnSteps++; 
+				if (animationSingleStep && animationDrawnSteps >= 2) return false;
+
+				int newStepNum = pattern.getCurrentStepNum()-1;
+				if (newStepNum < 0) return false;
+				pattern.setCurrentStepNum(newStepNum);
+
+				animationCalcAnimFrames();
+				animationNumber = animationMaxNumber - 1;
+			} else animationNumber--;
+		} else
+		{
+			if (animationNumber >= animationMaxNumber)
+			{
+				int newStepNum = pattern.getCurrentStepNum()+1;
+				if (newStepNum >= pattern.getStepLength()) return false;
+				pattern.setCurrentStepNum(newStepNum);
+
+				/* Abort animation if step has been completed and only one step should be displayed */
+				animationDrawnSteps++; 
+				if (animationSingleStep /*&& animationDrawnSteps >= 1*/) return false;
+
+				animationCalcAnimFrames();
+				animationNumber = 0;
 			}
-			pattern.setCurrentStepNum(newStepNum);
-			animationInit();
+			animationNumber++;
 		}
-		animationNumber++;
 		redraw();
 		update();
 		return true;

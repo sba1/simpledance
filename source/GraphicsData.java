@@ -110,6 +110,8 @@ public class GraphicsData
 	public int realYSize;
 	public int baleStart;
 	public int baleEnd;
+	public int baleTapStart;
+	public int baleTapEnd;
 			
 	public GraphicsData(int type)
 	{
@@ -129,6 +131,8 @@ public class GraphicsData
 
 			baleStart = gentBaleStart;
 			baleEnd = gentBaleEnd;
+			baleTapStart = 0; 
+			baleTapEnd = 5;
 		} else
 		if (type == 1)
 		{
@@ -143,6 +147,8 @@ public class GraphicsData
 			
 			baleStart = ladyBaleStart;
 			baleEnd = ladyBaleEnd;
+			baleTapStart = 1; 
+			baleTapEnd = 7;
 		}
 
 		for (int i=0;i<baleData.length;i+=2)
@@ -166,6 +172,17 @@ public class GraphicsData
 		for (int i=0;i<length*2;i++)
 		{
 			array[i]=baleData[i + baleStart*2];
+		}
+		return array;
+	}
+
+	public int[] getBaleTap()
+	{
+		int length = baleTapEnd - baleTapStart + 1;
+		int array[] = new int[length*2];
+		for (int i=0;i<length*2;i++)
+		{
+			array[i]=baleData[i + baleTapStart*2];
 		}
 		return array;
 	}

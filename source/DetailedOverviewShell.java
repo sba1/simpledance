@@ -71,6 +71,13 @@ public class DetailedOverviewShell
 		scrolledComposite.setExpandHorizontal(true);
 		scrolledComposite.setExpandVertical(true);
 		overview = new DetailedOverviewCanvas(scrolledComposite,0);
+		overview.addDetailedOverviewListener(new DetailedOverviewListener()
+		{
+			public void stepClicked(DetailedOverviewEvent ev)
+			{
+				pattern.setCurrentStepNum(ev.stepNo);
+			}
+		});
 		scrolledComposite.setContent(overview);
 		
 		setPattern(pattern);

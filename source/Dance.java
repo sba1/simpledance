@@ -68,8 +68,12 @@ public class Dance implements Runnable
 	static final int TOOLBAR_SHOW_GRID = 12;
 	static final int TOOLBAR_PLAY = 13;
 	static final int TOOLBAR_PLAYSTOP = 14;
+	static final int TOOLBAR_PLAYBACKWARD = 15;
+	static final int TOOLBAR_PLAYFORWARD = 16;
 
-	private Pattern pattern;
+	protected Pattern pattern;
+	
+	/** The step which has been copied (inside the "clipboard") */
 	private Step copiedStep;
 
 	private int lastStepSelected; 
@@ -535,6 +539,9 @@ public class Dance implements Runnable
 					case TOOLBAR_SHOW_LADY: ballroom.setShowLady(((ToolItem)event.widget).getSelection()); break;
 					case TOOLBAR_SHOW_GRID: ballroom.setShowGrid(((ToolItem)event.widget).getSelection()); break;
 					case TOOLBAR_PLAY: play(); break;
+					case TOOLBAR_PLAYBACKWARD: playBackward(); break;
+					case TOOLBAR_PLAYFORWARD: playForward(); break;
+					case TOOLBAR_PLAYSTOP: playStop(); break;
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent event)
@@ -583,13 +590,27 @@ public class Dance implements Runnable
 		toolitem.setData(new Integer(TOOLBAR_PLAY));
 		toolitem.addSelectionListener(selectionListener);
 
-/*		toolitem = new ToolItem(toolbar,0);
+		toolitem = new ToolItem(toolbar,0);
 		image = createImage("images/playstop.gif");
 		toolitem.setImage(image);
 		toolitem.setToolTipText(_("Stops the playing"));
 		toolitem.setData(new Integer(TOOLBAR_PLAYSTOP));
 		toolitem.addSelectionListener(selectionListener);
-*/
+
+		toolitem = new ToolItem(toolbar,0);
+		image = createImage("images/playprev.gif");
+		toolitem.setImage(image);
+		toolitem.setToolTipText(_("Plays backward one frame"));
+		toolitem.setData(new Integer(TOOLBAR_PLAYBACKWARD));
+		toolitem.addSelectionListener(selectionListener);
+
+		toolitem = new ToolItem(toolbar,0);
+		image = createImage("images/playnext.gif");
+		toolitem.setImage(image);
+		toolitem.setToolTipText(_("Plays forward one frame"));
+		toolitem.setData(new Integer(TOOLBAR_PLAYFORWARD));
+		toolitem.addSelectionListener(selectionListener);
+
 		coolitem = new CoolItem(coolbar,0);
 		coolitem.setControl(toolbar);
 		pushSize = toolbar.computeSize(SWT.DEFAULT, SWT.DEFAULT);
@@ -1060,20 +1081,35 @@ public class Dance implements Runnable
 	 * Method setPattern.
 	 * @param pattern
 	 */
-	public void setPattern(Pattern pattern)
+	public void setPattern(Pattern newPattern)
 	{
-		this.pattern = pattern;
-		ballroom.setPattern(pattern);
-		patternPropShell.setPattern(pattern);
-		detailedOverviewShell.setPattern(pattern); /* includes a refresh */
+		lastStepSelected = -1;
+		this.pattern = newPattern;
+		ballroom.setPattern(newPattern);
+		patternPropShell.setPattern(newPattern);
+		detailedOverviewShell.setPattern(newPattern); /* includes a refresh */
 		refreshStepOverviewTable();
+		lastStepSelected = stepOverviewTable.getSelectionIndex();
 		refreshStepCoordiantes();
 
-		stepDescriptionStyledText.setText(pattern.getCurrentStep().getDescription());
-		stepCountText.setText(pattern.getCurrentStep().getCount());
-		if (pattern.getCurrentStep().isSlow()) durationCombo.select(0);
-		else if (pattern.getCurrentStep().isQuick()) durationCombo.select(1);
-		else durationCombo.setText(pattern.getCurrentStep().getDuration());
+		stepDescriptionStyledText.setText(newPattern.getCurrentStep().getDescription());
+		stepCountText.setText(newPattern.getCurrentStep().getCount());
+		if (newPattern.getCurrentStep().isSlow()) durationCombo.select(0);
+		else if (newPattern.getCurrentStep().isQuick()) durationCombo.select(1);
+		else durationCombo.setText(newPattern.getCurrentStep().getDuration());
+		
+		newPattern.addPatternListener(new PatternListener()
+		{
+			public void newStepActive(Pattern thisPattern, int newStepNum)
+			{
+				if (pattern == thisPattern)
+				{
+					stepOverviewTable.select(newStepNum);
+					refreshStepCoordiantes();
+				}
+			}
+
+		});
 	}
 	
 	private void storeDescription()
@@ -1446,19 +1482,47 @@ public class Dance implements Runnable
 			savePattern();
 		}
 	}
-	
-	public void play()
+
+	/**
+	 * Starts playing the animation sequence..
+	 * 
+	 * @param singleStep defines if only one step should be animated
+	 * @param backward defines if the anomation should be played packward
+	 */
+	private void play(boolean singleStep, boolean backward)
 	{
 		if (timerThread != null) return;
 		Pattern.AnimationInfo ai = pattern.getAnimationInfo(25);
 		timerThread = new TimerThread(1000*1000/ai.fp1000s,this);
-		
-		pattern.setCurrentStepNum(0);
-		ballroom.animationInit();
+		ballroom.animationInit(singleStep,backward);
 		ballroom.redraw();
 		timerThread.start();
 	}
+	
+	public void play()
+	{
+		pattern.setCurrentStepNum(0);
+		play(false,false);
+	}
+	
+	public void playBackward()
+	{
+		play(true,true);
+	}
+	
+	public void playForward()
+	{
+		play(true,false);
+	}
 
+	public void playStop()
+	{
+		if (timerThread == null) return;
+		timerThread.interrupt();
+		timerThread = null;
+		ballroom.animationStop();
+	}
+	
 	//***BEGIN Runnable
 	public void run()
 	{

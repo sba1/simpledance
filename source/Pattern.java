@@ -1,4 +1,5 @@
 import java.util.LinkedList;
+import java.util.ListIterator;
 
 /**
  * @author Standard
@@ -29,8 +30,9 @@ public class Pattern
 	static final int DANCE_RUMBA = 8;
 	static final int DANCE_JIVE = 9;
 	static final int DANCE_SAMBA = 10;
-	static final int DACNE_PASO_DOBLE = 11;
-	static final int DANCE_MAX = 12;
+	static final int DANCE_PASO_DOBLE = 11;
+	static final int DANCE_DISCO_FOX = 12;
+	static final int DANCE_MAX = 13;
 	
 	static final String typeNames[] =
 	{
@@ -45,7 +47,8 @@ public class Pattern
 		N_("Rumba"),
 		N_("Jive"),
 		N_("Samba"),
-		N_("Paso Doble")
+		N_("Paso Doble"),
+		N_("Disco Fox"),
 	};
 	
 	static final String getTypeName(int type)
@@ -221,6 +224,7 @@ public class Pattern
 	public void setCurrentStepNum(int currentStepNum)
 	{
 		this.currentStepNum = currentStepNum;
+		emitEvent(0);
 	}
 
 	public void addWayPoint(int footNum, int wayPointIndex)
@@ -688,4 +692,40 @@ public class Pattern
 		this.filename = filename;
 	}
 
+
+	/* Notification/eventhandling */
+
+	/** The list which keeps the listeners */
+	private LinkedList patternListenerList = new LinkedList();
+
+	private void emitEvent(int type)
+	{
+		ListIterator iter = patternListenerList.listIterator();
+		while (iter.hasNext())
+		{
+			PatternListener pl = (PatternListener)iter.next();
+			pl.newStepActive(this,currentStepNum);
+		}
+	}
+	
+	/**
+	 * Adds a new pattern listener.
+	 * 
+	 * @param pn defines the listener object to add.
+	 */
+	public void addPatternListener(PatternListener pn)
+	{
+		patternListenerList.add(pn);
+	}
+
+	/**
+	 * Removes a given pattern listener.
+	 * 
+	 * @param pn defines the listerner object which should be removed. The object
+	 *         must have been added before via @see {addPatternListener}.
+	 */
+	public void removePatternListener(PatternListener pn)
+	{
+		patternListenerList.remove(pn);
+	}
 }

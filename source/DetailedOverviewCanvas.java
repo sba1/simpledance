@@ -1,8 +1,12 @@
 import gnu.gettext.GettextResource;
 
+import java.util.LinkedList;
+import java.util.ListIterator;
 import java.util.ResourceBundle;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.*;
@@ -36,10 +40,15 @@ public class DetailedOverviewCanvas extends Canvas
 	// *** END I18N
 
 	private Color whiteColor;
+	private Color greyColor;
 	private Color lightBlueColor;
+	private Color blueColor;
 	private Color blackColor;
 
 	private GC fakeGC;
+
+	/* listener Stuff */
+	private LinkedList detailedOverviewListener;
 
 	/* the table's contents */
 	private int columns;
@@ -55,7 +64,7 @@ public class DetailedOverviewCanvas extends Canvas
 	private int [] rowHeights;
 	private int tempoNominator;
 	private int tempoDenominator;
-	
+	private int currentStepNum;
 	
 	private int tableHeight = 100;
 	private int tableWidth = 100;
@@ -89,6 +98,7 @@ public class DetailedOverviewCanvas extends Canvas
 		public String text;
 		public int x;
 		public int y;
+
 		public int width;
 		public int height;
 		
@@ -103,17 +113,20 @@ public class DetailedOverviewCanvas extends Canvas
 		public void drawCentered(GC gc, int areaWidth, int areaHeight)
 		{
 			gc.drawText(text,x + (areaWidth - width)/2, y+(areaHeight - height)/2);
-
 		}
 	};
 
 	public DetailedOverviewCanvas(Composite comp, int style)
 	{
-		super(comp,style|SWT.NO_BACKGROUND);//|SWT.V_SCROLL|SWT.H_SCROLL);
+		super(comp,style|SWT.NO_BACKGROUND);
+
+		detailedOverviewListener = new LinkedList();
 		
 		whiteColor = new Color(comp.getDisplay(),255,255,255);
+		greyColor = new Color(comp.getDisplay(),210,210,210);
 		blackColor = new Color(comp.getDisplay(),0,0,0);
 		lightBlueColor = new Color(comp.getDisplay(),230,230,255);
+		blueColor = new Color(comp.getDisplay(),200,200,230);
 
 		addPaintListener(new PaintListener()
 		{
@@ -123,15 +136,42 @@ public class DetailedOverviewCanvas extends Canvas
 			}
 		});
 		
+		addMouseListener(new MouseAdapter()
+		{
+			public void mouseDown(MouseEvent me)
+			{
+				for (int j=0;j<columns;j++)
+				{
+					for (int i=0;i<rows;i++)
+					{
+						Cell cell = cells[j][i];
+						if (me.x >= cell.x && me.x <= cell.x + columnWidths[j] - 1 &&
+							me.y >= cell.y && me.y <= cell.y + columnWidths[j] - 1)
+						{
+							if ((j != 0) && ((j - 1) != currentStepNum))
+							{
+								DetailedOverviewEvent ev = new DetailedOverviewEvent();
+								currentStepNum = ev.stepNo = j - 1;
+								redraw();
+								emitDetailedOverviewEvent(ev,0);
+							}
+							break;
+						}
+					}
+				}
+			}
+		});
 		fakeGC = new GC(new Image(comp.getDisplay(),10,10));
 	}
-	
+
 	public void dispose()
 	{
 		fakeGC.dispose();
 		whiteColor.dispose();
+		greyColor.dispose();
 		blackColor.dispose();
 		lightBlueColor.dispose();
+		blueColor.dispose();
 		super.dispose();
 	}
 	
@@ -197,53 +237,39 @@ public class DetailedOverviewCanvas extends Canvas
 		gc.setBackground(whiteColor);
 		gc.fillRectangle(bounds);
 
-
-
-		/* Draw rows */
-/*		for (int j=0;j<columns;j++)
-		{
-			int ly = 0;
-
-			for (int i=0;i<rows-1;i++)
-			{
-				ly += rowHeights[i];
-				gc.drawLine(0,ly,tableWidth,ly);
-				ly += gridthinkness;
-			}
-		}
-*/		
-		/* Draw vertical going lines */
-/*		for (int i=0;i<rows;i++)
-		{
-			lx = 0;
-
-			for (int j=0;j<columns-1;j++)
-			{
-				lx += columnWidths[j];
-				gc.drawLine(lx,0,lx,tableHeight);
-				lx += gridthinkness;
-			}
-		}
-*/
 		/* draw Contents */
 		for (int j=0;j<columns;j++)
 		{
-			int ly = 0;
+			Color col1;
+			Color col2;
 
+			if (j == currentStepNum+1)
+			{
+				col1 = greyColor;
+				col2 = blueColor;
+//				Cell cell = cells[j][0];
+//				gc.setForeground(blackColor);
+//				gc.drawRectangle(cell.x,cell.y,columnWidths[j],cell.y + tableHeight);
+			} else
+			{
+				col1 = whiteColor;
+				col2 = lightBlueColor;
+			} 
+			
 			for (int i=0;i<rows;i++)
 			{
 				Cell cell = cells[j][i];
 				Color background;
-				if (i%2==1) background = whiteColor;
-				else background = lightBlueColor;
+				if (i%2==1) background = col1;
+				else background = col2;
 				gc.setBackground(background);
 				gc.fillRectangle(cell.x,cell.y,columnWidths[j],rowHeights[i]);
 				cell.drawCentered(gc,columnWidths[j],rowHeights[i]);
 			}
+			
 		}
 
 		/* draw the bottom tempo information */
-		
 		int startX = 0;
 		boolean setNewStartX = true;
 
@@ -348,10 +374,14 @@ public class DetailedOverviewCanvas extends Canvas
 		tempoNominator = pattern.getTimeSignatureBars();
 		tempoDenominator = pattern.getTimeSignatureBeats();
 		maxFrac = new Fraction(pattern.getTimeSignatureBars(),pattern.getTimeSignatureBeats());
+		currentStepNum = pattern.getCurrentStepNum();
 
 		redraw();
 	}
 	
+	/**
+	 * Layout the table and it's cells
+	 */
 	private void layoutMe()
 	{
 		tableWidth = 0;
@@ -413,5 +443,43 @@ public class DetailedOverviewCanvas extends Canvas
 	{
 		layoutMe();
 		return new Point(width,height);
+	}
+
+	/* Event managment */
+	
+	/**
+	 * Forwards the given event to all added listeners
+	 * 
+	 * @param ev the intance of the forwarded event
+	 * @param type defines the method which should be called. Nothing defined yet.
+	 */
+	protected void emitDetailedOverviewEvent(DetailedOverviewEvent ev, int type)
+	{
+		ListIterator iter = detailedOverviewListener.listIterator();
+		while (iter.hasNext())
+		{
+			DetailedOverviewListener dol = (DetailedOverviewListener)iter.next();
+			dol.stepClicked(ev);
+		}
+	}
+
+	/**
+	 * Adds the specified DetailedOverview Listener.
+	 * 
+	 * @param dol defines the listener to add.
+	 */
+	public void addDetailedOverviewListener(DetailedOverviewListener dol)
+	{
+		detailedOverviewListener.add(dol);
+	}
+	
+	/**
+	 * Removes the specified DetailedOverview Listener.
+	 * 
+	 * @param dol defines the listener to remove (which must have been added before)
+	 */
+	public void removeDetailedOverviewListener(DetailedOverviewListener dol)
+	{
+		detailedOverviewListener.remove(dol);
 	}
 }
