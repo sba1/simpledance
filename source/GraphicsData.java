@@ -48,17 +48,14 @@ public class GraphicsData
 		3,22,
 	};
 
+	static private int ladyBaleStart = 1;
+	static private int ladyBaleEnd = 9;
 
 	/* 25cm hoch */
 	static private int gentBaleX = 0;
 	static private int gentBaleY = -29; 
 	static private int [] gentBale = new int []
 	{
-		-8,14,
-		-8,4,
-		-11,-3,
-		-13,-12,
-		-14,-19,
 		-14,-24,
 		-12,-33,
 		-8,-38,
@@ -74,7 +71,12 @@ public class GraphicsData
 		11,4,
 		9,8,
 		8,11,
-		8,14
+		8,14,
+		-8,14,
+		-8,4,
+		-11,-3,
+		-13,-12,
+		-14,-19,
 	};
 	
 	static private int gentHeelX = 0;
@@ -95,6 +97,9 @@ public class GraphicsData
 		-12,30
 	};
 
+	static private int gentBaleStart = 0;
+	static private int gentBaleEnd = 9;
+
 	public int baleX;
 	public int baleY;
 	public int [] baleData;
@@ -103,6 +108,8 @@ public class GraphicsData
 	public int [] heelData;
 	public int feetDataYSize;
 	public int realYSize;
+	public int baleStart;
+	public int baleEnd;
 			
 	public GraphicsData(int type)
 	{
@@ -119,6 +126,9 @@ public class GraphicsData
 			heelY = gentHeelY;
 			heelData = gentHeel;
 			realYSize = 22;
+
+			baleStart = gentBaleStart;
+			baleEnd = gentBaleEnd;
 		} else
 		if (type == 1)
 		{
@@ -130,8 +140,11 @@ public class GraphicsData
 			heelY = ladyHeelY;
 			heelData = ladyHeel;
 			realYSize = 21;
+			
+			baleStart = ladyBaleStart;
+			baleEnd = ladyBaleEnd;
 		}
-		
+
 		for (int i=0;i<baleData.length;i+=2)
 		{
 			if (baleData[i+1] < minY) minY = baleData[i+1];
@@ -144,5 +157,16 @@ public class GraphicsData
 			else if (baleData[i+1] > maxY) maxY = heelData[i+1];  
 		}
 		feetDataYSize = maxY - minY + 1;
+	}
+	
+	public int [] getBale()
+	{
+		int length = baleEnd - baleStart + 1;
+		int array[] = new int[length*2];
+		for (int i=0;i<length*2;i++)
+		{
+			array[i]=baleData[i + baleStart*2];
+		}
+		return array;
 	}
 }
