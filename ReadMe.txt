@@ -46,10 +46,10 @@ one of the next releases.
 History
 ~~~~~~~
 
-0.4 (02/xx/2003)
+0.4 (03/02/2003)
  - Added scrollbars to detailed overview
  - Added some new dance patterns
- - Added german translation
+ - Started german translation
 
 0.3 (02/12/2003)
  - Coordinates can be entered relative now
