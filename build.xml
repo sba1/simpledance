@@ -43,6 +43,7 @@
   <jar destfile="${dist}/simpledance.jar">
     <fileset dir="bin" includes="**.class"/>
     <zipfileset dir="images" includes="**.gif" prefix="images" />
+<!-- 	<zipfileset dir="." includes="libintl.jar" prefix="lib"/> -->
   </jar>
   
   <copy file="libintl.jar" todir="${dist}"/> 
