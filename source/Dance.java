@@ -24,6 +24,11 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.*;
 
+import com.lowagie.text.Document;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.pdf.PdfWriter;
+
 import Pattern.PatternInfo;
 
 /**
@@ -1557,6 +1562,25 @@ public class Dance implements Runnable
 		String fileName = fileDialog.open();
 		if (fileName != null)
 		{
+			Document document = new Document();
+			try
+			{
+				PdfWriter.getInstance(document, new FileOutputStream(fileName));
+				document.open();
+				document.add(new Paragraph("Hello World"));
+				document.close();
+			} catch (FileNotFoundException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+
+			} catch (DocumentException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+
 		}
 		
 	}
