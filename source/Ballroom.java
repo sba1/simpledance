@@ -1003,7 +1003,7 @@ public class Ballroom extends Canvas
 		for (int l = 0, y = ystart; l < height; l++, y+=yadd)
 		{
 			int o = p;
-			int y1_mul_t_akku = r - yw*vx*y;
+			int y1_mul_t_accu = r - yw*vx*y;
 
 			for (int c = 0, x = 0; c < width; c++, x+=xadd)
 			{
@@ -1012,10 +1012,10 @@ public class Ballroom extends Canvas
 				/* Calculate the intersection of two lines, this is not the fastet way to do but
 				 * it is intuitive. Will be optimzed later */
 //				y1 = (int)((r + yw*(vy*x-vx*y))/t);
-				y1 = y1_mul_t_akku / t;
+				y1 = y1_mul_t_accu / t;
 				
-				long e = y1 * y1 * y1;
-				long f = height * height * height;
+				int e = y1 * y1 / height * y1;
+				int f = height * height;
 					
 				red = startRGB.red + (int)(diffR*e/f);
 				green = startRGB.green + (int)(diffG*e/f);
@@ -1025,7 +1025,7 @@ public class Ballroom extends Canvas
 				data[o++] = (byte)green;
 				data[o++] = (byte)blue;
 				
-				y1_mul_t_akku += incr_y1;
+				y1_mul_t_accu += incr_y1;
 			}
 			p += imageData.bytesPerLine;
 		}
