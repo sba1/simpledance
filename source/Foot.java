@@ -34,6 +34,7 @@ public class Foot
 	private int type = NOT_SPECIFIED;
 	private boolean female;
 	private boolean left;
+	private boolean longRotation;
 
 	/**
 	 * Method Foot.
@@ -51,15 +52,6 @@ public class Foot
 		this.female = female;
 		this.left = left;
 	}
-	
-	/**
-	 * Method getFinalFeetCoord.
-	 * @return FeetCoord
-	 */
-//	public WayPoint getFinalFeetCoord()
-//	{
-//		return (WayPoint)wayPointList.get(wayPointList.size()-1);
-//	}
 
 	public WayPoint getStartingWayPoint()
 	{
@@ -126,7 +118,7 @@ public class Foot
 		return (t-0.5)/0.5;
 	}
 
-	public WayPoint getInterpolatedWayPoint(WayPoint to, int step, int steps)
+	public WayPoint getInterpolatedWayPoint(WayPoint to, boolean longAngle, int step, int steps)
 	{
 		int distance = 0;
 		
@@ -182,6 +174,12 @@ public class Foot
 		int da = -getStartingWayPoint().a + to.a;
 		if (da > 180) da -= 360;
 		else if (da < -180) da += 360;
+		
+		if (longAngle)
+		{
+			if (da <= 0) da = 360 + da;
+			else if (da >= 0) da = -360 + da;
+		}
 
 		if (distance != 0)
 		{
@@ -222,6 +220,19 @@ public class Foot
 	public void setType(int type)
 	{
 		this.type = type;
+	}
+
+	protected void setLongRotation(boolean longRotation)
+	{
+		this.longRotation = longRotation;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public boolean isLongRotation()
+	{
+		return longRotation;
 	}
 
 }

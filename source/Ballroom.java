@@ -632,6 +632,18 @@ public class Ballroom extends Canvas
 						contextFeetIndex = ci.feetIndex;
 						contextStepIndex = pattern.getCurrentStepNum();
 
+						menuItem = new MenuItem(contextMenu, SWT.CHECK);
+						menuItem.setText(_("Rotate around long angle"));
+						menuItem.setSelection(pattern.getStep(contextStepIndex).getFeet(contextFeetIndex).isLongRotation());
+						menuItem.addSelectionListener(new SelectionAdapter()
+						{
+							public void widgetSelected(SelectionEvent event)
+							{
+								pattern.getStep(contextStepIndex).getFeet(contextFeetIndex).setLongRotation(((MenuItem)event.widget).getSelection());
+								redraw();
+							}
+						});
+						new MenuItem(contextMenu, SWT.BAR);
 						menuItem = new MenuItem(contextMenu, 0);
 						menuItem.setText(_("Insert way point"));
 						menuItem.addSelectionListener(new SelectionAdapter()
@@ -979,7 +991,7 @@ public class Ballroom extends Canvas
 						else gc.setForeground(animationColor);
 
  						GraphicsData graphicsData = getGraphicsData(previousStep,i);
-						WayPoint feetCoord = previousStep.getFeet(i).getInterpolatedWayPoint(step.getStartingWayPoint(i),j,6);
+						WayPoint feetCoord = previousStep.getFeet(i).getInterpolatedWayPoint(step.getStartingWayPoint(i),step.getFeet(i).isLongRotation(),j,6);
 						myDrawPolygon(gc,feetCoord,previousStep.isFeetLeft(i),graphicsData.heelData,graphicsData.feetDataYSize,graphicsData.realYSize, true);
 						myDrawPolygon(gc,feetCoord,previousStep.isFeetLeft(i),graphicsData.baleData,graphicsData.feetDataYSize,graphicsData.realYSize, true);
 					}
@@ -997,7 +1009,7 @@ public class Ballroom extends Canvas
 			WayPoint feetCoord;
 			
 			if (animation && nextStep != null)
-				feetCoord = step.getFeet(i).getInterpolatedWayPoint(nextStep.getStartingWayPoint(i),animationNumber,animationMaxNumber);
+				feetCoord = step.getFeet(i).getInterpolatedWayPoint(nextStep.getStartingWayPoint(i),nextStep.getFeet(i).isLongRotation(),animationNumber,animationMaxNumber);
 			else
 				feetCoord = step.getStartingWayPoint(i);
 

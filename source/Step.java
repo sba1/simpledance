@@ -181,5 +181,4 @@ public class Step
 	{
 		this.duration = new String(duration);
 	}
-
 }

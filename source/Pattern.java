@@ -378,7 +378,12 @@ public class Pattern
 						{
 							step.getFeet(feetNo).setType(Integer.parseInt(array[5]));
 						}
-
+						
+						if (checkArg(array,4,"longRotation"))
+						{
+							if (array[5].equalsIgnoreCase("true")) step.getFeet(feetNo).setLongRotation(true);
+							else step.getFeet(feetNo).setLongRotation(false);
+						}
 						if (checkArg(array,4,"wp"))
 						{
 							int waypointNo = Integer.parseInt(array[5]);
@@ -525,6 +530,7 @@ public class Pattern
 				buf.append("step."+i+".feet."+j+ ".y="+footCoord.y + "\n");
 				buf.append("step."+i+".feet."+j+ ".a="+footCoord.a + "\n");
 				buf.append("step."+i+".feet."+j+ ".type="+foot.getType() + "\n");
+				buf.append("step."+i+".feet."+j+ ".longRotation="+foot.isLongRotation() + "\n");
 
 				int maxWaypoints = foot.getNumOfWayPoints();
 				
