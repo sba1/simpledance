@@ -45,6 +45,10 @@ one of the next releases.
 
 History
 ~~~~~~~
+0.8 (07/05/2003)
+ - Implemented Gradientfill for Foot steps and some cosmetical changes
+ - Added "View" Menu
+
 0.7 (05/04/2003)
  - Finetuned some patterns.
  - Added "Disco Fox - Basic Movement"
