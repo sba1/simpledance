@@ -953,9 +953,18 @@ public class Ballroom extends Canvas
 		
 		if (angle > 90 && angle <= 270)
 		{
-			/* for these angle we have y1 = height - y1, which can be expressed by
-			 * setting some values to diffent one. Note that if one would exchanging
-			 * startRGB/endRGB the values would only work for linear color gradients
+			/* for these angle we have y1 = height - y1. Instead of
+			 * 
+			 *  y1 = height - (-vy*(yw*  xs -xw*  ys)         + yw*(vy*  x -vx*  y))        /(-yw*vx + xw*vy);
+			 * 
+			 * we have
+			 * 
+             *  y1 =          (-vy*(yw*(-xs)-xw*(-ys+height)) + yw*(vy*(-x)-vx*(-y+height)))/(-yw*vx + xw*vy);
+             * 
+             * so height - y1 can be expressed with the normal formular adapting some parameters.
+			 * 
+			 * Note that if one would exchanging startRGB/endRGB the values would only work
+			 * for linear color gradients
 			 */
 			xadd = -1;
 			yadd = -1;
