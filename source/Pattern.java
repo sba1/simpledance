@@ -38,6 +38,7 @@ public class Pattern
 		N_("Vienesse Walz"),
 		N_("Tango"),
 		N_("Foxtrott"),
+		N_("Quickstep"),
 		N_("Slowfox"),
 		N_("Cha Cha Cha"),
 		N_("Rumba"),
