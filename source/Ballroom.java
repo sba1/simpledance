@@ -66,6 +66,10 @@ public class Ballroom extends Canvas
 	private Color rightFeetColor;
 	private Color rightFeetSelectedColor;
 	private Color rightFeetBorderColor;
+	private Color femaleLeftColor;
+	private Color femaleRightColor;
+	private Color maleLeftColor;
+	private Color maleRightColor;
 	private Color darkGreyColor;
 	private Color shineGreyColor;
 	private Color ballroomColor;
@@ -334,6 +338,10 @@ public class Ballroom extends Canvas
 	{
 		super.dispose();
 
+		femaleLeftColor.dispose();
+		femaleRightColor.dispose();
+		maleLeftColor.dispose();
+		maleRightColor.dispose();
 		leftFeetColor.dispose();
 		darkGreyColor.dispose();
 		shineGreyColor.dispose();
@@ -362,19 +370,19 @@ public class Ballroom extends Canvas
 		/* Note since we use a border our client area is proably different */
 		super(comp,style|SWT.NO_BACKGROUND|SWT.V_SCROLL|SWT.H_SCROLL|SWT.BORDER);
 
-		leftFeetColor = new Color(getDisplay(),250,250,250);
+		leftFeetColor = new Color(getDisplay(),5,5,5);
 		leftFeetSelectedColor = new Color(getDisplay(),250,250,170);
-		leftFeetBorderColor = new Color(getDisplay(),5,5,5);
+		leftFeetBorderColor = new Color(getDisplay(),15,15,15);
 
 		rightFeetColor = new Color(getDisplay(),5,5,5);
 		rightFeetSelectedColor = new Color(getDisplay(),80,80,0);
-		rightFeetBorderColor = new Color(getDisplay(),250,250,250);
+		rightFeetBorderColor = new Color(getDisplay(),15,15,15);
 
 		darkGreyColor = new Color(getDisplay(),70,70,70); 
 		shineGreyColor = new Color(getDisplay(),180,180,180);
-		ballroomColor = new Color(getDisplay(),96,108,175);
+		ballroomColor = new Color(getDisplay(),240,240,200);
 		
-		lineColor = new Color(getDisplay(),255,255,0);
+		lineColor = new Color(getDisplay(),200,200,0);
 		
 		yellowColor = new Color(getDisplay(),240,240,0);
 		redColor = new Color(getDisplay(),240,0,0);
@@ -382,9 +390,14 @@ public class Ballroom extends Canvas
 		animationColor = new Color(getDisplay(),230,230,230);
 		animationSelectedColor = new Color(getDisplay(),255,255,255);
 		gridColor = new Color(getDisplay(),0,0,0);
-		
+
 		countColor = new Color(getDisplay(),255,255,255);
 		countFont = new Font(getDisplay(),"Thorndale",20,0);
+
+		femaleLeftColor = new Color(getDisplay(),244,231,240);
+		femaleRightColor = new Color(getDisplay(),244,61,195);
+		maleLeftColor = new Color(getDisplay(),228,229,240);
+		maleRightColor = new Color(getDisplay(),61,78,240);
 
 		SelectionListener selectionListener = new SelectionListener()
 		{
@@ -437,6 +450,7 @@ public class Ballroom extends Canvas
 
 				gc.setBackground(ballroomColor);
 				gc.fillRectangle(bounds);
+				
 				drawGrid(gc);
 				drawStep(gc);
 				e.gc.drawImage(bufferImage,getClientArea().x,getClientArea().y);
@@ -774,7 +788,7 @@ public class Ballroom extends Canvas
     	else gc.drawPolyline(newData);
     }
 
-	private void myFillPolygon(GC gc, WayPoint feetCoord, boolean mirror, int [] data, int pixSize, int ballroomSize)
+	private int [] calcPolygon(WayPoint feetCoord, boolean mirror, int [] data, int pixSize, int ballroomSize)
 	{
 		feetCoord = transformFeedCoordToPix(feetCoord);
 		int x = feetCoord.x;
@@ -798,7 +812,79 @@ public class Ballroom extends Canvas
 			newData[i] = (int)(px * cosa + py * sina) + x;
 			newData[i+1] = (int)(- px * sina + py * cosa) + y;
 		}
+		return newData;
+	}
+
+	private void myFillPolygon(GC gc, WayPoint feetCoord, boolean mirror, int [] data, int pixSize, int ballroomSize)
+	{
+		int [] newData = calcPolygon(feetCoord,mirror,data,pixSize,ballroomSize);
 		gc.fillPolygon(newData);
+	}
+	
+	private void myGradientPolygon(GC gc, RGB startRGB, RGB endRGB, WayPoint feetCoord, boolean mirror, int [] data, int pixSize, int ballroomSize)
+	{
+		int minx,miny,maxx,maxy;
+		int [] newData = calcPolygon(feetCoord,mirror,data,pixSize,ballroomSize);
+		
+		minx = maxx = newData[0];
+		miny = maxy = newData[1];
+		
+		/* TODO: Optimize via algorithmn shown in "Introduction to algorithms */
+		for (int i=2;i<newData.length;i+=2)
+		{
+			if (newData[i] < minx) minx = newData[i];
+			else if (newData[i] > maxx) maxx = newData[i];
+			if (newData[i+1] < miny) miny = newData[i+1];
+			else if (newData[i+1] > maxy) maxy = newData[i+1];
+		}
+		
+		Rectangle bounds = new Rectangle(minx,miny,maxx-minx+1,maxy-miny+1);
+		ImageData imageData = getRectangleGradient(bounds.width,bounds.height,feetCoord.a,startRGB,endRGB);
+		
+
+		RGB [] maskPaletteData = new RGB[]{new RGB(0,0,0),new RGB(255,255,255)};
+		ImageData maskImageData = new ImageData(bounds.width,bounds.height,8,new PaletteData(maskPaletteData));
+		Image maskImage = new Image(getDisplay(),maskImageData);
+		GC maskGC = new GC(maskImage);
+		Color white = new Color(getDisplay(),255,255,255);
+		maskGC.setBackground(white);
+
+		for (int i=0;i<newData.length;i+=2)
+		{
+			newData[i] -= minx;
+			newData[i+1] -= miny;
+		}
+
+		maskGC.fillPolygon(newData);
+
+		maskGC.dispose();
+		white.dispose();
+
+		maskImageData = maskImage.getImageData();
+		
+		int h = maxy - miny + 1;
+		int w = maxx - minx + 1;
+		int p = 0;
+		
+		byte [] alphaData = new byte[w*h];
+		byte [] maskData = maskImageData.data;		
+		
+		for (int y=0;y<h;y++)
+		{
+			for (int x=0;x<w;x++)
+			{
+				if (maskData[x+p]!=0) alphaData[x] = -1;
+				else alphaData[x] = 0;
+			}
+			imageData.setAlphas(0,y,w,alphaData,0);
+			p += maskImageData.bytesPerLine;
+		}
+		
+		Image fillImage = new Image(getDisplay(),imageData);
+		gc.drawImage(fillImage,bounds.x,bounds.y);
+		
+		maskImage.dispose();
+		fillImage.dispose();
 	}
 	
 	private void myDrawText(GC gc, WayPoint feetCoord, String text)
@@ -816,17 +902,133 @@ public class Ballroom extends Canvas
 		gc.drawText(text,x,y,true);
 	}
 
-/*	private void fillRectangleGradient(GC gc, Rectangle bounds, int a, RGB startColor, RGB endColor)
+	private ImageData getRectangleGradient(int width, int height, int a, RGB startRGB, RGB endRGB)
 	{
+		/* The basic idea of this algorithm is to calc the intersection between the
+		 * line starting at (xs,ys) and ending at (xe,ye) a with the line starting at (x,y) (every
+		 * pixel inside the rectangle) and angle a.
+		 * (or another explanation would be to transform the coordinates of (x,y) into the
+		 * coordinates of the rectangle by rotation around (xs,ys) with angle a)
+		 * 
+		 * Having the intersection point we simply interpolate the color of the pixel.
+		 */
+		 
+		ImageData imageData = new ImageData(width,height,24,new PaletteData(0xff0000,0xff00,0xff));
+		byte [] data = imageData.data;
+		int p = 0;
+		double arc = Math.toRadians(-a);
+		double cosarc = Math.cos(arc);
+		double sinarc = Math.sin(arc);
 		
-		for (int x = 0;x<bounds.width;x++)
+		int sinarc_fixed = (int)(sinarc*0x10000);
+		int cosarc_fixed = (int)(cosarc*0x10000);
+
+		if (a < 0) a = 360 - ((-a)%360);
+		if (a >= 0) a = a % 360;
+		
+		if (a > 180)
 		{
-			for (int y=0;y<bounds.height;y++)
-			{
-				gc.fillRectangle(bounds.x + x, bounds.y + y,1,1);
-			}
+			RGB rgb = startRGB;
+			startRGB = endRGB;
+			endRGB = rgb;
 		}
-	}*/
+
+		int diffR = endRGB.red - startRGB.red;
+		int diffG = endRGB.green - startRGB.green;
+		int diffB = endRGB.blue - startRGB.blue;
+
+		int xs,ys,xm,ym;
+
+		if (a <= 90 || (a > 180 && a <= 270))
+		{
+			xs = 0;
+			ys = 0;
+			xm = width;
+			ym = height;
+		} else
+		{
+			xs = 0;
+			ys = height;
+			xm = width;
+			ym = -height;
+		}
+
+//		double t = (ym * cosarc - xm * sinarc);
+		double t = (ym * cosarc - xm * sinarc)/sinarc;
+
+		int x1,y1;
+		double s;
+
+		for (int y = 0; y < height; y++)
+		{
+//			s = (ym*(xs-0)-xm*(ys-y))/t;
+//			y1 = (int)Math.round((y + s - ys));
+
+//			double dold = (y-s) - 0*ym + y*xm;
+//			if (y<3) System.out.println(y1 + "  " + dold);
+
+			for (int x = 0; x < width; x++)
+			{
+				int r,g,b;
+
+				s = (ym*(xs-x)-xm*(ys-y))/t;
+				
+				if (x==0 && y==0) System.out.println(s);
+				
+				if (a <= 90 || (a > 180 && a <= 270))
+				{
+//					x1 = (int)Math.round((x + s*cosarc - xs));
+//					y1 = (int)Math.round((y + s*sinarc - ys));
+
+					y1 = (int)Math.round((y + s - ys));
+				}	else
+				{
+//					x1 = (int)Math.round(-((x + s*cosarc)-xs));
+//					y1 = (int)Math.round(-((y + s*sinarc)-ys));
+					y1 = (int)Math.round(-((y + s)-ys));
+				}
+			
+//				if (y1 < miny) miny = y1;
+//				if (y1 > maxy) maxy = y1;
+
+//				int c = Math.min(Math.max(0,2*y1 - height/2), height);
+
+				if (a>180) y1 = height - y1;
+				long c = y1 * y1 * y1;
+				long d = height * height * height; 
+				
+				if (a<=180)
+				{
+				  r = startRGB.red + (int)(diffR*c/d);
+				  g = startRGB.green + (int)(diffG*c/d);
+				  b = startRGB.blue + (int)(diffB*c/d);
+				} else
+				{
+					r = endRGB.red - (int)(diffR*c/d);
+					g = endRGB.green - (int)(diffG*c/d);
+					b = endRGB.blue - (int)(diffB*c/d);
+				}
+
+//				pixels[x]=r<<16|g<<8|b;
+
+				data[p+x*3] = (byte)r;
+				data[p+x*3+1] = (byte)g;
+				data[p+x*3+2] = (byte)b;
+			}
+//			imageData.setPixels(0,y,bounds.width,pixels,0);
+			p += imageData.bytesPerLine;
+		}
+//		System.out.println(miny + "  " + maxy + " " + height);
+		return imageData;
+	}
+
+	private void fillRectangleGradient(GC gc, Rectangle bounds, int a, RGB startRGB, RGB endRGB)
+	{
+		ImageData imageData = getRectangleGradient(bounds.width,bounds.height,a,startRGB,endRGB);
+		Image image = new Image(getDisplay(),imageData);
+		gc.drawImage(image,bounds.x,bounds.y);
+		image.dispose();
+	}
 	
 	private void drawGrid(GC gc)
 	{
@@ -891,10 +1093,26 @@ public class Ballroom extends Canvas
 		}
 
 		gc.setBackground(backgroundColor);
+		
+		RGB rgb1;
+		RGB rgb2 = new RGB(0,0,0);
+		Color heelColor;
+		
+		if (step.isFeetFemale(footNum))
+		{
+			if (step.isFeetLeft(footNum)) heelColor = femaleLeftColor;
+			else heelColor = femaleRightColor;
+		} else
+		{
+			if (step.isFeetLeft(footNum)) heelColor = maleLeftColor;
+			else heelColor = maleRightColor;
+		}
+		rgb1 = heelColor.getRGB();
 
-		if (fillBale) myFillPolygon(gc,feetCoord,step.isFeetLeft(footNum),graphicsData.baleData,graphicsData.feetDataYSize,graphicsData.realYSize);
+		if (fillBale) myGradientPolygon(gc,rgb1,rgb2,feetCoord,step.isFeetLeft(footNum),graphicsData.baleData,graphicsData.feetDataYSize,graphicsData.realYSize);
 		myDrawPolygon(gc,feetCoord,step.isFeetLeft(footNum),graphicsData.baleData,graphicsData.feetDataYSize,graphicsData.realYSize,true);
 
+		gc.setBackground(heelColor);
 		if (fillHeel) myFillPolygon(gc,feetCoord,step.isFeetLeft(footNum),graphicsData.heelData,graphicsData.feetDataYSize,graphicsData.realYSize);
 		myDrawPolygon(gc,feetCoord,step.isFeetLeft(footNum),graphicsData.heelData,graphicsData.feetDataYSize,graphicsData.realYSize,true);
 
