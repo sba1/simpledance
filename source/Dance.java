@@ -932,7 +932,7 @@ public class Dance implements Runnable
 
 		// File -> New Contact
 		MenuItem subItem = new MenuItem(menu, SWT.NULL);
-		subItem.setText(_("New pattern"));
+		subItem.setText(_("New pattern..."));
 		subItem.setAccelerator(SWT.CTRL + 'N');
 		subItem.addSelectionListener(new SelectionAdapter()
 		{
@@ -941,6 +941,8 @@ public class Dance implements Runnable
 				newPattern();
 			}
 		});
+		
+		subItem = new MenuItem(menu, SWT.SEPARATOR);
 		
 		subItem = new MenuItem(menu, SWT.NULL);
 		subItem.setText(_("Open pattern..."));
@@ -973,6 +975,17 @@ public class Dance implements Runnable
 			}
 		});
 
+		new MenuItem(menu, SWT.SEPARATOR);
+		
+		subItem = new MenuItem(menu, SWT.NULL);
+		subItem.setText(_("Export as PDF..."));
+		subItem.addSelectionListener(new SelectionAdapter()
+		{
+			public void widgetSelected(SelectionEvent e)
+			{
+				exportAsPDF();
+			}
+		});
 		
 		new MenuItem(menu, SWT.SEPARATOR);
 
@@ -1527,6 +1540,27 @@ public class Dance implements Runnable
 			savePattern();
 		}
 	}
+	
+
+	/**
+	 * Exports the current step as PDF
+	 */
+	protected void exportAsPDF()
+	{
+		storeDescription();
+
+		FileDialog fileDialog = new FileDialog(shell,SWT.SAVE);
+		fileDialog.setFilterExtensions(new String[]{"*.pdf"});
+		fileDialog.setFilterNames(new String[]{"PDF Document"});
+		fileDialog.setFileName(Pattern.getTypeName(pattern.getType()) + " - " + pattern.getName() + ".pdf");
+
+		String fileName = fileDialog.open();
+		if (fileName != null)
+		{
+		}
+		
+	}
+
 
 	/**
 	 * Starts playing the animation sequence..
