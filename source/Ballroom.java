@@ -1726,6 +1726,8 @@ public class Ballroom extends Canvas
 		int newZoomFactor = this.getClientArea().height * 100 / (zoomTop - zoomBottom + 1);
 		if (newZoomFactor < zoomFactor) zoomFactor = newZoomFactor;
 		
+		if (zoomFactor == 0) zoomFactor = 1;
+
 		int ballroomWidth = this.getClientArea().width * 100 / zoomFactor;
 		int ballroomHeight = this.getClientArea().height * 100 / zoomFactor;
 

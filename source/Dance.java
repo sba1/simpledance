@@ -14,6 +14,7 @@ import java.util.ResourceBundle;
 import gnu.gettext.*;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.*;
 import org.eclipse.swt.graphics.Image;
@@ -23,11 +24,6 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.*;
-
-import com.lowagie.text.Document;
-import com.lowagie.text.DocumentException;
-import com.lowagie.text.Paragraph;
-import com.lowagie.text.pdf.PdfWriter;
 
 import Pattern.PatternInfo;
 
@@ -164,6 +160,185 @@ public class Dance implements Runnable
 			text.setText(value + "");
 	}
 
+	/**
+	 * Create the coolbar.
+	 * 
+	 * @param parent defines the coolbar's parent
+	 * @return the coolbar object
+	 */
+	private CoolBar createCoolBar(Composite parent)
+	{
+		CoolBar coolbar = new CoolBar(parent,0);
+		ToolItem toolitem;
+		CoolItem coolitem;
+	
+		/* Toolbar */
+		SelectionListener selectionListener = new SelectionListener()
+		{
+			public void widgetSelected(SelectionEvent event)
+			{
+				int type = ((Integer)(event.widget.getData())).intValue();
+				switch (type)
+				{
+					case TOOLBAR_NEW: newPattern(); break;
+					case TOOLBAR_OPEN: loadPattern(); break;
+					case TOOLBAR_SAVE: savePattern(); break;
+					case TOOLBAR_SAVEAS: savePatternAs(); break;
+					case TOOLBAR_ZOOM_IN: ballroom.zoomIn(); break;
+					case TOOLBAR_ZOOM_OUT: ballroom.zoomOut(); break;
+					case TOOLBAR_SHOW_ANIM: ballroom.setShowAnimation(((ToolItem)event.widget).getSelection()); break;
+					case TOOLBAR_SHOW_PREV: ballroom.setShowPrevStep(((ToolItem)event.widget).getSelection()); break;
+					case TOOLBAR_SHOW_NEXT: ballroom.setShowNextStep(((ToolItem)event.widget).getSelection()); break;
+					case TOOLBAR_SHOW_GENT: ballroom.setShowGent(((ToolItem)event.widget).getSelection()); break;
+					case TOOLBAR_SHOW_LADY: ballroom.setShowLady(((ToolItem)event.widget).getSelection()); break;
+					case TOOLBAR_SHOW_GRID: ballroom.setShowGrid(((ToolItem)event.widget).getSelection()); break;
+					case TOOLBAR_PLAY: play(); break;
+					case TOOLBAR_PLAYBACKWARD: playBackward(); break;
+					case TOOLBAR_PLAYFORWARD: playForward(); break;
+					case TOOLBAR_PLAYSTOP: playStop(); break;
+				}
+			}
+			public void widgetDefaultSelected(SelectionEvent event)
+			{
+			}
+		};
+		
+		ToolBar toolbar = new ToolBar(coolbar,SWT.FLAT);
+		toolitem = new ToolItem(toolbar,0);
+		Image image = createImage("images/new.gif");
+		toolitem.setImage(image);
+		toolitem.setToolTipText(_("Creates a new dance pattern"));
+		toolitem.setData(new Integer(TOOLBAR_NEW));
+		toolitem.addSelectionListener(selectionListener);
+		toolitem = new ToolItem(toolbar,SWT.DROP_DOWN);
+		image = createImage("images/open.gif");
+		toolitem.setImage(image);
+		toolitem.setToolTipText(_("Opens a dance pattern"));
+		toolitem.setData(new Integer(TOOLBAR_OPEN));
+		toolitem.addSelectionListener(new OpenDropDownSelectionListener(shell));
+		toolitem = new ToolItem(toolbar,0);
+		image = createImage("images/save.gif");
+		toolitem.setImage(image);
+		toolitem.setToolTipText(_("Stores current dance pattern"));
+		toolitem.setData(new Integer(TOOLBAR_SAVE));
+		toolitem.addSelectionListener(selectionListener);
+		toolitem = new ToolItem(toolbar,0);
+		image = createImage("images/saveas.gif");
+		toolitem.setImage(image);
+		toolitem.setToolTipText(_("Stores the current dance pattern under a given filename"));
+		toolitem.setData(new Integer(TOOLBAR_SAVEAS));
+		toolitem.addSelectionListener(selectionListener);
+	
+		coolitem = new CoolItem(coolbar,0);
+		coolitem.setControl(toolbar);
+		Point pushSize = toolbar.computeSize(SWT.DEFAULT, SWT.DEFAULT);
+		pushSize = coolitem.computeSize(pushSize.x, pushSize.y);
+		coolitem.setSize(pushSize);
+		coolitem.setMinimumSize(toolitem.getWidth(), pushSize.y);
+	
+		toolbar = new ToolBar(coolbar,SWT.FLAT);
+		toolitem = new ToolItem(toolbar,0);
+		image = createImage("images/play.gif");
+		toolitem.setImage(image);
+		toolitem.setToolTipText(_("Plays the whole sequence"));
+		toolitem.setData(new Integer(TOOLBAR_PLAY));
+		toolitem.addSelectionListener(selectionListener);
+	
+		toolitem = new ToolItem(toolbar,0);
+		image = createImage("images/playstop.gif");
+		toolitem.setImage(image);
+		toolitem.setToolTipText(_("Stops the playing"));
+		toolitem.setData(new Integer(TOOLBAR_PLAYSTOP));
+		toolitem.addSelectionListener(selectionListener);
+	
+		toolitem = new ToolItem(toolbar,0);
+		image = createImage("images/playprev.gif");
+		toolitem.setImage(image);
+		toolitem.setToolTipText(_("Plays backward one frame"));
+		toolitem.setData(new Integer(TOOLBAR_PLAYBACKWARD));
+		toolitem.addSelectionListener(selectionListener);
+	
+		toolitem = new ToolItem(toolbar,0);
+		image = createImage("images/playnext.gif");
+		toolitem.setImage(image);
+		toolitem.setToolTipText(_("Plays forward one frame"));
+		toolitem.setData(new Integer(TOOLBAR_PLAYFORWARD));
+		toolitem.addSelectionListener(selectionListener);
+	
+		coolitem = new CoolItem(coolbar,0);
+		coolitem.setControl(toolbar);
+		pushSize = toolbar.computeSize(SWT.DEFAULT, SWT.DEFAULT);
+		pushSize = coolitem.computeSize(pushSize.x, pushSize.y);
+		coolitem.setSize(pushSize);
+		coolitem.setMinimumSize(toolitem.getWidth(), pushSize.y);
+	
+		toolbar = new ToolBar(coolbar,SWT.FLAT);
+		toolitem = new ToolItem(toolbar,0);
+		image = createImage("images/zoomin.gif");
+		toolitem.setImage(image);
+		toolitem.setToolTipText(_("Zoom in"));
+		toolitem.setData(new Integer(TOOLBAR_ZOOM_IN));
+		toolitem.addSelectionListener(selectionListener);
+		toolitem = new ToolItem(toolbar,0);
+		image = createImage("images/zoomout.gif"); 
+		toolitem.setImage(image);
+		toolitem.setToolTipText(_("Zoom out"));
+		toolitem.setData(new Integer(TOOLBAR_ZOOM_OUT));
+		toolitem.addSelectionListener(selectionListener);
+		toolitem = new ToolItem(toolbar,SWT.CHECK);
+		image = createImage("images/showgrid.gif");
+		toolitem.setImage(image);
+		toolitem.setToolTipText(_("Show the dancefloor's grid"));
+		toolitem.setData(new Integer(TOOLBAR_SHOW_GRID));
+		toolitem.addSelectionListener(selectionListener);
+		toolitem.setSelection(true);
+		toolitem = new ToolItem(toolbar,SWT.CHECK);
+		image = createImage("images/showprev.gif");
+		toolitem.setImage(image);
+		toolitem.setToolTipText(_("Show previous step"));
+		toolitem.setData(new Integer(TOOLBAR_SHOW_PREV));
+		toolitem.addSelectionListener(selectionListener);
+		toolitem = new ToolItem(toolbar,SWT.CHECK);
+		image = createImage("images/shownext.gif");
+		toolitem.setImage(image);
+		toolitem.setToolTipText(_("Show next step"));
+		toolitem.setData(new Integer(TOOLBAR_SHOW_NEXT));
+		toolitem.addSelectionListener(selectionListener);
+		toolitem = new ToolItem(toolbar,SWT.CHECK);
+		image = createImage("images/showgent.gif");
+		toolitem.setImage(image);
+		toolitem.setToolTipText(_("Show feet of gent"));
+		toolitem.setData(new Integer(TOOLBAR_SHOW_GENT));
+		toolitem.addSelectionListener(selectionListener);
+		toolitem.setSelection(true);
+		toolitem = new ToolItem(toolbar,SWT.CHECK);
+		image = createImage("images/showlady.gif");
+		toolitem.setImage(image);
+		toolitem.setToolTipText(_("Show feet of lady"));
+		toolitem.setData(new Integer(TOOLBAR_SHOW_LADY));
+		toolitem.addSelectionListener(selectionListener);
+		toolitem.setSelection(true);
+		toolitem = new ToolItem(toolbar,SWT.CHECK);
+		image = createImage("images/showanim.gif");
+		toolitem.setImage(image);
+		toolitem.setToolTipText(_("Show animation"));
+		toolitem.setData(new Integer(TOOLBAR_SHOW_ANIM));
+		toolitem.addSelectionListener(selectionListener);
+		toolitem = new ToolItem(toolbar,SWT.DROP_DOWN);
+		image = createImage("images/showanimno.gif");
+		toolitem.setImage(image);
+		toolitem.setToolTipText(_("Select the number of Animationframes"));
+		toolitem.addSelectionListener(new FramesDropDownSelectionListener(shell));
+	
+		coolitem = new CoolItem(coolbar,0);
+		coolitem.setControl(toolbar);
+		pushSize = toolbar.computeSize(SWT.DEFAULT, SWT.DEFAULT);
+		pushSize = coolitem.computeSize(pushSize.x, pushSize.y);
+		coolitem.setSize(pushSize);
+		coolitem.setMinimumSize(toolitem.getWidth(), pushSize.y);
+
+		return coolbar;
+	}
 	
 	/**
 	 * Creates the navigation composite (for movement and rotation)
@@ -479,6 +654,8 @@ public class Dance implements Runnable
 	
 	public Shell open(Display display)
 	{
+		GridData gridData;
+
 		shell = new Shell(display);
 		shell.setText("SimpleDance");
 		shell.addShellListener(new ShellAdapter()
@@ -509,194 +686,18 @@ public class Dance implements Runnable
 
 		shell.setLayout(new FillLayout());
 		Composite mainComposite = new Composite(shell,0);
-		mainComposite.setLayout(new GridLayout(2,false));
+		mainComposite.setLayout(new GridLayout(1,false));
 	
-		GridData gridData;		
+		CoolBar coolbar = createCoolBar(mainComposite);
+		coolbar.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		
-		/* Coolbar */
-		CoolBar coolbar = new CoolBar(mainComposite,0);
-		gridData = new GridData();
-		gridData.verticalAlignment = GridData.FILL;
-		gridData.horizontalAlignment = GridData.FILL;
-		gridData.horizontalSpan = 2;
-		coolbar.setLayoutData(gridData);
+		/* the sash form which links the left area with the right area */
+		SashForm sashForm = new SashForm(mainComposite,SWT.HORIZONTAL);
+		sashForm.setLayoutData(new GridData(GridData.FILL_BOTH|GridData.GRAB_HORIZONTAL));
 
-		ToolItem toolitem;
-		CoolItem coolitem;
-
-		/* Toolbar */
-		SelectionListener selectionListener = new SelectionListener()
-		{
-			public void widgetSelected(SelectionEvent event)
-			{
-				int type = ((Integer)(event.widget.getData())).intValue();
-				switch (type)
-				{
-					case TOOLBAR_NEW: newPattern(); break;
-					case TOOLBAR_OPEN: loadPattern(); break;
-					case TOOLBAR_SAVE: savePattern(); break;
-					case TOOLBAR_SAVEAS: savePatternAs(); break;
-					case TOOLBAR_ZOOM_IN: ballroom.zoomIn(); break;
-					case TOOLBAR_ZOOM_OUT: ballroom.zoomOut(); break;
-					case TOOLBAR_SHOW_ANIM: ballroom.setShowAnimation(((ToolItem)event.widget).getSelection()); break;
-					case TOOLBAR_SHOW_PREV: ballroom.setShowPrevStep(((ToolItem)event.widget).getSelection()); break;
-					case TOOLBAR_SHOW_NEXT: ballroom.setShowNextStep(((ToolItem)event.widget).getSelection()); break;
-					case TOOLBAR_SHOW_GENT: ballroom.setShowGent(((ToolItem)event.widget).getSelection()); break;
-					case TOOLBAR_SHOW_LADY: ballroom.setShowLady(((ToolItem)event.widget).getSelection()); break;
-					case TOOLBAR_SHOW_GRID: ballroom.setShowGrid(((ToolItem)event.widget).getSelection()); break;
-					case TOOLBAR_PLAY: play(); break;
-					case TOOLBAR_PLAYBACKWARD: playBackward(); break;
-					case TOOLBAR_PLAYFORWARD: playForward(); break;
-					case TOOLBAR_PLAYSTOP: playStop(); break;
-				}
-			}
-			public void widgetDefaultSelected(SelectionEvent event)
-			{
-			}
-		};
-		
-		ToolBar toolbar = new ToolBar(coolbar,SWT.FLAT);
-		toolitem = new ToolItem(toolbar,0);
-		Image image = createImage("images/new.gif");
-		toolitem.setImage(image);
-		toolitem.setToolTipText(_("Creates a new dance pattern"));
-		toolitem.setData(new Integer(TOOLBAR_NEW));
-		toolitem.addSelectionListener(selectionListener);
-		toolitem = new ToolItem(toolbar,SWT.DROP_DOWN);
-		image = createImage("images/open.gif");
-		toolitem.setImage(image);
-		toolitem.setToolTipText(_("Opens a dance pattern"));
-		toolitem.setData(new Integer(TOOLBAR_OPEN));
-		toolitem.addSelectionListener(new OpenDropDownSelectionListener(shell));
-		toolitem = new ToolItem(toolbar,0);
-		image = createImage("images/save.gif");
-		toolitem.setImage(image);
-		toolitem.setToolTipText(_("Stores current dance pattern"));
-		toolitem.setData(new Integer(TOOLBAR_SAVE));
-		toolitem.addSelectionListener(selectionListener);
-		toolitem = new ToolItem(toolbar,0);
-		image = createImage("images/saveas.gif");
-		toolitem.setImage(image);
-		toolitem.setToolTipText(_("Stores the current dance pattern under a given filename"));
-		toolitem.setData(new Integer(TOOLBAR_SAVEAS));
-		toolitem.addSelectionListener(selectionListener);
-
-		coolitem = new CoolItem(coolbar,0);
-		coolitem.setControl(toolbar);
-		Point pushSize = toolbar.computeSize(SWT.DEFAULT, SWT.DEFAULT);
-		pushSize = coolitem.computeSize(pushSize.x, pushSize.y);
-		coolitem.setSize(pushSize);
-		coolitem.setMinimumSize(toolitem.getWidth(), pushSize.y);
-
-		toolbar = new ToolBar(coolbar,SWT.FLAT);
-		toolitem = new ToolItem(toolbar,0);
-		image = createImage("images/play.gif");
-		toolitem.setImage(image);
-		toolitem.setToolTipText(_("Plays the whole sequence"));
-		toolitem.setData(new Integer(TOOLBAR_PLAY));
-		toolitem.addSelectionListener(selectionListener);
-
-		toolitem = new ToolItem(toolbar,0);
-		image = createImage("images/playstop.gif");
-		toolitem.setImage(image);
-		toolitem.setToolTipText(_("Stops the playing"));
-		toolitem.setData(new Integer(TOOLBAR_PLAYSTOP));
-		toolitem.addSelectionListener(selectionListener);
-
-		toolitem = new ToolItem(toolbar,0);
-		image = createImage("images/playprev.gif");
-		toolitem.setImage(image);
-		toolitem.setToolTipText(_("Plays backward one frame"));
-		toolitem.setData(new Integer(TOOLBAR_PLAYBACKWARD));
-		toolitem.addSelectionListener(selectionListener);
-
-		toolitem = new ToolItem(toolbar,0);
-		image = createImage("images/playnext.gif");
-		toolitem.setImage(image);
-		toolitem.setToolTipText(_("Plays forward one frame"));
-		toolitem.setData(new Integer(TOOLBAR_PLAYFORWARD));
-		toolitem.addSelectionListener(selectionListener);
-
-		coolitem = new CoolItem(coolbar,0);
-		coolitem.setControl(toolbar);
-		pushSize = toolbar.computeSize(SWT.DEFAULT, SWT.DEFAULT);
-		pushSize = coolitem.computeSize(pushSize.x, pushSize.y);
-		coolitem.setSize(pushSize);
-		coolitem.setMinimumSize(toolitem.getWidth(), pushSize.y);
-
-		toolbar = new ToolBar(coolbar,SWT.FLAT);
-		toolitem = new ToolItem(toolbar,0);
-		image = createImage("images/zoomin.gif");
-		toolitem.setImage(image);
-		toolitem.setToolTipText(_("Zoom in"));
-		toolitem.setData(new Integer(TOOLBAR_ZOOM_IN));
-		toolitem.addSelectionListener(selectionListener);
-		toolitem = new ToolItem(toolbar,0);
-		image = createImage("images/zoomout.gif"); 
-		toolitem.setImage(image);
-		toolitem.setToolTipText(_("Zoom out"));
-		toolitem.setData(new Integer(TOOLBAR_ZOOM_OUT));
-		toolitem.addSelectionListener(selectionListener);
-		toolitem = new ToolItem(toolbar,SWT.CHECK);
-		image = createImage("images/showgrid.gif");
-		toolitem.setImage(image);
-		toolitem.setToolTipText(_("Show the dancefloor's grid"));
-		toolitem.setData(new Integer(TOOLBAR_SHOW_GRID));
-		toolitem.addSelectionListener(selectionListener);
-		toolitem.setSelection(true);
-		toolitem = new ToolItem(toolbar,SWT.CHECK);
-		image = createImage("images/showprev.gif");
-		toolitem.setImage(image);
-		toolitem.setToolTipText(_("Show previous step"));
-		toolitem.setData(new Integer(TOOLBAR_SHOW_PREV));
-		toolitem.addSelectionListener(selectionListener);
-		toolitem = new ToolItem(toolbar,SWT.CHECK);
-		image = createImage("images/shownext.gif");
-		toolitem.setImage(image);
-		toolitem.setToolTipText(_("Show next step"));
-		toolitem.setData(new Integer(TOOLBAR_SHOW_NEXT));
-		toolitem.addSelectionListener(selectionListener);
-		toolitem = new ToolItem(toolbar,SWT.CHECK);
-		image = createImage("images/showgent.gif");
-		toolitem.setImage(image);
-		toolitem.setToolTipText(_("Show feet of gent"));
-		toolitem.setData(new Integer(TOOLBAR_SHOW_GENT));
-		toolitem.addSelectionListener(selectionListener);
-		toolitem.setSelection(true);
-		toolitem = new ToolItem(toolbar,SWT.CHECK);
-		image = createImage("images/showlady.gif");
-		toolitem.setImage(image);
-		toolitem.setToolTipText(_("Show feet of lady"));
-		toolitem.setData(new Integer(TOOLBAR_SHOW_LADY));
-		toolitem.addSelectionListener(selectionListener);
-		toolitem.setSelection(true);
-		toolitem = new ToolItem(toolbar,SWT.CHECK);
-		image = createImage("images/showanim.gif");
-		toolitem.setImage(image);
-		toolitem.setToolTipText(_("Show animation"));
-		toolitem.setData(new Integer(TOOLBAR_SHOW_ANIM));
-		toolitem.addSelectionListener(selectionListener);
-		toolitem = new ToolItem(toolbar,SWT.DROP_DOWN);
-		image = createImage("images/showanimno.gif");
-		toolitem.setImage(image);
-		toolitem.setToolTipText(_("Select the number of Animationframes"));
-		toolitem.addSelectionListener(new FramesDropDownSelectionListener(shell));
-
-		coolitem = new CoolItem(coolbar,0);
-		coolitem.setControl(toolbar);
-		pushSize = toolbar.computeSize(SWT.DEFAULT, SWT.DEFAULT);
-		pushSize = coolitem.computeSize(pushSize.x, pushSize.y);
-		coolitem.setSize(pushSize);
-		coolitem.setMinimumSize(toolitem.getWidth(), pushSize.y);
-
-		Composite leftComposite = new Composite(mainComposite,0);
+		/* the left area */
+		Composite leftComposite = new Composite(sashForm,0);
 		leftComposite.setLayout(new GridLayout(1,false));
-		gridData = new GridData();
-		gridData.verticalAlignment = GridData.FILL;
-		gridData.horizontalAlignment = GridData.FILL;
-		gridData.grabExcessHorizontalSpace = true;
-		gridData.grabExcessVerticalSpace = true;
-		leftComposite.setLayoutData(gridData);
 		
 		/* The ballroom */
 		ballroom = new Ballroom(leftComposite,0);
@@ -729,35 +730,12 @@ public class Dance implements Runnable
 		});
 		
 		/* The right area */
-		Composite composite = new Composite(mainComposite,0);
-		gridData = new GridData();
-		gridData.horizontalAlignment = GridData.FILL;
-		gridData.verticalAlignment = GridData.FILL;
-		gridData.verticalSpan = 1;
-		gridData.grabExcessHorizontalSpace = false;
-		gridData.grabExcessVerticalSpace = true;
-		composite.setLayoutData(gridData);
-		composite.setLayout(new GridLayout(1,false));		
+		Group rightComposite = new Group(sashForm,0);
+		rightComposite.setLayout(new GridLayout(1,false));		
+		rightComposite.setText(_("Overview"));
 
-		/* step overview area */
-		Group stepOverviewGroup = new Group(composite,0);
-		gridData = new GridData();
-		gridData.horizontalAlignment = GridData.FILL;
-		gridData.verticalAlignment = GridData.FILL;
-		gridData.grabExcessHorizontalSpace = false;
-		gridData.grabExcessVerticalSpace = true;
-		stepOverviewGroup.setLayoutData(gridData);
-		stepOverviewGroup.setText(_("Overview"));
-		stepOverviewGroup.setLayout(new GridLayout(2,false));
-
-		stepOverviewTable = new Table(stepOverviewGroup,SWT.BORDER|SWT.FULL_SELECTION);
-		gridData = new GridData();
-		gridData.horizontalAlignment = GridData.FILL;
-		gridData.verticalAlignment = GridData.FILL;
-		gridData.grabExcessHorizontalSpace = true;
-		gridData.grabExcessVerticalSpace = true;
-		gridData.horizontalSpan = 2;
-		stepOverviewTable.setLayoutData(gridData);
+		stepOverviewTable = new Table(rightComposite,SWT.BORDER|SWT.FULL_SELECTION);
+		stepOverviewTable.setLayoutData(new GridData(GridData.FILL_BOTH));
 		stepOverviewTable.setHeaderVisible(true);
 		stepOverviewTable.addSelectionListener(new SelectionAdapter()
 		{
@@ -789,8 +767,13 @@ public class Dance implements Runnable
 		column = new TableColumn(stepOverviewTable, 0);
 		column.setText(_("Tempo"));
 		column.pack();
+		
+		Composite buttonComposite = new Composite(rightComposite,0);
+		buttonComposite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		buttonComposite.setLayout(new GridLayout(2,true));
 
-		Button button = new Button(stepOverviewGroup,0);
+		Button button = new Button(buttonComposite,0);
+		button.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		button.setText(_("Add step"));
 		button.addSelectionListener(new SelectionAdapter()
 		{
@@ -800,7 +783,8 @@ public class Dance implements Runnable
 			}
 		});
 
-		button = new Button(stepOverviewGroup,0);
+		button = new Button(buttonComposite,0);
+		button.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		button.setText(_("Remove step"));
 		button.addSelectionListener(new SelectionAdapter()
 		{
@@ -908,6 +892,8 @@ public class Dance implements Runnable
 		stepDescriptionStyledText.setLayoutData(gridData);
 
 		createMenuBar();
+
+		sashForm.setWeights(new int[]{100,25});
 
 		patternPropShell = new PatternProp(shell);
 		detailedOverviewShell = new DetailedOverviewShell(shell);
@@ -1562,33 +1548,7 @@ public class Dance implements Runnable
 		String fileName = fileDialog.open();
 		if (fileName != null)
 		{
-			Document document = new Document();
-			try
-			{
-				int i;
-
-				PdfWriter.getInstance(document, new FileOutputStream(fileName));
-				document.open();
-
-				for (i=0;i<pattern.getStepLength();i++)
-				{
-					document.add(new Paragraph(_("Step") + " " + i));
-				}
-	
-				
-				document.close();
-			} catch (FileNotFoundException e)
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-
-			} catch (DocumentException e)
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-
+			PDFOutput.write(fileName,pattern);
 		}
 		
 	}
