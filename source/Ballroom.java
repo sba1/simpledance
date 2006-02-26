@@ -250,7 +250,7 @@ public class Ballroom extends Canvas
 	public CoordinateInfo getPixCoordinateInfo(int x, int y, Step step)
 	{
 		CoordinateInfo ci = new CoordinateInfo();
-		
+
 		for (int i=0;i<step.getNumberOfFeets();i++)
 		{
 			GraphicsData graphicsData = getGraphicsData(step,i);
@@ -819,7 +819,7 @@ public class Ballroom extends Canvas
 		
 		for (int i=0;i<data.length;i+=2)
 		{
-   			polygon.addPoint(data[i],data[i+1]);
+   			polygon.addPoint(newData[i],newData[i+1]);
 		}
 		return polygon.contains(tx,ty);
 	}
