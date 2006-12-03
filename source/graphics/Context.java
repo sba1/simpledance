@@ -35,6 +35,12 @@ abstract public class Context
 	abstract public Color allocateColor(int r, int g, int b);
 	abstract public void deallocateColor(Color color);
 
+	/* Transform operations */
+	abstract public void applyRotateTransformation(float angle);
+	abstract public void applyTranslationTransformation(float x, float y);
+	abstract public void applyScaleTransformation(float scale);
+	abstract public void applyScaleXTransformation(float f);
+
 	/**
 	 * @return Returns the current background color.
 	 */
@@ -98,4 +104,5 @@ abstract public class Context
 	{
 		return font;
 	}
+
 }

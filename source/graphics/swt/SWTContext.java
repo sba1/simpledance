@@ -11,13 +11,19 @@ import graphics.Context;
 import graphics.Point;
 import graphics.RGB;
 
+import java.util.LinkedList;
+
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.GC;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.ImageData;
-import org.eclipse.swt.graphics.PaletteData;
-import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.graphics.Pattern;
+import org.eclipse.swt.graphics.Transform;
 import org.eclipse.swt.widgets.Display;
 
+
+class Transformation
+{
+	double angle;
+};
 
 /**
  * @author sba
@@ -30,18 +36,27 @@ public class SWTContext extends Context
 	private Display display;
 	private GC gc;
 	
+	private Transform currentTransform;
+	private LinkedList<Transformation> transformationList = new LinkedList<Transformation>();
+	
 	public SWTContext(Display display)
 	{
 		this.display = display;
+		currentTransform = new Transform(display);
 	}
 	
 	public void setGC(GC gc)
 	{
 		this.gc = gc;
+		gc.setAntialias(SWT.ON);
+		gc.setTransform(currentTransform);
 	}
 			
 	public void dispose()
 	{
+		if (!gc.isDisposed())
+			gc.setTransform(null);
+		currentTransform.dispose();
 	}
 	
 	public void putPixel(int x, int y)
@@ -86,7 +101,7 @@ public class SWTContext extends Context
 			else maxy = newData[3];
 			i = 4;
 		} else i = 2;
-		
+
 		while (i<newData.length)
 		{
 			if (newData[i] < newData[i+2])
@@ -111,97 +126,19 @@ public class SWTContext extends Context
 			i+=3;
 		}
 
-        /* Create the image */
-		Rectangle bounds = new Rectangle(minx,miny,maxx-minx+1,maxy-miny+1);
-		ImageData imageData = SWTUtil.getRectangleGradient(bounds.width,bounds.height,angle,startRGB,endRGB);
-		
-		org.eclipse.swt.graphics.RGB [] maskPaletteData = new org.eclipse.swt.graphics.RGB[]{new org.eclipse.swt.graphics.RGB(0,0,0),new org.eclipse.swt.graphics.RGB(255,255,255)};
-		ImageData maskImageData = new ImageData(bounds.width,bounds.height,8,new PaletteData(maskPaletteData));
-		maskImageData.transparentPixel = 0;
-		Image maskImage = new Image(display,maskImageData);
-		GC maskGC = new GC(maskImage);
-		org.eclipse.swt.graphics.Color white = new org.eclipse.swt.graphics.Color(display,255,255,255);
-		maskGC.setBackground(white);
+		org.eclipse.swt.graphics.Color startColor = new org.eclipse.swt.graphics.Color(display, startRGB.r,startRGB.g,startRGB.b);
+		org.eclipse.swt.graphics.Color endColor = new org.eclipse.swt.graphics.Color(display, endRGB.r,endRGB.g,endRGB.b);
 
-		for (i=0;i<newData.length;i+=2)
-		{
-			newData[i] -= minx;
-			newData[i+1] -= miny;
-		}
+		Pattern pat = new Pattern(display,minx,miny,maxx,maxy,startColor,endColor);
+		Pattern oldPat = gc.getBackgroundPattern();
 
-		maskGC.fillPolygon(newData);
+		gc.setBackgroundPattern(pat);
+		gc.fillPolygon(newData);
+		gc.setBackgroundPattern(oldPat);
 
-		maskGC.dispose();
-		white.dispose();
-
-		// ----------------
-		maskImageData = maskImage.getImageData();
-		final int h = maxy - miny + 1;
-		final int w = maxx - minx + 1;
-		int p = 0;
-		
-		byte [] alphaData = new byte[w*h];
-		byte [] maskData = maskImageData.data;		
-
-		for (int y=0;y<h;y++)
-		{
-			int o = p;
-			for (int x=0;x<w;x++)
-			{
-				if (maskData[o++]!=0) alphaData[x] = -1;
-				else alphaData[x] = 0;
-			}
-			imageData.setAlphas(0,y,w,alphaData,0);
-			p += maskImageData.bytesPerLine;
-		}
-		Image fillImage = new Image(display,imageData);
-		// ----------------
-
-/*		maskImageData = maskImage.getImageData();
-		final int h = maxy - miny + 1;
-		final int w = maxx - minx + 1;
-		int p = 0, q = 0;
-		
-		byte [] newMaskData = new byte[((w+7)/8) *h];
-		byte [] maskData = maskImageData.data;		
-
-		for (int y=0;y<h;y++)
-		{
-			int o = p;
-			byte maskBit = (byte)0x80;
-			byte maskByte = 0;
-
-			for (int x=0;x<w;x++)
-			{
-				if (maskData[o++]!=0) maskByte |= maskBit;
-				maskBit = (byte) (maskBit >> 1);
-				if (maskBit == 0)
-				{
-					maskBit = (byte)0x80;
-					newMaskData[q++] = maskByte;
-					maskByte = 0;
-				} 
-			}
-			if (maskByte != 0) newMaskData[q++] = maskByte;
-			p += maskImageData.bytesPerLine;
-		}
-		imageData.maskData = newMaskData;
-		Image fillImage = new Image(getDisplay(),imageData);*/
-
-		// ----------------
-
-/*
-		maskImageData = maskImage.getImageData();
-		maskImageData.transparentPixel = 0;
-		maskImageData = maskImageData.getTransparencyMask();
-		Image fillImage = new Image(getDisplay(),imageData,maskImageData);
-*/
-		// ----------------
-
-		gc.drawImage(fillImage,bounds.x,bounds.y);
-		
-		maskImage.dispose();
-		fillImage.dispose();
+		pat.dispose();
+		startColor.dispose();
+		endColor.dispose();
 	}
 
 	
@@ -248,5 +185,30 @@ public class SWTContext extends Context
 	{	
 		((SWTColor)color).dispose();
 	}
+	
+	public void applyRotateTransformation(float angle)
+	{
+		currentTransform.rotate(angle);
+		gc.setTransform(currentTransform);
+	}
+	
+	@Override
+	public void applyTranslationTransformation(float x, float y)
+	{
+		currentTransform.translate(x, y);
+		gc.setTransform(currentTransform);
+	}
+	
+	public void applyScaleTransformation(float scale)
+	{
+		currentTransform.scale(scale, scale);
+		gc.setTransform(currentTransform);
+	}
 
+	@Override
+	public void applyScaleXTransformation(float f)
+	{
+		currentTransform.scale(f, 1.0f);
+		gc.setTransform(currentTransform);
+	}
 }
