@@ -4,6 +4,6 @@
     <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
     <classpathentry kind="var" path="SWT_LIB"/>
     <classpathentry kind="lib" path="libintl.jar"/>
-    <classpathentry kind="lib" path="iText.jar"/>
+    <classpathentry kind="lib" path="itext.jar"/>
     <classpathentry kind="output" path="bin"/>
 </classpath>
