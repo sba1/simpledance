@@ -912,6 +912,7 @@ public class Dance implements Runnable
 		return menuBar;
 	}
 
+	@SuppressWarnings("unused")
 	private void createFileMenu(Menu menuBar)
 	{
 		Menu menu = new Menu(shell, SWT.DROP_DOWN);
@@ -966,15 +967,19 @@ public class Dance implements Runnable
 
 		new MenuItem(menu, SWT.SEPARATOR);
 		
-		subItem = new MenuItem(menu, SWT.NULL);
-		subItem.setText(_("Export as PDF..."));
-		subItem.addSelectionListener(new SelectionAdapter()
+		/* disabled as this is not working */
+		if (false)
 		{
-			public void widgetSelected(SelectionEvent e)
+			subItem = new MenuItem(menu, SWT.NULL);
+			subItem.setText(_("Export as PDF..."));
+			subItem.addSelectionListener(new SelectionAdapter()
 			{
-				exportAsPDF();
-			}
-		});
+				public void widgetSelected(SelectionEvent e)
+				{
+					exportAsPDF();
+				}
+			});
+		}
 		
 		new MenuItem(menu, SWT.SEPARATOR);
 

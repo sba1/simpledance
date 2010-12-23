@@ -4,7 +4,7 @@ SimpleDance is a free dance step visualization tool written in Java.
 
 Copyright, Distribtion and Disclamer
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-SimpleDance is ©2003 by Sebastian Bauer.
+SimpleDance is (c)2003-2010 by Sebastian Bauer.
 SimpleDance is freeware. Feel free to spreat it, as long as
 all files are included and in an unchanged form. You are not
 allowed to make profit from its distribution!
@@ -24,20 +24,20 @@ or here a direct link
 
 SimpleDance uses the SWT GUI Library, coming the eclipse open source
 platform. For easier installing procedure these library is included
-inside the distrubtion archive (windows only). If it's not the case
+inside the distribution archive (windows only). If it's not the case
 look at http://www.eclipse.org how to obtain it.
 
 Usage
 ~~~~~
 Windows user just need to double click the simpledance.bat file. It
-should work right out the box (if the requirements are fulflied).
+should work right out the box (if the requirements are fulfilled).
 
 
 Contact
 ~~~~~~~
-SimpleDance probably has many bugs. So please send Bugreports to
-  sebauer@t-online.de
-Also new Dance patterns would be much appreciated. As I'm a dance
+SimpleDance probably has many bugs. So please send bug reports to
+  mail@sebastianbauer.info
+Also new dance patterns would be much appreciated. As I'm a dance
 beginner I cannot do this myself. So this depends on you.
 Feel free to send me also suggestion how to improve this software.
 If you miss something just inform me and I'll try to add this in
@@ -45,10 +45,12 @@ one of the next releases.
 
 History
 ~~~~~~~
+0.9 (23/12/2010)
+ - Reupload as the old archive got lost.
+
 0.8 (07/05/2003)
- - Implemented Gradientfill for Foot steps and some cosmetical changes
+ - Implemented gradient fill for foot steps and some cosmetical changes
  - Added "View" Menu
- - Added possibility to export the steps as PDF file
  - Added some patterns
 
 0.7 (05/04/2003)
