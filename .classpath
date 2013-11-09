@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="source"/>
+	<classpathentry kind="lib" path="itext.jar"/>
+	<classpathentry kind="lib" path="libintl.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="var" path="SWT_LIB" sourcepath="/SWT_SRC"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
