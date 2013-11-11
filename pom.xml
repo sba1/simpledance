@@ -34,7 +34,7 @@
     <activation>
       <os>
         <family>Linux</family>
-        <arch>x64</arch>
+        <arch>amd64</arch>
       </os>
     </activation>
     <properties>
