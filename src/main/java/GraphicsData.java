@@ -127,7 +127,7 @@ public class GraphicsData
 			heelX = gentHeelX;
 			heelY = gentHeelY;
 			heelData = gentHeel;
-			realYSize = 22;
+			realYSize = 32;
 
 			baleStart = gentBaleStart;
 			baleEnd = gentBaleEnd;
@@ -143,7 +143,7 @@ public class GraphicsData
 			heelX = ladyHeelX;
 			heelY = ladyHeelY;
 			heelData = ladyHeel;
-			realYSize = 21;
+			realYSize = 26;
 			
 			baleStart = ladyBaleStart;
 			baleEnd = ladyBaleEnd;
@@ -157,10 +157,10 @@ public class GraphicsData
 			else if (baleData[i+1] > maxY) maxY = baleData[i+1];  
 		}
 
-		for (int i=0;i<baleData.length;i+=2)
+		for (int i=0;i<heelData.length;i+=2)
 		{
-			if (baleData[i+1] < minY) minY = heelData[i+1];
-			else if (baleData[i+1] > maxY) maxY = heelData[i+1];  
+			if (heelData[i+1] < minY) minY = heelData[i+1];
+			else if (heelData[i+1] > maxY) maxY = heelData[i+1];
 		}
 		feetDataYSize = maxY - minY + 1;
 	}
