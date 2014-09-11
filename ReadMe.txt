@@ -23,8 +23,8 @@ A Java runtime engine can be obtained for example from
 Oracle's Java page at
  https://www.java.com/download
 
-SimpleDance uses the SWT GUI Library, coming the eclipse open source
-platform. For easier installing procedure these library is included
+SimpleDance uses the SWT GUI library which is part of the Eclipse
+platform. To simplify the installing procedure the library is included
 inside the distribution archive (windows only). If it's not the case
 look at http://www.eclipse.org how to obtain it.
 
