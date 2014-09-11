@@ -20,10 +20,8 @@ Requirements
  - SWT GUI Library (the latest version)
 
 A Java runtime engine can be obtained for example from 
-Sun's Java page at
- http://java.sun.com
-or here a direct link
- ftp://ftp.yars.free.net/pub/software/java/j2re-1_4_1_02-windows-i586-i.exe
+Oracle's Java page at
+ https://www.java.com/download
 
 SimpleDance uses the SWT GUI Library, coming the eclipse open source
 platform. For easier installing procedure these library is included
