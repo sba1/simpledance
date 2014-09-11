@@ -115,6 +115,15 @@ public class Foot
 		wayPointList.add(index,wayPoint);
 	}
 
+	/**
+	 * Returns the distance factor given the current time progress.
+	 * Also called easing function. Here, a simple linear approach is
+	 * chosen.
+	 *
+	 * @param t the fractional time. Should be between 0 and 1.
+	 *
+	 * @return the distance factor.
+	 */
 	private double getRelDistanceOfT(double t)
 	{
 		if (t<0.5) return 0;
