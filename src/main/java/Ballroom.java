@@ -141,7 +141,7 @@ public class Ballroom extends Canvas
 	
 	private LinkedList<BallroomListener> ballroomListenerList = new LinkedList<>();
 
-	public int calculateBallroomAngle(int mx, int my, int x, int y)
+	private int calculateBallroomAngle(int mx, int my, int x, int y)
 	{
 		int angle;
 		
