@@ -28,6 +28,11 @@ platform. For easier installing procedure these library is included
 inside the distribution archive (windows only). If it's not the case
 look at http://www.eclipse.org how to obtain it.
 
+Latest Builds
+~~~~~~~~~~~~~
+The latest build (JAR-only) can be obtained from
+ https://sonumina.de/jenkins/job/simpledance/
+
 Usage
 ~~~~~
 Windows user just need to double click the simpledance.bat file. It
