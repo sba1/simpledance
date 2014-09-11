@@ -52,7 +52,7 @@ public class Render
 	private GraphicsData getGraphicsData(Step step, int footNumber)
 	{
 		int graphicsNum;
-		if (step.isFeetFemale(footNumber)) graphicsNum = 1;
+		if (step.isFemaleFoot(footNumber)) graphicsNum = 1;
 		else graphicsNum = 0;
 		return graphicsData[graphicsNum];		
 	}
@@ -341,7 +341,7 @@ public class Render
 		GraphicsData graphicsData = getGraphicsData(step,footNumber);
 
 		int lw = context.getLineWidth();
-		int type = step.getFeet(footNumber).getType(); 
+		int type = step.getFoot(footNumber).getType();
 
 		if (type == Foot.STAND_ON_FOOT)
 		{
@@ -362,7 +362,7 @@ public class Render
 		
 		Color heelColor;
 		
-		if (step.isFeetFemale(footNumber))
+		if (step.isFemaleFoot(footNumber))
 		{
 			if (step.isFeetLeft(footNumber)) heelColor = femaleLeftColor;
 			else heelColor = femaleRightColor;
@@ -452,13 +452,13 @@ public class Render
 			{
 				for (int i=0;i<previousStep.getNumberOfFeets();i++)
 				{
-					if (previousStep.isFeetFemale(i) && !rsa.showLady) continue;
-					if (!previousStep.isFeetFemale(i) && !rsa.showGent) continue;
+					if (previousStep.isFemaleFoot(i) && !rsa.showLady) continue;
+					if (!previousStep.isFemaleFoot(i) && !rsa.showGent) continue;
 
 					GraphicsData graphicsData = getGraphicsData(step,i);
 					WayPoint wayPoint = previousStep.getStartingWayPoint(i); 
 		
-					if (previousStep.getFeet(i).isLeft()) context.setBackground(shineGreyColor);
+					if (previousStep.getFoot(i).isLeft()) context.setBackground(shineGreyColor);
 					else context.setBackground(darkGreyColor);
 
 					myFillPolygon(rsa,wayPoint,step.isFeetLeft(i),graphicsData.baleData,graphicsData.feetDataYSize,graphicsData.realYSize);
@@ -473,14 +473,14 @@ public class Render
 				{
 					for (int i=0;i<previousStep.getNumberOfFeets();i++)
 					{
-						if (previousStep.isFeetFemale(i) && !rsa.showLady) continue;
-						if (!previousStep.isFeetFemale(i) && !rsa.showGent) continue;
+						if (previousStep.isFemaleFoot(i) && !rsa.showLady) continue;
+						if (!previousStep.isFemaleFoot(i) && !rsa.showGent) continue;
 
 						if (rsa.selectedArray[i]) context.setForeground(animationSelectedColor);
 						else context.setForeground(animationColor);
 
  						GraphicsData graphicsData = getGraphicsData(previousStep,i);
-						WayPoint feetCoord = previousStep.getFeet(i).getInterpolatedWayPoint(step.getStartingWayPoint(i),step.getFeet(i).isLongRotation(),j,6);
+						WayPoint feetCoord = previousStep.getFoot(i).getInterpolatedWayPoint(step.getStartingWayPoint(i),step.getFoot(i).isLongRotation(),j,6);
 
 						myDrawPolygon(rsa,feetCoord,previousStep.isFeetLeft(i),graphicsData.heelData,graphicsData.feetDataYSize,graphicsData.realYSize, true);
 						myDrawPolygon(rsa,feetCoord,previousStep.isFeetLeft(i),graphicsData.baleData,graphicsData.feetDataYSize,graphicsData.realYSize, true);
@@ -494,15 +494,15 @@ public class Render
 		{
 			boolean isSelected = rsa.selectedArray[i];
 
-			if (step.isFeetFemale(i) && !rsa.showLady) continue;
-			if (!step.isFeetFemale(i) && !rsa.showGent) continue;
+			if (step.isFemaleFoot(i) && !rsa.showLady) continue;
+			if (!step.isFemaleFoot(i) && !rsa.showGent) continue;
 
 			WayPoint ballroomCoord;
 			WayPoint pixelCoord;
 			
 			/* If inside an animation interpolate the position of the foot */
 			if (rsa.insideAnimation && nextStep != null)
-				ballroomCoord = step.getFeet(i).getInterpolatedWayPoint(nextStep.getStartingWayPoint(i),nextStep.getFeet(i).isLongRotation(),rsa.animationNumber,rsa.animationMaxNumber);
+				ballroomCoord = step.getFoot(i).getInterpolatedWayPoint(nextStep.getStartingWayPoint(i),nextStep.getFoot(i).isLongRotation(),rsa.animationNumber,rsa.animationMaxNumber);
 			else
 				ballroomCoord = step.getStartingWayPoint(i);
 			
@@ -517,15 +517,15 @@ public class Render
 				Point p2;
 				WayPoint wayPoint;
 				
-				for (int k=1;k<previousStep.getFeet(i).getNumOfWayPoints();k++)
+				for (int k=1;k<previousStep.getFoot(i).getNumOfWayPoints();k++)
 				{
-					wayPoint = previousStep.getFeet(i).getFeetCoord(k);
+					wayPoint = previousStep.getFoot(i).getWayPoint(k);
 					p2 = transformBallroomToPixel(rsa,wayPoint.x,wayPoint.y);
 					context.drawLine(p1.x,p1.y,p2.x,p2.y);
 					context.drawOval(p1.x-1,p1.y-1,2,2);
 					p1 = p2;
 				}
-				wayPoint = step.getFeet(i).getStartingWayPoint();
+				wayPoint = step.getFoot(i).getStartingWayPoint();
 				p2 = transformBallroomToPixel(rsa,wayPoint.x,wayPoint.y);
 				context.drawLine(p1.x,p1.y,p2.x,p2.y);
 				context.drawOval(p1.x-1,p1.y-1,2,2);

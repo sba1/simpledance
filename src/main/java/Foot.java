@@ -61,7 +61,7 @@ public class Foot
 	}
 
 	
-	public WayPoint getFeetCoord(int i)
+	public WayPoint getWayPoint(int i)
 	{
 		if (i >= wayPointList.size()) return null;
 		return (WayPoint)wayPointList.get(i);
@@ -137,7 +137,7 @@ public class Foot
 		LinkedList<WayPoint> wayPointList = new LinkedList<>();
 		
 		for (int i=0;i<getNumOfWayPoints();i++)
-			wayPointList.add(getFeetCoord(i));
+			wayPointList.add(getWayPoint(i));
 		wayPointList.add(to);
 		
 		/* calculate the distance */

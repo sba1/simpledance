@@ -568,7 +568,7 @@ public class Dance implements Runnable
 				if (step == null) return;
 
 				int feet = ((Integer) (event.widget.getData())).intValue();
-				step.getFeet(feet).setType(
+				step.getFoot(feet).setType(
 					((Combo) event.widget).getSelectionIndex());
 				ballroom.redraw();
 			}
@@ -1227,28 +1227,28 @@ public class Dance implements Runnable
 		setInteger(gentLeftXText,feetCoord.x - fakeCoord.x);
 		setInteger(gentLeftYText,feetCoord.y - fakeCoord.y);
 		setInteger(gentLeftAngleText,feetCoord.a - fakeCoord.a);
-		gentLeftTypeCombo.select(step.getFeet(0).getType());
+		gentLeftTypeCombo.select(step.getFoot(0).getType());
 		
 		feetCoord = step.getStartingWayPoint(1);
 		fakeCoord = fakeStep.getStartingWayPoint(1);
 		setInteger(gentRightXText,feetCoord.x - fakeCoord.x);
 		setInteger(gentRightYText,feetCoord.y - fakeCoord.y);
 		setInteger(gentRightAngleText,feetCoord.a - fakeCoord.a);
-		gentRightTypeCombo.select(step.getFeet(1).getType());
+		gentRightTypeCombo.select(step.getFoot(1).getType());
 		
 		feetCoord = step.getStartingWayPoint(2);
 		fakeCoord = fakeStep.getStartingWayPoint(2);
 		setInteger(ladyLeftXText,feetCoord.x - fakeCoord.x);
 		setInteger(ladyLeftYText,feetCoord.y - fakeCoord.y);
 		setInteger(ladyLeftAngleText,feetCoord.a - fakeCoord.a);
-		ladyLeftTypeCombo.select(step.getFeet(2).getType());
+		ladyLeftTypeCombo.select(step.getFoot(2).getType());
 		
 		feetCoord = step.getStartingWayPoint(3);
 		fakeCoord = fakeStep.getStartingWayPoint(3);
 		setInteger(ladyRightXText,feetCoord.x - fakeCoord.x);
 		setInteger(ladyRightYText,feetCoord.y - fakeCoord.y);
 		setInteger(ladyRightAngleText,feetCoord.a - fakeCoord.a);
-		ladyRightTypeCombo.select(step.getFeet(3).getType());
+		ladyRightTypeCombo.select(step.getFoot(3).getType());
 	}
 	
 	class OpenDropDownSelectionListener extends DropDownSelectionListener

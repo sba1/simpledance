@@ -10,7 +10,7 @@ public class Step
 {
 	static public String N_(String str){return str;};
 
-	private Foot [] feets = new Foot[4];
+	private Foot [] feet = new Foot[4];
 	
 	static String [] stepTypes = new String []
 	{
@@ -41,33 +41,33 @@ public class Step
 	
 	public Step()
 	{
-		feets[0] = new Foot(590,580,0,true,false);
-		feets[1] = new Foot(610,580,0,false,false);
-		feets[2] = new Foot(610,620,180,true,true);
-		feets[3] = new Foot(590,620,180,false,true); 
+		feet[0] = new Foot(590,580,0,true,false);
+		feet[1] = new Foot(610,580,0,false,false);
+		feet[2] = new Foot(610,620,180,true,true);
+		feet[3] = new Foot(590,620,180,false,true);
 	}
 	
 	public Step(boolean zero)
 	{
-		feets[0] = new Foot(0,0,0,true,false);
-		feets[1] = new Foot(0,0,0,false,false);
-		feets[2] = new Foot(0,0,0,true,true);
-		feets[3] = new Foot(0,0,0,false,true); 
+		feet[0] = new Foot(0,0,0,true,false);
+		feet[1] = new Foot(0,0,0,false,false);
+		feet[2] = new Foot(0,0,0,true,true);
+		feet[3] = new Foot(0,0,0,false,true);
 	}
 	
 	WayPoint getStartingWayPoint(int feetNum)
 	{
-		return feets[feetNum].getStartingWayPoint();
+		return feet[feetNum].getStartingWayPoint();
 	}
 	
-	public boolean isFeetFemale(int feetNum)
+	public boolean isFemaleFoot(int footNum)
 	{
-		return feets[feetNum].isFemale();
+		return feet[footNum].isFemale();
 	}
 	
 	public boolean isFeetLeft(int feetNum)
 	{
-		return feets[feetNum].isLeft();
+		return feet[feetNum].isLeft();
 	}
 	
 	public int getNumberOfFeets()
@@ -79,10 +79,10 @@ public class Step
 	 * @param i
 	 * @return Foot
 	 */
-	public Foot getFeet(int i)
+	public Foot getFoot(int i)
 	{
 		if (i<0 || i>4) return null;
-		return feets[i];
+		return feet[i];
 	}
 
 	public int [] getStepBounds()
@@ -93,9 +93,9 @@ public class Step
 
 		for (int i=0;i<4;i++)
 		{
-			for (int j=0;j<feets[i].getNumOfWayPoints();j++)
+			for (int j=0;j<feet[i].getNumOfWayPoints();j++)
 			{
-				WayPoint feetCoord = feets[i].getFeetCoord(j);
+				WayPoint feetCoord = feet[i].getWayPoint(j);
 				if (feetCoord.x < bounds[0]) bounds[0] = feetCoord.x;
 				if (feetCoord.x > bounds[2]) bounds[2] = feetCoord.x;
 				if (feetCoord.y > bounds[1]) bounds[1] = feetCoord.y;
@@ -153,11 +153,11 @@ public class Step
 
 		for (int i=0;i<4;i++)
 		{
-			Foot foot = step.getFeet(i);
+			Foot foot = step.getFoot(i);
 			WayPoint wp = foot.getStartingWayPoint();
-			wp.x = feets[i].getStartingWayPoint().x;
-			wp.y = feets[i].getStartingWayPoint().y;
-			wp.a = feets[i].getStartingWayPoint().a;
+			wp.x = feet[i].getStartingWayPoint().x;
+			wp.y = feet[i].getStartingWayPoint().y;
+			wp.a = feet[i].getStartingWayPoint().a;
 			step.count = new String(count);
 			step.duration = new String(duration);
 			step.description = new String(description);

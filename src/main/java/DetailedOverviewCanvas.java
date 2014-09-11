@@ -355,11 +355,11 @@ public class DetailedOverviewCanvas extends Canvas
 			i++;
 			for (int k=0;k<step.getNumberOfFeets();k++)
 			{
-				WayPoint wp = step.getFeet(k).getStartingWayPoint();
+				WayPoint wp = step.getFoot(k).getStartingWayPoint();
 				cells[j+1][i++] = new Cell(wp.x + ""); 
 				cells[j+1][i++] = new Cell(wp.y + "");
 				cells[j+1][i++] = new Cell(wp.a + "");
-				cells[j+1][i++] = new Cell(_(Step.stepTypes[step.getFeet(k).getType()]));
+				cells[j+1][i++] = new Cell(_(Step.stepTypes[step.getFoot(k).getType()]));
 			}
 			cells[j+1][i++] = new Cell(step.getCount());
 		}

@@ -239,12 +239,12 @@ public class Pattern
 
 		if (wayPointIndex == 0)
 		{
-			prevFeetCoord = prevStep.getFeet(footNum).getLastWayPoint();
+			prevFeetCoord = prevStep.getFoot(footNum).getLastWayPoint();
 			thisFeetCoord = step.getStartingWayPoint(footNum);
 		} else
 		{
-			prevFeetCoord = prevStep.getFeet(footNum).getFeetCoord(wayPointIndex-1);
-			thisFeetCoord = prevStep.getFeet(footNum).getFeetCoord(wayPointIndex);
+			prevFeetCoord = prevStep.getFoot(footNum).getWayPoint(wayPointIndex-1);
+			thisFeetCoord = prevStep.getFoot(footNum).getWayPoint(wayPointIndex);
 		}
 		
 		WayPoint newFeetCoord = new WayPoint(
@@ -253,8 +253,8 @@ public class Pattern
 			
 		/* if wayPointIndex equals 0 it means that the waypoint has
 		 * to be inserted as last waypoint of the previous step */
-		if (wayPointIndex == 0) wayPointIndex = prevStep.getFeet(footNum).getNumOfWayPoints();
-		prevStep.getFeet(footNum).addWayPoint(newFeetCoord,wayPointIndex);
+		if (wayPointIndex == 0) wayPointIndex = prevStep.getFoot(footNum).getNumOfWayPoints();
+		prevStep.getFoot(footNum).addWayPoint(newFeetCoord,wayPointIndex);
 	}
 
 	public void removeAllWayPoints(int footNum)
@@ -262,7 +262,7 @@ public class Pattern
 		Step prevStep = getPreviousStep();
 		if (prevStep == null) return;
 		
-		prevStep.getFeet(footNum).removeAllWayPoints();
+		prevStep.getFoot(footNum).removeAllWayPoints();
 	}
 
 	public int [] getPatternBounds() 
@@ -396,23 +396,23 @@ public class Pattern
 
 						if (checkArg(array,4,"type"))
 						{
-							step.getFeet(feetNo).setType(Integer.parseInt(array[5]));
+							step.getFoot(feetNo).setType(Integer.parseInt(array[5]));
 						}
 						
 						if (checkArg(array,4,"longRotation"))
 						{
-							if (array[5].equalsIgnoreCase("true")) step.getFeet(feetNo).setLongRotation(true);
-							else step.getFeet(feetNo).setLongRotation(false);
+							if (array[5].equalsIgnoreCase("true")) step.getFoot(feetNo).setLongRotation(true);
+							else step.getFoot(feetNo).setLongRotation(false);
 						}
 						if (checkArg(array,4,"wp"))
 						{
 							int waypointNo = Integer.parseInt(array[5]);
-							Foot feet = step.getFeet(feetNo);
+							Foot feet = step.getFoot(feetNo);
 							while (feet.getNumOfWayPoints() <= waypointNo)
 							{
 								feet.addWayPoint(new WayPoint(0,0,0),feet.getNumOfWayPoints());
 							}
-							feetCoord = feet.getFeetCoord(waypointNo);
+							feetCoord = feet.getWayPoint(waypointNo);
 							arrayNum = 6;
 						} else
 						{
@@ -542,7 +542,7 @@ public class Pattern
 			buf.append("step."+i+".tempo=" + step.getDuration() + "\n");
 			for (int j=0;j<step.getNumberOfFeets();j++)
 			{
-				Foot foot = step.getFeet(j);
+				Foot foot = step.getFoot(j);
 				WayPoint footCoord;
 
 				footCoord = foot.getStartingWayPoint();
@@ -556,7 +556,7 @@ public class Pattern
 				
 				for (int k=1;k<maxWaypoints;k++)
 				{
-					footCoord = foot.getFeetCoord(k);
+					footCoord = foot.getWayPoint(k);
 					buf.append("step."+i+".feet."+j+".wp." + k + ".x="+footCoord.x + "\n");
 					buf.append("step."+i+".feet."+j+".wp." + k + ".y="+footCoord.y + "\n");
 				}
