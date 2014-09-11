@@ -46,6 +46,11 @@ one of the next releases.
 
 History
 ~~~~~~~
+0.10-SNAPSHOT (09/11/2014)
+ - Now utilizes and thus depends on Java7
+ - Fixed 45 degree rotation bug using a workaround
+ - Hopefully addressed GitHub issues #1 and #6
+
 0.9 (23/12/2010)
  - Reupload as the old archive got lost.
 
