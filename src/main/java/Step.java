@@ -38,21 +38,35 @@ public class Step
 	private String count;
 	private String description;
 	private String duration = "slow";
-	
+
+	/**
+	 * Constructs a new step for which all feet will have sensible defaults.
+	 */
 	public Step()
 	{
-		feet[0] = new Foot(590,580,0,true,false);
-		feet[1] = new Foot(610,580,0,false,false);
-		feet[2] = new Foot(610,620,180,true,true);
-		feet[3] = new Foot(590,620,180,false,true);
+		this(false);
 	}
-	
+
+	/**
+	 * Constructs a new step.
+	 *
+	 * @param zero initialize all coordinates to zero. Otherwise, some sensible default is used.
+	 */
 	public Step(boolean zero)
 	{
-		feet[0] = new Foot(0,0,0,true,false);
-		feet[1] = new Foot(0,0,0,false,false);
-		feet[2] = new Foot(0,0,0,true,true);
-		feet[3] = new Foot(0,0,0,false,true);
+		if (zero)
+		{
+			feet[0] = new Foot(0,0,0,true,false);
+			feet[1] = new Foot(0,0,0,false,false);
+			feet[2] = new Foot(0,0,0,true,true);
+			feet[3] = new Foot(0,0,0,false,true);
+		} else
+		{
+			feet[0] = new Foot(590,580,0,true,false);
+			feet[1] = new Foot(610,580,0,false,false);
+			feet[2] = new Foot(610,620,180,true,true);
+			feet[3] = new Foot(590,620,180,false,true);
+		}
 	}
 	
 	WayPoint getStartingWayPoint(int feetNum)
