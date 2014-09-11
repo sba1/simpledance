@@ -115,7 +115,7 @@ public class Foot
 		wayPointList.add(index,wayPoint);
 	}
 
-	public double getRelDistanceOfT(double t)
+	private double getRelDistanceOfT(double t)
 	{
 		if (t<0.5) return 0;
 		return (t-0.5)/0.5;
