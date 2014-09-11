@@ -230,6 +230,8 @@ public class Render
 
     private void myDrawPolygon(RenderSceneArgs rsa, WayPoint feetCoord, boolean mirror, int [] data, int pixSize, int ballroomSize, boolean closed)
     {
+    	context.pushCurrentTransform();
+
     	WayPoint transFeetCoord = transformBallroomToPixel(rsa, feetCoord);
     	float scale = (float)rsa.pixelWidth / pixSize / (float)rsa.visibleWidth * ballroomSize;
     	context.applyTranslationTransformation(transFeetCoord.x, transFeetCoord.y);
@@ -240,14 +242,13 @@ public class Render
     	if (closed) context.drawPolygon(data);
     	else context.drawPolyline(data);
 
-    	if (mirror) context.applyScaleXTransformation(-1.f);
-    	context.applyScaleTransformation(1.f/scale);
-    	context.applyRotateTransformation(+feetCoord.a);
-    	context.applyTranslationTransformation(-transFeetCoord.x, -transFeetCoord.y);
+    	context.popCurrentTransform();
     }
 
     private void myFillPolygon(RenderSceneArgs rsa, WayPoint feetCoord, boolean mirror, int [] data, int pixSize, int ballroomSize)
 	{
+    	context.pushCurrentTransform();
+
     	WayPoint transFeetCoord = transformBallroomToPixel(rsa, feetCoord);
     	float scale = (float)rsa.pixelWidth / pixSize / (float)rsa.visibleWidth * ballroomSize;
     	context.applyTranslationTransformation(transFeetCoord.x, transFeetCoord.y);
@@ -257,14 +258,13 @@ public class Render
 
     	context.fillPolygon(data);
 
-    	if (mirror) context.applyScaleXTransformation(-1.f);
-    	context.applyScaleTransformation(1.f/scale);
-    	context.applyRotateTransformation(+feetCoord.a);
-    	context.applyTranslationTransformation(-transFeetCoord.x, -transFeetCoord.y);
+    	context.popCurrentTransform();
 	}
 
 	private void myGradientPolygon(RenderSceneArgs rsa, RGB startRGB, RGB endRGB, WayPoint feetCoord, boolean mirror, int [] data, int pixSize, int ballroomSize)
 	{
+    	context.pushCurrentTransform();
+
     	WayPoint transFeetCoord = transformBallroomToPixel(rsa, feetCoord);
     	float scale = (float)rsa.pixelWidth / pixSize / (float)rsa.visibleWidth * ballroomSize;
     	context.applyTranslationTransformation(transFeetCoord.x, transFeetCoord.y);
@@ -274,10 +274,7 @@ public class Render
 
 		context.gradientPolygon(data,startRGB,endRGB,feetCoord.a);
 
-    	if (mirror) context.applyScaleXTransformation(-1.f);
-    	context.applyScaleTransformation(1.f/scale);
-    	context.applyRotateTransformation(+feetCoord.a);
-    	context.applyTranslationTransformation(-transFeetCoord.x, -transFeetCoord.y);
+    	context.popCurrentTransform();
 	}
 	
 	private void myDrawText(RenderSceneArgs rsa, WayPoint feetCoord, String text)
