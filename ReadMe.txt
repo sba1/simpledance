@@ -16,7 +16,7 @@ your own risk!
 
 Requirements
 ~~~~~~~~~~~~
- - A Java Run Time engine (1.4.1 tested only)
+ - A Java Run Time engine (Java7 tested only)
  - SWT GUI Library (the latest version)
 
 A Java runtime engine can be obtained for example from 
