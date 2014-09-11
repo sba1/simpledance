@@ -4,7 +4,7 @@ SimpleDance is a free dance step visualization tool written in Java.
 
 Copyright, Distribution and Disclaimer
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-SimpleDance is (c) 2003-2013 by Sebastian Bauer.
+SimpleDance is (c) 2003-2014 by Sebastian Bauer.
 
 SimpleDance is released under the terms of the AGPL version 3.
 See the LICENSE file for details.
