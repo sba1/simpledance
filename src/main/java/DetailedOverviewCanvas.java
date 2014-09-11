@@ -48,7 +48,7 @@ public class DetailedOverviewCanvas extends Canvas
 	private GC fakeGC;
 
 	/* listener Stuff */
-	private LinkedList detailedOverviewListener;
+	private LinkedList<DetailedOverviewListener> detailedOverviewListener;
 
 	/* the table's contents */
 	private int columns;
@@ -120,7 +120,7 @@ public class DetailedOverviewCanvas extends Canvas
 	{
 		super(comp,style|SWT.NO_BACKGROUND);
 
-		detailedOverviewListener = new LinkedList();
+		detailedOverviewListener = new LinkedList<>();
 		
 		whiteColor = new Color(comp.getDisplay(),255,255,255);
 		greyColor = new Color(comp.getDisplay(),210,210,210);
@@ -455,12 +455,8 @@ public class DetailedOverviewCanvas extends Canvas
 	 */
 	protected void emitDetailedOverviewEvent(DetailedOverviewEvent ev, int type)
 	{
-		ListIterator iter = detailedOverviewListener.listIterator();
-		while (iter.hasNext())
-		{
-			DetailedOverviewListener dol = (DetailedOverviewListener)iter.next();
+		for (DetailedOverviewListener dol : detailedOverviewListener)
 			dol.stepClicked(ev);
-		}
 	}
 
 	/**

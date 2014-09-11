@@ -58,7 +58,7 @@ public class Pattern
 		return typeNames[0];
 	}
 
-	private LinkedList stepList = new LinkedList();
+	private LinkedList<Step> stepList = new LinkedList<>();
 	private int currentStepNum = 0;
 	
 	private int timeSignatureBars = 4;
@@ -95,23 +95,23 @@ public class Pattern
 	public Step getPreviousStep()
 	{
 		if (currentStepNum == 0) return null; 
-		return (Step)stepList.get(currentStepNum-1);
+		return stepList.get(currentStepNum-1);
 	}
 
 	public Step getNextStep()
 	{
 		if (currentStepNum == stepList.size()-1) return null; 
-		return (Step)stepList.get(currentStepNum+1);
+		return stepList.get(currentStepNum+1);
 	}
 	
 	public Step getCurrentStep()
 	{
-		return (Step)stepList.get(currentStepNum);
+		return stepList.get(currentStepNum);
 	}
 	
 	public Step getStep(int stepNum)
 	{
-		return (Step)stepList.get(stepNum);
+		return stepList.get(stepNum);
 	}
 	
 	public int getStepLength()
@@ -172,7 +172,7 @@ public class Pattern
 	public Step addStep()
 	{
 		Step step = new Step();
-		Step lastStep = (Step)stepList.getLast();
+		Step lastStep = stepList.getLast();
 		if (lastStep != null)
 		{
 			for (int i=0;i<lastStep.getNumberOfFeets();i++)
@@ -696,16 +696,12 @@ public class Pattern
 	/* Notification/eventhandling */
 
 	/** The list which keeps the listeners */
-	private LinkedList patternListenerList = new LinkedList();
+	private LinkedList<PatternListener> patternListenerList = new LinkedList<>();
 
 	private void emitEvent(int type)
 	{
-		ListIterator iter = patternListenerList.listIterator();
-		while (iter.hasNext())
-		{
-			PatternListener pl = (PatternListener)iter.next();
+		for (PatternListener pl : patternListenerList)
 			pl.newStepActive(this,currentStepNum);
-		}
 	}
 	
 	/**

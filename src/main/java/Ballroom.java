@@ -21,7 +21,6 @@ import graphics.swt.SWTContext;
 
 import java.awt.Polygon;
 import java.util.LinkedList;
-import java.util.ListIterator;
 import java.util.ResourceBundle;
 
 /**
@@ -140,7 +139,7 @@ public class Ballroom extends Canvas
 		new GraphicsData(1),
 	};
 	
-	private LinkedList ballroomListenerList = new LinkedList();
+	private LinkedList<BallroomListener> ballroomListenerList = new LinkedList<>();
 
 	public int calculateBallroomAngle(int mx, int my, int x, int y)
 	{
@@ -1088,10 +1087,8 @@ public class Ballroom extends Canvas
 
 	private void emitEvent(BallroomEvent be)
 	{
-		ListIterator iter = ballroomListenerList.listIterator();
-		while (iter.hasNext())
+		for (BallroomListener listener : ballroomListenerList)
 		{
-			BallroomListener listener = (BallroomListener)iter.next();
 			if (be.feetCoordinatesChanged) listener.coordinatesChanged(be);
 			else if (be.selectionChanged) listener.selectionChanged(be);
 		}
