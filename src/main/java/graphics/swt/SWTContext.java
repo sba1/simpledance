@@ -15,6 +15,7 @@ import java.util.LinkedList;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.LineAttributes;
 import org.eclipse.swt.graphics.Pattern;
 import org.eclipse.swt.graphics.Transform;
 import org.eclipse.swt.widgets.Display;
@@ -33,6 +34,9 @@ class Transformation
  */
 public class SWTContext extends Context
 {
+	/** Used for the workaround for the 45 degree bug, see https://bugs.eclipse.org/bugs/attachment.cgi?id=214841 */
+	private static final LineAttributes lineAttributes = new LineAttributes(1, SWT.CAP_FLAT, SWT.JOIN_MITER);
+
 	private Display display;
 	private GC gc;
 	
@@ -76,6 +80,7 @@ public class SWTContext extends Context
 
 	public void drawPolygon(int[] data)
 	{
+		gc.setLineAttributes(lineAttributes);
 		gc.drawPolygon(data);
 	}
 	
