@@ -49,10 +49,10 @@ public class Render
 		new GraphicsData(1),
 	};
 	
-	private GraphicsData getGraphicsData(Step step, int stepNumber)
+	private GraphicsData getGraphicsData(Step step, int footNumber)
 	{
 		int graphicsNum;
-		if (step.isFeetFemale(stepNumber)) graphicsNum = 1;
+		if (step.isFeetFemale(footNumber)) graphicsNum = 1;
 		else graphicsNum = 0;
 		return graphicsData[graphicsNum];		
 	}
