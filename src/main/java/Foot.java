@@ -124,7 +124,7 @@ public class Foot
 	 *
 	 * @return the distance factor.
 	 */
-	private double getRelDistanceOfT(double t)
+	private double getDistanceFactor(double t)
 	{
 		if (t<0.5) return 0;
 		return (t-0.5)/0.5;
@@ -153,7 +153,7 @@ public class Foot
 		}
 
 		int completeDistance = distance;
-		int interDistance = (int)(distance * getRelDistanceOfT((double)step / steps));
+		int interDistance = (int)(distance * getDistanceFactor((double)step / steps));
 		int completeInterDistance = interDistance;
 		
 		/* next step is to find to current section */
