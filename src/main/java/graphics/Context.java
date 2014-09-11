@@ -42,6 +42,22 @@ abstract public class Context
 	abstract public void applyScaleXTransformation(float f);
 
 	/**
+	 * Print the current transformation matrix to stdout. Useful for debugging
+	 * only.
+	 */
+	abstract public void printCurrentTransform();
+
+	/**
+	 * Push the current transform so it can be used later.
+	 */
+	abstract public void pushCurrentTransform();
+
+	/**
+	 * Pop the least recently pushed transform.
+	 */
+	abstract public void popCurrentTransform();
+
+	/**
 	 * @return Returns the current background color.
 	 */
 	public Color getBackground()

@@ -41,7 +41,7 @@ public class SWTContext extends Context
 	private GC gc;
 	
 	private Transform currentTransform;
-	private LinkedList<Transformation> transformationList = new LinkedList<Transformation>();
+	private LinkedList<float[]> transformationList = new LinkedList<float[]>();
 	
 	public SWTContext(Display display)
 	{
@@ -214,6 +214,31 @@ public class SWTContext extends Context
 	public void applyScaleXTransformation(float f)
 	{
 		currentTransform.scale(f, 1.0f);
+		gc.setTransform(currentTransform);
+	}
+
+	@Override
+	public void printCurrentTransform()
+	{
+		float [] elem = new float[6];
+		currentTransform.getElements(elem);
+		for (int i=0;i<6;i++) System.out.print(elem[i] + " ");
+		System.out.println();
+	}
+
+	@Override
+	public void pushCurrentTransform()
+	{
+		float [] elements = new float[6];
+		currentTransform.getElements(elements);
+		transformationList.push(elements);
+	}
+
+	@Override
+	public void popCurrentTransform()
+	{
+		float [] elements = transformationList.pop();
+		currentTransform.setElements(elements[0],  elements[1],  elements[2],  elements[3],  elements[4], elements[5]);
 		gc.setTransform(currentTransform);
 	}
 }
