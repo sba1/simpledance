@@ -30,7 +30,7 @@ public class Foot
 	static final int JUMP = 16;
 	static final int WITHOUT_WEIGHT = 17;
 	
-	private LinkedList wayPointList = new LinkedList();
+	private LinkedList<WayPoint> wayPointList = new LinkedList<>();
 	private int type = NOT_SPECIFIED;
 	private boolean female;
 	private boolean left;
@@ -128,18 +128,18 @@ public class Foot
 	{
 		int distance = 0;
 		
-		LinkedList wayPointList = new LinkedList();
+		LinkedList<WayPoint> wayPointList = new LinkedList<>();
 		
 		for (int i=0;i<getNumOfWayPoints();i++)
 			wayPointList.add(getFeetCoord(i));
 		wayPointList.add(to);
 		
 		/* calculate the distance */
-		ListIterator iter = wayPointList.listIterator();
-		WayPoint prevWayPoint = (WayPoint)iter.next();
+		ListIterator<WayPoint> iter = wayPointList.listIterator();
+		WayPoint prevWayPoint = iter.next();
 		while (iter.hasNext())
 		{
-			WayPoint wayPoint = (WayPoint)iter.next(); 	
+			WayPoint wayPoint = iter.next();
 			int diffX = prevWayPoint.x - wayPoint.x;
 			int diffY = prevWayPoint.y - wayPoint.y; 
 			distance += Math.sqrt(diffX * diffX + diffY * diffY);
@@ -153,11 +153,11 @@ public class Foot
 		/* next step is to find to current section */
 		iter = wayPointList.listIterator();
 		distance = 0;
-		prevWayPoint = (WayPoint)iter.next();
+		prevWayPoint = iter.next();
 		WayPoint wayPoint = null;
 		for (int i=0;i<getNumOfWayPoints();i++)
 		{
-			wayPoint = (WayPoint)iter.next(); 	
+			wayPoint = iter.next();
 			int diffX = prevWayPoint.x - wayPoint.x;
 			int diffY = prevWayPoint.y - wayPoint.y;
 			int newDistance = distance + (int)Math.sqrt(diffX * diffX + diffY * diffY);
