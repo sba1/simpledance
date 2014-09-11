@@ -147,7 +147,7 @@
     <dependency>
         <groupId>org.eclipse.swt</groupId>
         <artifactId>${swt.artifactId}</artifactId>
-        <version>4.2.2</version>
+        <version>4.3.2</version>
     </dependency>
   </dependencies>
 </project>
