@@ -4,18 +4,11 @@ import graphics.Font;
 import graphics.Point;
 import graphics.RGB;
 
-/*
- * Created on 30.03.2004
- *
- * To change the template for this generated file go to
- * Window>Preferences>Java>Code Generation>Code and Comments
- */
-
 /**
- * @author sba
+ * This class is responsible for actually drawing the scene
+ * on a given context.
  *
- * To change the template for this generated type comment go to
- * Window>Preferences>Java>Code Generation>Code and Comments
+ * @author Sebastian Bauer
  */
 public class Render
 {
