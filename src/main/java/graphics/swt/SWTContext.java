@@ -241,4 +241,15 @@ public class SWTContext extends Context
 		currentTransform.setElements(elements[0],  elements[1],  elements[2],  elements[3],  elements[4], elements[5]);
 		gc.setTransform(currentTransform);
 	}
+
+	@Override
+	public void applyTransformation(int [] sourcePointArray, int [] destPointArray)
+	{
+		float [] pointArray = new float[sourcePointArray.length];
+		for (int i=0; i<sourcePointArray.length; i++)
+			pointArray[i] = sourcePointArray[i];
+		currentTransform.transform(pointArray);
+		for (int i=0; i<destPointArray.length; i++)
+			destPointArray[i] = (int)pointArray[i];
+	}
 }

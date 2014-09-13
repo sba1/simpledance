@@ -58,6 +58,12 @@ abstract public class Context
 	abstract public void popCurrentTransform();
 
 	/**
+	 * Applies the current transformation to the given source point array
+	 * and stores the result into another array.
+	 */
+	abstract public void applyTransformation(int [] sourcePointArray, int [] destPointArray);
+
+	/**
 	 * @return Returns the current background color.
 	 */
 	public Color getBackground()
