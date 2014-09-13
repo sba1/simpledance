@@ -193,8 +193,21 @@ public class Ballroom extends Canvas
 	
 	WayPoint transformFeedCoordToPix(WayPoint feetCoord)
 	{
-		int x = (feetCoord.x - zoomLeft) * zoomFactor / 100;
-		int y = (zoomTop - feetCoord.y) * zoomFactor / 100;
+		/* This used to be something like this:
+		 *  int x = (feetCoord.x - zoomLeft) * zoomFactor / 100;
+		 *  int y = (zoomTop - feetCoord.y) * zoomFactor / 100;
+		 *
+		 * However this doesn't match the way it works in the Render class.
+		 */
+		int visibleLeft = zoomLeft;
+		int visibleTop = zoomTop;
+		int visibleWidth = getClientArea().width * 100 / zoomFactor;
+		int visibleHeight = getClientArea().height * 100 / zoomFactor;
+		int pixelWidth = getClientArea().width;
+		int pixelHeight = getClientArea().height;
+
+		int x = (feetCoord.x - visibleLeft) * pixelWidth / visibleWidth;
+		int y = (visibleTop - feetCoord.y) * pixelHeight / visibleHeight;
 		int a = feetCoord.a;
 
 		WayPoint newFeetCoord = new WayPoint(x,y,a);
@@ -794,8 +807,12 @@ public class Ballroom extends Canvas
     		
 			if (mirror) px = -px;
     		
-			px = px * ballroomSize  * zoomFactor / 100 / pixSize;
-			py = py * ballroomSize  * zoomFactor / 100 / pixSize;
+			int visibleWidth = getClientArea().width * 100 / zoomFactor;
+			int pixelWidth = getClientArea().width;
+			float scale = (float)pixelWidth / pixSize / (float)visibleWidth * ballroomSize;
+
+			px = (int)(px * scale);
+			py = (int)(py * scale);
     		
 			double cosa = Math.cos(Math.toRadians(a));
 			double sina = Math.sin(Math.toRadians(a));
