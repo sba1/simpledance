@@ -102,7 +102,6 @@ public class Dance implements Runnable
 	{
 		Text text = new Text(parent,SWT.BORDER);
 		text.setTextLimit(5);
-		Point p = text.computeSize(SWT.DEFAULT,SWT.DEFAULT);
 		text.setData(data);
 		if (modifyListener != null) text.addModifyListener(modifyListener);
 		text.addVerifyListener(new IntegerVerifyListener());
