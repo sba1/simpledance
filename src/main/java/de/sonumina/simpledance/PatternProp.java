@@ -1,7 +1,6 @@
 package de.sonumina.simpledance;
-import gnu.gettext.GettextResource;
 
-import java.util.ResourceBundle;
+import static de.sonumina.simpledance.I18n.*;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.*;
@@ -19,22 +18,6 @@ import org.eclipse.swt.layout.*;
  */
 public class PatternProp
 {
-	// *** BEGIN I18N
-	static private ResourceBundle localeResource;
-	static
-	{
-		try
-		{
-			localeResource = GettextResource.getBundle("SimpleDanceBundle");
-		} catch(Exception e){};
-	};
-	static final private String _(String str)
-	{
-		if (localeResource == null) return str;
-		return GettextResource.gettext(localeResource,str);
-	}
-	// *** END I18N
-
 	private Shell parentShell;
 	private Shell shell;
 	private Combo typeCombo;

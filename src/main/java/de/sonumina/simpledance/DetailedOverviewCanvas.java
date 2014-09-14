@@ -1,4 +1,7 @@
 package de.sonumina.simpledance;
+
+import static de.sonumina.simpledance.I18n.*;
+
 import gnu.gettext.GettextResource;
 
 import java.util.LinkedList;
@@ -24,22 +27,6 @@ import org.eclipse.swt.widgets.Composite;
  */
 public class DetailedOverviewCanvas extends Canvas
 {
-	// *** BEGIN I18N
-	static private ResourceBundle localeResource;
-	static
-	{
-		try
-		{
-			localeResource = GettextResource.getBundle("SimpleDanceBundle");
-		} catch(Exception e){};
-	};
-	static final private String _(String str)
-	{
-		if (localeResource == null) return str;
-		return GettextResource.gettext(localeResource,str);
-	}
-	// *** END I18N
-
 	private Color whiteColor;
 	private Color greyColor;
 	private Color lightBlueColor;

@@ -1,4 +1,7 @@
 package de.sonumina.simpledance;
+
+import static de.sonumina.simpledance.I18n.*;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -10,9 +13,6 @@ import java.util.Comparator;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.ListIterator;
-import java.util.ResourceBundle;
-
-import gnu.gettext.*;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
@@ -36,22 +36,6 @@ import org.eclipse.swt.widgets.*;
  */
 public class Dance implements Runnable
 {
-	// *** BEGIN I18N
-	static private ResourceBundle localeResource;
-	static
-	{
-		try
-		{
-			localeResource = GettextResource.getBundle("SimpleDanceBundle");
-		} catch(Exception e){};
-	};
-	static final private String _(String str)
-	{
-		if (localeResource == null) return str;
-		return GettextResource.gettext(localeResource,str);
-	}
-	// *** END I18N
-
 	private Shell shell;
 
 	static final int TOOLBAR_NEW = 1;

@@ -1,4 +1,7 @@
 package de.sonumina.simpledance;
+
+import static de.sonumina.simpledance.I18n.*;
+
 /**
  * @author Standard
  *
@@ -9,8 +12,6 @@ package de.sonumina.simpledance;
  */
 public class Step
 {
-	static public String N_(String str){return str;};
-
 	private Foot [] feet = new Foot[4];
 	
 	static String [] stepTypes = new String []

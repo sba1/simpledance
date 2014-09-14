@@ -1,10 +1,8 @@
 package de.sonumina.simpledance;
-import gnu.gettext.GettextResource;
 
 import java.awt.Color;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.util.ResourceBundle;
 
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
@@ -39,22 +37,6 @@ import de.sonumina.simpledance.graphics.swt.SWTContext;
  */
 public class PDFOutput
 {
-	// *** BEGIN I18N
-	static private ResourceBundle localeResource;
-	static
-	{
-		try
-		{
-			localeResource = GettextResource.getBundle("SimpleDanceBundle");
-		} catch(Exception e){};
-	};
-	static final private String _(String str)
-	{
-		if (localeResource == null) return str;
-		return GettextResource.gettext(localeResource,str);
-	}
-	// *** END I18N
-
 	static void write(String fileName, Pattern pattern, Display display)
 	{
 		Document document = new Document(PageSize.A4);
