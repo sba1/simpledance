@@ -1,4 +1,7 @@
 package de.sonumina.simpledance;
+
+import static de.sonumina.simpledance.I18n.N_;
+
 import java.util.LinkedList;
 
 /**
@@ -7,13 +10,7 @@ import java.util.LinkedList;
  * @author Sebastian Bauer
  */
 public class Pattern
-{	// *** BEGIN I18N
-	static final String N_(String str)
-	{
-		return str;
-	}
-	// *** END I18N
-
+{
 	private String filename;
 
 	static final int DANCE_OTHER = 0;
