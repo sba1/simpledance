@@ -123,11 +123,18 @@ public class Render
 		context.deallocateColor(rightFeetBorderColor);
 	}
 
+	static public enum FootPart
+	{
+		NO,
+		BALE,
+		HEEL
+	}
+
 	static public class CoordinateInfo
 	{
 		Point rotationCenterBallroomPoint;
 		int feetIndex = -1;
-		int feetPart;
+		FootPart feetPart = FootPart.NO;
 		int waypoint = -1;
 		int distance;
 	};
@@ -577,10 +584,6 @@ public class Render
 		}
 	}
 
-	static public final int FEETPART_NO = 0;
-	static public final int FEETPART_BALE = 1;
-	static public final int FEETPART_HEEL = 2;
-
 	/**
 	 * Return the coordinate info for a point given in view space.
 	 *
@@ -614,7 +617,7 @@ public class Render
 					p2.x -= p.x;
 					p2.y -= p.y;
 
-					ci.feetPart = FEETPART_BALE;
+					ci.feetPart = FootPart.BALE;
 					ci.rotationCenterBallroomPoint = p;
 					ci.distance = Math.abs(ballroomBaleY);
 					ci.feetIndex = i;
@@ -631,7 +634,7 @@ public class Render
 					p2.x -= p.x;
 					p2.y -= p.y;
 
-					ci.feetPart = FEETPART_HEEL;
+					ci.feetPart = FootPart.HEEL;
 					ci.rotationCenterBallroomPoint = p;
 					ci.distance = Math.abs(ballroomHeelY);
 					ci.feetIndex = i;

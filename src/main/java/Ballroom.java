@@ -531,7 +531,7 @@ public class Ballroom extends Canvas
 					Render.CoordinateInfo ci = render.getPixCoordinateInfo(rsa, event.x, event.y, step);
 					if (ci.feetIndex != -1)
 					{
-						if (ci.feetPart != Render.FEETPART_NO || ci.waypoint == 0)
+						if (ci.feetPart != Render.FootPart.NO || ci.waypoint == 0)
 						{
 							if (cursor == null)
 							{
@@ -588,12 +588,12 @@ public class Ballroom extends Canvas
 
 				if (ci.feetIndex != -1)
 				{
-					if (ci.feetPart != Render.FEETPART_NO || ci.waypoint == 0)
+					if (ci.feetPart != Render.FootPart.NO || ci.waypoint == 0)
 					{
 						lastSelectedWaypoint = ci.waypoint;
 						lastSelectedStepIndex = pattern.getCurrentStepNum();
 						lastSelectedFootIndex = ci.feetIndex;
-						dragOperation = ci.feetPart;
+						dragOperation = ci.feetPart == Render.FootPart.BALE?DRAG_ROTATE_BALE:DRAG_ROTATE_HEEL;
 						if (ci.waypoint != -1)	dragOperation = DRAG_MOVE_WAYPOINT;
 						distance = ci.distance;
 						rotationCenterBallroomPoint = ci.rotationCenterBallroomPoint;
