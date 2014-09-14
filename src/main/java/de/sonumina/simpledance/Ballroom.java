@@ -108,12 +108,6 @@ public class Ballroom extends Canvas
 	private int animationNumber;
 	private int animationMaxNumber;
 
-	static private GraphicsData [] graphicsData = new GraphicsData []
-	{
-		new GraphicsData(0),
-		new GraphicsData(1),
-	};
-	
 	private LinkedList<BallroomListener> ballroomListenerList = new LinkedList<>();
 
 	private int calculateBallroomAngle(int mx, int my, int x, int y)
@@ -156,56 +150,6 @@ public class Ballroom extends Canvas
 		if (angle >= 360) angle -= 360;
 		else if (angle < 0) angle += 360 * ((-angle + 359)/360);
 		return angle;
-	}
-	
-	GraphicsData getGraphicsData(Step step, int stepNumber)
-	{
-		int graphicsNum;
-		if (step.isFemaleFoot(stepNumber)) graphicsNum = 1;
-		else graphicsNum = 0;
-		return graphicsData[graphicsNum];		
-	}
-	
-	WayPoint transformFeedCoordToPix(WayPoint feetCoord)
-	{
-		/* This used to be something like this:
-		 *  int x = (feetCoord.x - zoomLeft) * zoomFactor / 100;
-		 *  int y = (zoomTop - feetCoord.y) * zoomFactor / 100;
-		 *
-		 * However this doesn't match the way it works in the Render class.
-		 */
-		int visibleLeft = zoomLeft;
-		int visibleTop = zoomTop;
-		int visibleWidth = getClientArea().width * 100 / zoomFactor;
-		int visibleHeight = getClientArea().height * 100 / zoomFactor;
-		int pixelWidth = getClientArea().width;
-		int pixelHeight = getClientArea().height;
-
-		int x = (feetCoord.x - visibleLeft) * pixelWidth / visibleWidth;
-		int y = (visibleTop - feetCoord.y) * pixelHeight / visibleHeight;
-		int a = feetCoord.a;
-
-		WayPoint newFeetCoord = new WayPoint(x,y,a);
-		return newFeetCoord;
-	}
-	
-	/**
-	 * This transforms the given coordinates relative to the middle point
-	 * of the given feetCoord coordinate system  
-	 * 	 * @param feetCoord	 * @param px	 * @param py	 * @return Point	 */
-	Point transformCoords(WayPoint feetCoord, int px, int py)
-	{
-		int x = feetCoord.x;
-		int y = feetCoord.y;
-		int a = feetCoord.a;
-
-		double cosa = Math.cos(Math.toRadians(a));
-		double sina = Math.sin(Math.toRadians(a));
-		
-		int newx = (int)(px * cosa - py * sina) + x;
-		int newy = (int)(-px * sina + py * cosa) + y;
-		Point p = new Point(newx,newy);
-		return p;
 	}
 	
 	/**
