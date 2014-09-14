@@ -1,4 +1,7 @@
 package de.sonumina.simpledance;
+
+import static de.sonumina.simpledance.I18n.*;
+
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
@@ -18,32 +21,14 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.*;
 
 import de.sonumina.simpledance.graphics.swt.SWTContext;
-import gnu.gettext.GettextResource;
 
 import java.util.LinkedList;
-import java.util.ResourceBundle;
 
 /**
  * @author Sebastian Bauer
  */
 public class Ballroom extends Canvas
 {
-	// *** BEGIN I18N
-	static private ResourceBundle localeResource;
-	static
-	{
-		try
-		{
-			localeResource = GettextResource.getBundle("SimpleDanceBundle");
-		} catch(Exception e){};
-	};
-	static final private String _(String str)
-	{
-		if (localeResource == null) return str;
-		return GettextResource.gettext(localeResource,str);
-	}
-	// *** END I18N
-
 	static final int DRAG_NO = 0;
 	static final int DRAG_ROTATE_BALE = 1;
 	static final int DRAG_ROTATE_HEEL = 2;
