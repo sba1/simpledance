@@ -115,7 +115,7 @@ public class Dance implements Runnable
 	private Combo durationCombo;
 	
 	/* all created images, which are disposed in dispose() */
-	private LinkedList imageList = new LinkedList();
+	private LinkedList<Image> imageList = new LinkedList<Image>();
 	
 	private PatternProp patternPropShell;
 	private DetailedOverviewShell detailedOverviewShell;
@@ -682,12 +682,8 @@ public class Dance implements Runnable
 		{
 			public void widgetDisposed(DisposeEvent event)
 			{
-				ListIterator iter = imageList.listIterator();
-				while (iter.hasNext())
-				{
-					Image img = (Image)iter.next();
+				for (Image img : imageList)
 					img.dispose();
-				}
 				ballroom.dispose();
 			}
 		});
@@ -1313,7 +1309,7 @@ public class Dance implements Runnable
 				}
 
 				/* All patterns types get moved into the list */
-				LinkedList allPatternsList = new LinkedList();
+				LinkedList<Integer> allPatternsList = new LinkedList<Integer>();
 				for (int i=0;i<allPatternsArray.length;i++)
 				{
 					if (allPatternsArray[i].size()>0)
@@ -1331,11 +1327,11 @@ public class Dance implements Runnable
 					}
 				});
 
-				ListIterator iter = allPatternsList.listIterator();
+				ListIterator<Integer> iter = allPatternsList.listIterator();
 				
 				while (iter.hasNext())
 				{
-					int i = ((Integer)(iter.next())).intValue();
+					int i = (iter.next()).intValue();
 					
 					if (allPatternsArray[i].size()>0)
 					{
