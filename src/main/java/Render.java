@@ -298,7 +298,7 @@ public class Render
 	 * Checks whether the given pixel coordinates (tx, ty)  are  in a given polygon subject to specified coordinate transformation.
 	 *
 	 * @param rsa render scene arguments.
-	 * @param feetCoord defines the center of the shape in ballroom space.
+	 * @param center defines the center of the shape in ballroom space.
 	 * @param mirror whether the polygon should be additionally mirrored.
 	 * @param data the data that defines the polygon.
 	 * @param pixSize the size of the object in pixels (e.g., the y extend)
@@ -307,14 +307,14 @@ public class Render
 	 * @param ty the y part of the location to check
 	 * @return whether (tx,ty) is inside the polygon.
 	 */
-	private boolean myPolygonTest(RenderSceneArgs rsa, WayPoint feetCoord, boolean mirror, int [] data, int pixSize, int ballroomSize, int tx, int ty)
+	private boolean myPolygonTest(RenderSceneArgs rsa, WayPoint center, boolean mirror, int [] data, int pixSize, int ballroomSize, int tx, int ty)
 	{
 		context.pushCurrentTransform();
 
-		WayPoint transFeetCoord = transformBallroomToPixel(rsa, feetCoord);
+		WayPoint transFeetCoord = transformBallroomToPixel(rsa, center);
 		float scale = (float)rsa.pixelWidth / pixSize / (float)rsa.visibleWidth * ballroomSize;
 		context.applyTranslationTransformation(transFeetCoord.x, transFeetCoord.y);
-		context.applyRotateTransformation(-feetCoord.a);
+		context.applyRotateTransformation(-center.a);
 		context.applyScaleTransformation(scale);
 		if (mirror) context.applyScaleXTransformation(-1.f);
 
