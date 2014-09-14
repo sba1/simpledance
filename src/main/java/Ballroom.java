@@ -239,11 +239,6 @@ public class Ballroom extends Canvas
 		y = (zoomTop - y) * zoomFactor / 100;
 		return new Point(x,y);
 	}
-	
-	public Render.CoordinateInfo getPixCoordinateInfo(int x, int y, Step step)
-	{
-		return render.getPixCoordinateInfo(getRenderSceneArgs(), x, y, step);
-	}
 
 	/**
 	 * Returns the current scene parameters relevant for rendering.
@@ -532,7 +527,8 @@ public class Ballroom extends Canvas
 					if (step == null) return;
 					Step previousStep = pattern.getPreviousStep();
 
-					Render.CoordinateInfo ci = getPixCoordinateInfo(event.x,event.y,step);
+					Render.RenderSceneArgs rsa = getRenderSceneArgs();
+					Render.CoordinateInfo ci = render.getPixCoordinateInfo(rsa, event.x, event.y, step);
 					if (ci.feetIndex != -1)
 					{
 						if (ci.feetPart != Render.FEETPART_NO || ci.waypoint == 0)
@@ -548,7 +544,7 @@ public class Ballroom extends Canvas
 					
 					if (disposeCursor && previousStep != null)
 					{
-						ci = getPixCoordinateInfo(event.x,event.y,previousStep);
+						ci = render.getPixCoordinateInfo(rsa, event.x, event.y, previousStep);
 						if (ci.waypoint > 0)
 						{
 							if (cursor == null)
@@ -586,7 +582,9 @@ public class Ballroom extends Canvas
 				Step previousStep = pattern.getPreviousStep();
 
 				lastSelectedFootIndex = -1;
-				Render.CoordinateInfo ci = getPixCoordinateInfo(ev.x,ev.y,step);
+
+				Render.RenderSceneArgs rsa = getRenderSceneArgs();
+				Render.CoordinateInfo ci = render.getPixCoordinateInfo(rsa, ev.x, ev.y, step);
 
 				if (ci.feetIndex != -1)
 				{
@@ -604,7 +602,7 @@ public class Ballroom extends Canvas
 				{
 					if (previousStep != null)
 					{
-						ci = getPixCoordinateInfo(ev.x,ev.y,previousStep);
+						ci = render.getPixCoordinateInfo(rsa, ev.x, ev.y, previousStep);
 						if (ci.waypoint > 0)
 						{
 							lastSelectedWaypoint = ci.waypoint;
