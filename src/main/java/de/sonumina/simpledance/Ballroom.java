@@ -89,13 +89,10 @@ public class Ballroom extends Canvas
 
 	private boolean mousePressed = false;
 	private de.sonumina.simpledance.graphics.Point rotationCenterBallroomPoint;
-	private Point rotationCenterPixelPoint;
 	private int distance;
-	private int pixelDistance;
 	private int dragOperation;
 	private int contextFeetIndex;
 	private int contextStepIndex;
-	private int contextWayPoint;
 
 	private int lastSelectedStepIndex;
 	private int lastSelectedFootIndex;
@@ -645,8 +642,7 @@ public class Ballroom extends Canvas
 					{
 						contextFeetIndex = ci.feetIndex;
 						contextStepIndex = lastSelectedStepIndex;
-						contextWayPoint = ci.waypoint;
-						
+
 						menuItem = new MenuItem(contextMenu, SWT.CHECK);
 						menuItem.setText(_("Rotate around long angle"));
 						menuItem.setSelection(pattern.getStep(contextStepIndex).getFoot(contextFeetIndex).isLongRotation());
