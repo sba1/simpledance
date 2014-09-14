@@ -205,33 +205,6 @@ public class Render
 		return p;
 	}
 
-	private int [] calcPolygon(RenderSceneArgs rsa, WayPoint feetCoord, boolean mirror, int [] data, int pixSize, int ballroomSize)
-	{
-		feetCoord = transformBallroomToPixel(rsa,feetCoord);
-		int x = feetCoord.x;
-		int y = feetCoord.y;
-		int a = feetCoord.a;
-		
-		int [] newData = new int[data.length];
-		for (int i=0;i<data.length;i+=2)
-		{
-			int px = data[i];
-			int py = data[i+1];
-    		
-			if (mirror) px = -px;
-    		
-			px = px * ballroomSize  * rsa.pixelWidth / rsa.visibleWidth / pixSize;
-			py = py * ballroomSize  * rsa.pixelWidth / rsa.visibleWidth / pixSize;
-    		
-			double cosa = Math.cos(Math.toRadians(a));
-			double sina = Math.sin(Math.toRadians(a));
-    		
-			newData[i] = (int)(px * cosa + py * sina) + x;
-			newData[i+1] = (int)(- px * sina + py * cosa) + y;
-		}
-		return newData;
-	}
-
     private void myDrawPolygon(RenderSceneArgs rsa, WayPoint feetCoord, boolean mirror, int [] data, int pixSize, int ballroomSize, boolean closed)
     {
     	context.pushCurrentTransform();
