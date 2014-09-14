@@ -35,13 +35,14 @@ public class Render
 	private Color redColor;
 
 	private Context context;
-	
+
+	/** Graphics data for male and femals feet */
 	static private GraphicsData [] graphicsData = new GraphicsData []
 	{
 		new GraphicsData(0),
 		new GraphicsData(1),
 	};
-	
+
 	private GraphicsData getGraphicsData(Step step, int footNumber)
 	{
 		int graphicsNum;
@@ -49,7 +50,13 @@ public class Render
 		else graphicsNum = 0;
 		return graphicsData[graphicsNum];		
 	}
-	
+
+	/**
+	 * Construct a new render object with the context being the target
+	 * of all operations.
+	 *
+	 * @param context
+	 */
 	public Render(Context context)
 	{
 		this.context = context;
@@ -140,7 +147,8 @@ public class Render
 	};
 
 	/**
-	 * Transform a given 
+	 * Transform given ballroom waypoint to a waypoint representing pixel positions.
+	 *
 	 * @param rsa
 	 * @param feetCoord
 	 * @return
@@ -156,7 +164,8 @@ public class Render
 	}
 
 	/**
-	 * 
+	 * Transform given ballroom coordinates to the actual view coordinates.
+	 *
 	 * @param rsa
 	 * @param x
 	 * @param y
