@@ -11,13 +11,10 @@ import org.eclipse.swt.graphics.PaletteData;
 import org.eclipse.swt.widgets.Display;
 
 import com.lowagie.text.Cell;
-import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.PageSize;
-import com.lowagie.text.Paragraph;
 import com.lowagie.text.Table;
-import com.lowagie.text.Rectangle;
 import com.lowagie.text.pdf.PdfWriter;
 
 import de.sonumina.simpledance.graphics.swt.SWTContext;

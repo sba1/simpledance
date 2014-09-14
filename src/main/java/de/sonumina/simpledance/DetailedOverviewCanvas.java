@@ -1,19 +1,19 @@
 package de.sonumina.simpledance;
 
-import static de.sonumina.simpledance.I18n.*;
-
-import gnu.gettext.GettextResource;
+import static de.sonumina.simpledance.I18n._;
 
 import java.util.LinkedList;
-import java.util.ListIterator;
-import java.util.ResourceBundle;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
-import org.eclipse.swt.graphics.*;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 

@@ -1,6 +1,6 @@
 package de.sonumina.simpledance;
 
-import static de.sonumina.simpledance.I18n.*;
+import static de.sonumina.simpledance.I18n.N_;
 
 /**
  * @author Standard

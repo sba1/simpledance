@@ -1,15 +1,12 @@
 package de.sonumina.simpledance;
 
-import static de.sonumina.simpledance.I18n.*;
-
-import gnu.gettext.GettextResource;
-
-import java.util.ResourceBundle;
+import static de.sonumina.simpledance.I18n._;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
-import org.eclipse.swt.layout.*;
-import org.eclipse.swt.widgets.*;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Shell;
 
 /**
  * @author Standard
