@@ -1,5 +1,4 @@
 import java.util.LinkedList;
-import java.util.ListIterator;
 
 /**
  * This class represents a single dance pattern.
