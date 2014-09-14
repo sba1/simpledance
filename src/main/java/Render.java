@@ -123,6 +123,15 @@ public class Render
 		context.deallocateColor(rightFeetBorderColor);
 	}
 
+	static public class CoordinateInfo
+	{
+		Point rotationCenterBallroomPoint;
+		int feetIndex = -1;
+		int feetPart;
+		int waypoint = -1;
+		int distance;
+	};
+
 	static public class RenderSceneArgs
 	{
 		/** Coordinates of the ballroom coord system */
@@ -284,6 +293,16 @@ public class Render
 		context.drawOval(p.x,p.y,2,2);
     }
 
+	private boolean myPointRangeTest(RenderSceneArgs rsa, WayPoint feetCoord, int px, int py, int tx, int ty)
+	{
+		Point p = transformCoords(feetCoord.x, feetCoord.y, feetCoord.a, px, py);
+		p = transformBallroomToPixel(rsa, p.x, p.y);
+
+		if (Math.abs(p.x - tx) < 5 && Math.abs(p.y - ty) < 5)
+			return true;
+
+		return false;
+	}
 
 	/**
 	 * Draw a given foot
@@ -508,6 +527,84 @@ public class Render
 				context.drawOval(p1.x-1,p1.y-1,2,2);
 			}
 		}
+	}
+
+	static public final int FEETPART_NO = 0;
+	static public final int FEETPART_BALE = 1;
+	static public final int FEETPART_HEEL = 2;
+
+	/**
+	 * Return the coordinate info for a point given in view space.
+	 *
+	 * @param rsa
+	 * @param x
+	 * @param y
+	 * @param step
+	 * @return
+	 */
+	public CoordinateInfo getPixCoordinateInfo(RenderSceneArgs rsa, int x, int y, Step step)
+	{
+		CoordinateInfo ci = new CoordinateInfo();
+
+		for (int i=0;i<step.getNumberOfFeets();i++)
+		{
+			GraphicsData graphicsData = getGraphicsData(step,i);
+			WayPoint feetCoord = step.getStartingWayPoint(i);
+
+			int ballroomBaleX = graphicsData.baleX * graphicsData.realYSize / graphicsData.feetDataYSize;
+			int ballroomBaleY = -graphicsData.baleY * graphicsData.realYSize / graphicsData.feetDataYSize;
+			int ballroomHeelX = graphicsData.heelX * graphicsData.realYSize / graphicsData.feetDataYSize;
+			int ballroomHeelY = -graphicsData.heelY * graphicsData.realYSize / graphicsData.feetDataYSize;
+
+			if (myPolygonTest(rsa, feetCoord,step.isFeetLeft(i),graphicsData.baleData,graphicsData.feetDataYSize,graphicsData.realYSize,x,y))
+			{
+				if (myPointRangeTest(rsa, feetCoord, ballroomBaleX, ballroomBaleY, x, y))
+				{
+					Point p = transformCoords(feetCoord.x, feetCoord.y, feetCoord.a, ballroomHeelX, ballroomHeelY);
+					Point p2 = transformCoords(feetCoord.x, feetCoord.y, feetCoord.a, 0, 0);
+
+					p2.x -= p.x;
+					p2.y -= p.y;
+
+					ci.feetPart = FEETPART_BALE;
+					ci.rotationCenterBallroomPoint = p;
+					ci.distance = Math.abs(ballroomBaleY);
+					ci.feetIndex = i;
+					break;
+				}
+			} else
+			if (myPolygonTest(rsa, feetCoord,step.isFeetLeft(i),graphicsData.heelData,graphicsData.feetDataYSize,graphicsData.realYSize,x,y))
+			{
+				if (myPointRangeTest(rsa, feetCoord,ballroomHeelX,ballroomHeelY,x,y))
+				{
+					Point p = transformCoords(feetCoord.x, feetCoord.y, feetCoord.a, ballroomBaleX, ballroomBaleY);
+					Point p2 = transformCoords(feetCoord.x, feetCoord.y, feetCoord.a, 0, 0);
+
+					p2.x -= p.x;
+					p2.y -= p.y;
+
+					ci.feetPart = FEETPART_HEEL;
+					ci.rotationCenterBallroomPoint = p;
+					ci.distance = Math.abs(ballroomHeelY);
+					ci.feetIndex = i;
+					break;
+				}
+			}
+
+			for (int j=0;j<step.getFoot(i).getNumOfWayPoints();j++)
+			{
+				WayPoint waypoint = step.getFoot(i).getWayPoint(j);
+
+				if (myPointRangeTest(rsa, waypoint, 0, 0, x, y))
+				{
+					ci.feetIndex = i;
+					ci.waypoint = j;
+					break;
+				}
+			}
+		}
+
+		return ci;
 	}
 
 	/**

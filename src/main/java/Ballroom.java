@@ -19,7 +19,6 @@ import org.eclipse.swt.graphics.*;
 import gnu.gettext.GettextResource;
 import graphics.swt.SWTContext;
 
-import java.awt.Polygon;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
 
@@ -49,10 +48,6 @@ public class Ballroom extends Canvas
 	static final int DRAG_ROTATE_HEEL = 2;
 	static final int DRAG_MOVE_WAYPOINT = 3;
 
-	static final int FEETPART_NO = 0;
-	static final int FEETPART_BALE = 1;
-	static final int FEETPART_HEEL = 2;
-	
 	private SWTContext context;
 	private Render render;
 	
@@ -100,17 +95,8 @@ public class Ballroom extends Canvas
 	private boolean showGrid = true;
 	private boolean showGradients = true;
 
-	class CoordinateInfo
-	{
-		Point rotationCenterBallroomPoint;
-		int feetIndex = -1;
-		int feetPart;
-		int waypoint = -1;
-		int distance;
-	};
-
 	private boolean mousePressed = false;
-	private Point rotationCenterBallroomPoint;
+	private graphics.Point rotationCenterBallroomPoint;
 	private Point rotationCenterPixelPoint;
 	private int distance;
 	private int pixelDistance;
@@ -254,69 +240,9 @@ public class Ballroom extends Canvas
 		return new Point(x,y);
 	}
 	
-	public CoordinateInfo getPixCoordinateInfo(int x, int y, Step step)
+	public Render.CoordinateInfo getPixCoordinateInfo(int x, int y, Step step)
 	{
-		CoordinateInfo ci = new CoordinateInfo();
-
-		for (int i=0;i<step.getNumberOfFeets();i++)
-		{
-			GraphicsData graphicsData = getGraphicsData(step,i);
-			WayPoint feetCoord = step.getStartingWayPoint(i);
-
-			int ballroomBaleX = graphicsData.baleX * graphicsData.realYSize / graphicsData.feetDataYSize; 
-			int ballroomBaleY = -graphicsData.baleY * graphicsData.realYSize / graphicsData.feetDataYSize; 
-			int ballroomHeelX = graphicsData.heelX * graphicsData.realYSize / graphicsData.feetDataYSize; 
-			int ballroomHeelY = -graphicsData.heelY * graphicsData.realYSize / graphicsData.feetDataYSize; 
-
-			if (myPolygonTest(feetCoord,step.isFeetLeft(i),graphicsData.baleData,graphicsData.feetDataYSize,graphicsData.realYSize,x,y))
-			{
-				if (myPointRangeTest(feetCoord,ballroomBaleX,ballroomBaleY,x,y))
-				{
-					Point p = transformCoords(feetCoord,ballroomHeelX,ballroomHeelY);
-					Point p2 = transformCoords(feetCoord,0,0);
-
-					p2.x -= p.x;
-					p2.y -= p.y;
-
-					ci.feetPart = FEETPART_BALE;
-					ci.rotationCenterBallroomPoint = p;
-					ci.distance = Math.abs(ballroomBaleY);
-					ci.feetIndex = i;
-					break;
-				}
-			} else
-			if (myPolygonTest(feetCoord,step.isFeetLeft(i),graphicsData.heelData,graphicsData.feetDataYSize,graphicsData.realYSize,x,y))
-			{
-				if (myPointRangeTest(feetCoord,ballroomHeelX,ballroomHeelY,x,y))
-				{
-					Point p = transformCoords(feetCoord,ballroomBaleX,ballroomBaleY);
-					Point p2 = transformCoords(feetCoord,0,0);
-
-					p2.x -= p.x;
-					p2.y -= p.y;
-
-					ci.feetPart = FEETPART_HEEL;
-					ci.rotationCenterBallroomPoint = p;
-					ci.distance = Math.abs(ballroomHeelY);
-					ci.feetIndex = i;
-					break;
-				}
-			}
-
-			for (int j=0;j<step.getFoot(i).getNumOfWayPoints();j++)
-			{
-				WayPoint waypoint = step.getFoot(i).getWayPoint(j);
-					
-				if (myPointRangeTest(waypoint,0,0,x,y))
-				{
-					ci.feetIndex = i;
-					ci.waypoint = j;
-					break;
-				}
-			}
-		}
-
-		return ci;
+		return render.getPixCoordinateInfo(getRenderSceneArgs(), x, y, step);
 	}
 
 	/**
@@ -606,10 +532,10 @@ public class Ballroom extends Canvas
 					if (step == null) return;
 					Step previousStep = pattern.getPreviousStep();
 
-					CoordinateInfo ci = getPixCoordinateInfo(event.x,event.y,step);
+					Render.CoordinateInfo ci = getPixCoordinateInfo(event.x,event.y,step);
 					if (ci.feetIndex != -1)
 					{
-						if (ci.feetPart != FEETPART_NO || ci.waypoint == 0)
+						if (ci.feetPart != Render.FEETPART_NO || ci.waypoint == 0)
 						{
 							if (cursor == null)
 							{
@@ -660,11 +586,11 @@ public class Ballroom extends Canvas
 				Step previousStep = pattern.getPreviousStep();
 
 				lastSelectedFootIndex = -1;
-				CoordinateInfo ci = getPixCoordinateInfo(ev.x,ev.y,step);
+				Render.CoordinateInfo ci = getPixCoordinateInfo(ev.x,ev.y,step);
 
 				if (ci.feetIndex != -1)
 				{
-					if (ci.feetPart != FEETPART_NO || ci.waypoint == 0)
+					if (ci.feetPart != Render.FEETPART_NO || ci.waypoint == 0)
 					{
 						lastSelectedWaypoint = ci.waypoint;
 						lastSelectedStepIndex = pattern.getCurrentStepNum();
@@ -788,22 +714,6 @@ public class Ballroom extends Canvas
 				mousePressed = false;
 			}
 		});
-	}
-	
-	private boolean myPointRangeTest(WayPoint feetCoord, int px, int py, int tx, int ty)
-	{
-    	Point p = transformCoords(feetCoord,px,py);
-    	p = transformBallroomToPix(p.x,p.y);
-
-		if (Math.abs(p.x - tx) < 5 && Math.abs(p.y - ty) < 5)
-			return true;
-
-		return false;
-	}
-
-	private boolean myPolygonTest(WayPoint feetCoord, boolean mirror, int [] data, int pixSize, int ballroomSize, int tx, int ty)
-	{
-		return render.myPolygonTest(getRenderSceneArgs(), feetCoord, mirror, data, pixSize, ballroomSize, tx, ty);
 	}
 
 	private void drawGrid(GC gc)
