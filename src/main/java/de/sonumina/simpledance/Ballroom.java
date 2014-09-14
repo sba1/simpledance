@@ -1,12 +1,9 @@
 package de.sonumina.simpledance;
 
-import static de.sonumina.simpledance.I18n.*;
+import static de.sonumina.simpledance.I18n._;
 
-import org.eclipse.swt.widgets.Canvas;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.MenuItem;
-import org.eclipse.swt.widgets.ScrollBar;
+import java.util.LinkedList;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
@@ -18,11 +15,20 @@ import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.graphics.*;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Cursor;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.widgets.Canvas;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
+import org.eclipse.swt.widgets.ScrollBar;
 
 import de.sonumina.simpledance.graphics.swt.SWTContext;
-
-import java.util.LinkedList;
 
 /**
  * @author Sebastian Bauer
