@@ -329,9 +329,21 @@ public class Render
 		return polygon.contains(tx,ty);
 	}
 
-	private boolean myPointRangeTest(RenderSceneArgs rsa, WayPoint feetCoord, int px, int py, int tx, int ty)
+	/**
+	 * Tests whether a given point (px, py) realtive to a given center is nearby by a
+	 * point (tx, ty) that given in the view space.
+	 *
+	 * @param rsa
+	 * @param center
+	 * @param px
+	 * @param py
+	 * @param tx
+	 * @param ty
+	 * @return
+	 */
+	private boolean myPointRangeTest(RenderSceneArgs rsa, WayPoint center, int px, int py, int tx, int ty)
 	{
-		Point p = transformCoords(feetCoord.x, feetCoord.y, feetCoord.a, px, py);
+		Point p = transformCoords(center.x, center.y, center.a, px, py);
 		p = transformBallroomToPixel(rsa, p.x, p.y);
 
 		if (Math.abs(p.x - tx) < 5 && Math.abs(p.y - ty) < 5)
