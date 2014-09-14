@@ -1,3 +1,5 @@
+import java.awt.Polygon;
+
 import graphics.Color;
 import graphics.Context;
 import graphics.Font;
@@ -534,4 +536,40 @@ public class Render
 			}
 		}
 	}
+
+	/**
+	 * Checks whether the given pixel coordinates (tx, ty)  are  in a given polygon subject to specified coordinate transformation.
+	 *
+	 * @param rsa render scene arguments.
+	 * @param feetCoord defines the center of the shape in ballroom space.
+	 * @param mirror whether the polygon should be additionally mirrored.
+	 * @param data the data that defines the polygon.
+	 * @param pixSize the size of the object in pixels (e.g., the y extend)
+	 * @param ballroomSize the equivalent size of the object in ballroom space.
+	 * @param tx the x part of the location to check
+	 * @param ty the y part of the location to check
+	 * @return whether (tx,ty) is inside the polygon.
+	 */
+	public boolean myPolygonTest(RenderSceneArgs rsa, WayPoint feetCoord, boolean mirror, int [] data, int pixSize, int ballroomSize, int tx, int ty)
+	{
+		context.pushCurrentTransform();
+
+		WayPoint transFeetCoord = transformBallroomToPixel(rsa, feetCoord);
+		float scale = (float)rsa.pixelWidth / pixSize / (float)rsa.visibleWidth * ballroomSize;
+		context.applyTranslationTransformation(transFeetCoord.x, transFeetCoord.y);
+		context.applyRotateTransformation(-feetCoord.a);
+		context.applyScaleTransformation(scale);
+		if (mirror) context.applyScaleXTransformation(-1.f);
+
+		int [] transformedData = new int[data.length];
+		context.applyTransformation(data, transformedData);
+
+		context.popCurrentTransform();
+
+		Polygon polygon = new Polygon();
+		for (int i=0; i<data.length; i+=2)
+			polygon.addPoint(transformedData[i], transformedData[i+1]);
+		return polygon.contains(tx,ty);
+	}
+
 }

@@ -801,47 +801,9 @@ public class Ballroom extends Canvas
 		return false;
 	}
 
-	private int [] calcPolygon(WayPoint feetCoord, boolean mirror, int [] data, int pixSize, int ballroomSize)
-	{
-		feetCoord = transformFeedCoordToPix(feetCoord);
-		int x = feetCoord.x;
-		int y = feetCoord.y;
-		int a = feetCoord.a;
-		
-		int [] newData = new int[data.length];
-		for (int i=0;i<data.length;i+=2)
-		{
-			int px = data[i];
-			int py = data[i+1];
-    		
-			if (mirror) px = -px;
-    		
-			int visibleWidth = getClientArea().width * 100 / zoomFactor;
-			int pixelWidth = getClientArea().width;
-			float scale = (float)pixelWidth / pixSize / (float)visibleWidth * ballroomSize;
-
-			px = (int)(px * scale);
-			py = (int)(py * scale);
-    		
-			double cosa = Math.cos(Math.toRadians(a));
-			double sina = Math.sin(Math.toRadians(a));
-    		
-			newData[i] = (int)(px * cosa + py * sina) + x;
-			newData[i+1] = (int)(- px * sina + py * cosa) + y;
-		}
-		return newData;
-	}
-
 	private boolean myPolygonTest(WayPoint feetCoord, boolean mirror, int [] data, int pixSize, int ballroomSize, int tx, int ty)
 	{
-		Polygon polygon = new Polygon();
-		int [] newData = calcPolygon(feetCoord,mirror,data,pixSize,ballroomSize);
-		
-		for (int i=0;i<data.length;i+=2)
-		{
-   			polygon.addPoint(newData[i],newData[i+1]);
-		}
-		return polygon.contains(tx,ty);
+		return render.myPolygonTest(getRenderSceneArgs(), feetCoord, mirror, data, pixSize, ballroomSize, tx, ty);
 	}
 
 	private void drawGrid(GC gc)
