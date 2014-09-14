@@ -319,6 +319,36 @@ public class Ballroom extends Canvas
 		return ci;
 	}
 
+	/**
+	 * Returns the current scene parameters relevant for rendering.
+	 *
+	 * @return the scene parameters.
+	 */
+	private Render.RenderSceneArgs getRenderSceneArgs()
+	{
+		Render.RenderSceneArgs rsa = new Render.RenderSceneArgs();
+		rsa.pattern = pattern;
+		rsa.stepNumber = pattern.getCurrentStepNum();
+		rsa.visibleLeft = zoomLeft;
+		rsa.visibleTop = zoomTop;
+		rsa.visibleWidth = getClientArea().width * 100 / zoomFactor;
+		rsa.visibleHeight = getClientArea().height * 100 / zoomFactor;
+		rsa.pixelWidth = getClientArea().width;
+		rsa.pixelHeight = getClientArea().height;
+
+		rsa.showPrevStep = showPrevStep;
+		rsa.showGradients = showGradients;
+		rsa.showPrevStep = showPrevStep;
+		rsa.insideAnimation = animation;
+		rsa.animationNumber = animationNumber;
+		rsa.animationMaxNumber = animationMaxNumber;
+		rsa.showLady = showLady;
+		rsa.showGent = showGent;
+		rsa.showAnimationOutline = showAnimationOutline;
+		for (int i=0;i<4;i++) rsa.selectedArray[i] = selectedArray[i];
+		return rsa;
+	}
+
 	private void createImageBuffer()
 	{
 		if (bufferImage != null)
@@ -469,28 +499,7 @@ public class Ballroom extends Canvas
 
 				if (pattern != null)
 				{
-					Render.RenderSceneArgs rsa = new Render.RenderSceneArgs();
-					rsa.pattern = pattern;
-					rsa.stepNumber = pattern.getCurrentStepNum();
-					rsa.visibleLeft = zoomLeft;
-					rsa.visibleTop = zoomTop;
-					rsa.visibleWidth = getClientArea().width * 100 / zoomFactor;
-					rsa.visibleHeight = getClientArea().height * 100 / zoomFactor;
-					rsa.pixelWidth = getClientArea().width;
-					rsa.pixelHeight = getClientArea().height;
-
-					rsa.showPrevStep = showPrevStep;
-					rsa.showGradients = showGradients;
-					rsa.showPrevStep = showPrevStep;
-					rsa.insideAnimation = animation;
-					rsa.animationNumber = animationNumber;
-					rsa.animationMaxNumber = animationMaxNumber;
-					rsa.showLady = showLady;
-					rsa.showGent = showGent;
-					rsa.showAnimationOutline = showAnimationOutline;
-					for (int i=0;i<4;i++) rsa.selectedArray[i] = selectedArray[i];
-
-					render.renderScence(rsa);
+					render.renderScence(getRenderSceneArgs());
 
 					if (showCoordinates)
 					{
