@@ -155,7 +155,7 @@ public class Ballroom extends Canvas
 	/**
 	 * Transform current pixel coordinates to ballroom coordinates
 	 * 	 * @param x	 * @param y	 * @return Point	 */
-	Point transformPixToBallroom(int x, int y)
+	private Point transformPixToBallroom(int x, int y)
 	{
 		x = x * 100 / zoomFactor + zoomLeft;
 		y = - y * 100 / zoomFactor + zoomTop;
@@ -166,7 +166,7 @@ public class Ballroom extends Canvas
 	/**
 	 * Transforms ballroom Coordinates to pixel coordinates
 	 * 	 * @param x	 * @param y	 * @return Point	 */
-	Point transformBallroomToPix(int x, int y)
+	private Point transformBallroomToPix(int x, int y)
 	{
 		x = (x - zoomLeft) * zoomFactor / 100;
 		y = (zoomTop - y) * zoomFactor / 100;
