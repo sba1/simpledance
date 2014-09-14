@@ -276,7 +276,6 @@ public class Render
 		feetCoord = transformBallroomToPixel(rsa,feetCoord);
 		int x = feetCoord.x;
 		int y = feetCoord.y;
-		int a = feetCoord.a;
 		
 		context.setFont(null);
 
@@ -550,7 +549,6 @@ public class Render
 			if (!step.isFemaleFoot(i) && !rsa.showGent) continue;
 
 			WayPoint ballroomCoord;
-			WayPoint pixelCoord;
 			
 			/* If inside an animation interpolate the position of the foot */
 			if (rsa.insideAnimation && nextStep != null)

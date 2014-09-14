@@ -162,17 +162,6 @@ public class DetailedOverviewCanvas extends Canvas
 		blueColor.dispose();
 		super.dispose();
 	}
-	
-	private int calculateColumnWidth(GC gc, String [] texts)
-	{
-		int width = 0;
-		for (int i=0;i<texts.length;i++)
-		{
-			Point p = gc.textExtent(texts[i]);
-			if (p.x > width) width = p.x;
-		}
-		return width;
-	}
 
 	private void drawBracket(GC gc, int x1, int y1, int width, int height)
 	{
@@ -216,9 +205,6 @@ public class DetailedOverviewCanvas extends Canvas
 
 	private void render(GC gc)
 	{
-		int x = 0;
-
-		StringList stringList = new StringList();
 		Fraction currentFrac = new Fraction(0,1);
 
 		Rectangle bounds = getClientArea();

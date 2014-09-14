@@ -61,7 +61,6 @@ public class PatternProp
 		shell.setLayout(new GridLayout(4,false));
 
 		GridData gridData;
-		Text text;
 		Label label;
 
 		label = new Label(shell,0);
