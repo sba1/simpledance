@@ -7,6 +7,10 @@
 	<version>0.10-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
+	<properties>
+		<project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
+	</properties>
+
 	<repositories>
 		<repository>
 			<id>swt-repo</id>
