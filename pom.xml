@@ -4,8 +4,14 @@
 
 	<groupId>de.sonuimna</groupId>
 	<artifactId>simpledance</artifactId>
-	<version>0.10-SNAPSHOT</version>
 	<packaging>jar</packaging>
+
+	<parent>
+		<groupId>de.sonumina</groupId>
+		<artifactId>simpledance.parent</artifactId>
+		<version>0.10-SNAPSHOT</version>
+		<relativePath>./simpledance.parent</relativePath>
+	</parent>
 
 	<name>SimpleDance</name>
 
