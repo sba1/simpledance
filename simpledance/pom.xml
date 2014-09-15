@@ -61,13 +61,6 @@
 		</profile>
 	</profiles>
 
-	<repositories>
-		<repository>
-			<id>swt-repo</id>
-			<url>https://swt-repo.googlecode.com/svn/repo/</url>
-		</repository>
-	</repositories>
-
 	<build>
 		<plugins>
 
