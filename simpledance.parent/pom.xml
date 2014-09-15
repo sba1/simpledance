@@ -16,6 +16,9 @@
 
 	<modules>
 		<module>../simpledance</module>
+		<module>../simpledance.linux.amd64</module>
+		<module>../simpledance.linux.i386</module>
+		<module>../simpledance.win32</module>
 	</modules>
 
 </project>
