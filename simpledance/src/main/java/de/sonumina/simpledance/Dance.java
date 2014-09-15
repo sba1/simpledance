@@ -148,7 +148,7 @@ public class Dance implements Runnable
 		}
 		catch(Exception e)
 		{
-			source = new ImageData(getClass().getResourceAsStream(name));
+			source = new ImageData(getClass().getResourceAsStream("/" + name));
 
 		}
 		ImageData mask = source.getTransparencyMask();
