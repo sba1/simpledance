@@ -53,7 +53,8 @@ import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 
 /**
- * This class implements the main view and controller.
+ * This class implements the main view and the corresponding
+ * controller.
  *
  * @author Sebastian Bauer
  */
