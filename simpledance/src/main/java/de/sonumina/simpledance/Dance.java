@@ -1522,7 +1522,6 @@ public class Dance implements Runnable
 	public void savePattern()
 	{
 		String fileName = pattern.getFilename();
-		System.out.println(fileName); 
 		if (fileName == null)
 		{
 			savePatternAs();
