@@ -656,13 +656,25 @@ public class Dance implements Runnable
 		
 		return stepCoordinatesComposite;
 	}
-	
+
+	/**
+	 * Update the window title according to the currently edited file.
+	 */
+	private void updateWindowTitle()
+	{
+		String filename;
+		if (pattern != null && pattern.getFilename() != null)
+			filename = new File(pattern.getFilename()).getName();
+		else filename = "Unnamed";
+		shell.setText("SimpleDance - " + filename);
+	}
+
 	public Shell open(Display display)
 	{
 		GridData gridData;
 
 		shell = new Shell(display);
-		shell.setText("SimpleDance");
+		updateWindowTitle();
 		shell.addShellListener(new ShellAdapter()
 		{
 			public void shellClosed(ShellEvent arg0)
@@ -1167,7 +1179,9 @@ public class Dance implements Runnable
 		if (newPattern.getCurrentStep().isSlow()) durationCombo.select(0);
 		else if (newPattern.getCurrentStep().isQuick()) durationCombo.select(1);
 		else durationCombo.setText(newPattern.getCurrentStep().getDuration());
-		
+
+		updateWindowTitle();
+
 		newPattern.addPatternListener(new PatternListener()
 		{
 			public void newStepActive(Pattern thisPattern, int newStepNum)
@@ -1178,7 +1192,7 @@ public class Dance implements Runnable
 					refreshStepCoordiantes();
 				}
 			}
-
+			/* TODO: Add changed name listener */
 		});
 	}
 	
@@ -1584,6 +1598,7 @@ public class Dance implements Runnable
 		{
 			pattern.setFilename(fileName);
 			savePattern();
+			updateWindowTitle();
 		}
 	}
 	
