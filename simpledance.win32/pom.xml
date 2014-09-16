@@ -37,6 +37,48 @@
 					</execution>
 				</executions>
 			</plugin>
+
+			<plugin>
+				<groupId>com.akathist.maven.plugins.launch4j</groupId>
+				<artifactId>launch4j-maven-plugin</artifactId>
+				<version>1.5.2</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>launch4j</goal>
+						</goals>
+						<configuration>
+							<headerType>gui</headerType>
+							<jar>${project.build.directory}/${artifactId}-${version}-jar-with-dependencies.jar </jar>
+							<outfile>${project.build.directory}/simpledance-${version}.exe</outfile>
+							<downloadUrl>http://java.com/download</downloadUrl>
+							<classPath>
+								<mainClass>de.sonumina.simpledance.SimpleDance</mainClass>
+								<preCp>anything</preCp>
+							</classPath>
+<!--							<icon>src/main/resources/icon/application.ico</icon> -->
+							<jre>
+								<minVersion>1.7.0</minVersion>
+								<jdkPreference>preferJre</jdkPreference>
+							</jre>
+							<versionInfo>
+								<fileVersion>1.0.0.0</fileVersion>
+								<txtFileVersion>${project.version}</txtFileVersion>
+								<fileDescription>${project.name}</fileDescription>
+								<copyright>2003-2014 Sebastian Bauer</copyright>
+								<productVersion>1.0.0.0</productVersion>
+								<txtProductVersion>1.0.0.0</txtProductVersion>
+								<productName>${project.name}</productName>
+<!--								<companyName>Sebastian Bauer</companyName> -->
+								<internalName>simpledance</internalName>
+								<originalFilename>simpledance.exe</originalFilename>
+							</versionInfo>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
 		</plugins>
 	</build>
 	<dependencies>
