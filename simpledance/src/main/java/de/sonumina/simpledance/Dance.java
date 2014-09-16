@@ -1289,9 +1289,9 @@ public class Dance implements Runnable
 				{
 					File file = new File(directory,list[i]);
 
+					FileInputStream fis = null;
 					try
 					{
-						FileInputStream fis;
 						fis = new FileInputStream(file);
 						byte [] input = new byte[fis.available()];
 						fis.read(input);
@@ -1305,6 +1305,19 @@ public class Dance implements Runnable
 					}
 					catch (IOException e)
 					{
+					}
+					finally
+					{
+						try
+						{
+							if (fis != null)
+							{
+								fis.close();
+							}
+						}
+						catch (IOException e)
+						{
+						}
 					}
 				}
 
@@ -1434,9 +1447,10 @@ public class Dance implements Runnable
 	
 	public void loadPattern(String fileName)
 	{
+		FileInputStream fis = null;
 		try
 		{
-			FileInputStream fis = new FileInputStream(fileName);
+			fis = new FileInputStream(fileName);
 			byte [] input = new byte[fis.available()];
 			fis.read(input);
 			String str = new String(input);
@@ -1455,6 +1469,17 @@ public class Dance implements Runnable
 			MessageBox mb = new MessageBox(shell,SWT.ICON_ERROR|SWT.OK);
 			mb.setMessage(ioex.getLocalizedMessage());
 			mb.open();
+		} finally
+		{
+			try
+			{
+				if (fis != null)
+				{
+					fis.close();
+				}
+			} catch (IOException e)
+			{
+			}
 		}
 
 	}
@@ -1505,18 +1530,28 @@ public class Dance implements Runnable
 		}
 		if (cont)
 		{
+			FileOutputStream fos = null;
 			try
 			{
-				FileOutputStream fos = new FileOutputStream(file); 
+				fos = new FileOutputStream(file);
 				PrintStream pw = new PrintStream(fos);
 				pw.println(pattern.toString());
-					
-				pw = null;
-				fos = null;
+				pw.close();
 			} catch (FileNotFoundException e) {
 				MessageBox mb = new MessageBox(shell,SWT.ICON_ERROR|SWT.OK);
 				mb.setMessage(e.getLocalizedMessage());
 				mb.open();
+			} finally
+			{
+				try
+				{
+					if (fos != null)
+					{
+						fos.close();
+					}
+				} catch (IOException e)
+				{
+				}
 			}
 		}
 		file = null;
