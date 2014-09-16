@@ -918,6 +918,23 @@ public class Dance implements Runnable
 		return menuBar;
 	}
 
+	/**
+	 * Set the given item index and accelerator using the default qualifier.
+	 *
+	 * @param item
+	 * @param itemText
+	 * @param key
+	 */
+	private void setMenuItemText(MenuItem item, String itemText, char key)
+	{
+		if (key != 0)
+		{
+			itemText = itemText + "\tCtrl+" + key;
+			item.setAccelerator(SWT.CTRL | key);
+		}
+		item.setText(itemText);
+	}
+
 	@SuppressWarnings("unused")
 	private void createFileMenu(Menu menuBar)
 	{
@@ -928,8 +945,7 @@ public class Dance implements Runnable
 
 		// File -> New Contact
 		MenuItem subItem = new MenuItem(menu, SWT.NULL);
-		subItem.setText(_("New pattern..."));
-		subItem.setAccelerator(SWT.CTRL + 'N');
+		setMenuItemText(subItem, _("New pattern..."),'N');
 		subItem.addSelectionListener(new SelectionAdapter()
 		{
 			public void widgetSelected(SelectionEvent arg0)
@@ -941,7 +957,7 @@ public class Dance implements Runnable
 		subItem = new MenuItem(menu, SWT.SEPARATOR);
 		
 		subItem = new MenuItem(menu, SWT.NULL);
-		subItem.setText(_("Open pattern..."));
+		setMenuItemText(subItem, _("Open pattern..."), 'O');
 		subItem.addSelectionListener(new SelectionAdapter()
 		{
 			public void widgetSelected(SelectionEvent arg0)
@@ -951,7 +967,7 @@ public class Dance implements Runnable
 		});
 
 		subItem = new MenuItem(menu, SWT.NULL);
-		subItem.setText(_("Save pattern"));
+		setMenuItemText(subItem, _("Save pattern"), 'S');
 		subItem.addSelectionListener(new SelectionAdapter()
 		{
 			public void widgetSelected(SelectionEvent arg0)
@@ -1013,7 +1029,7 @@ public class Dance implements Runnable
 		new MenuItem(menu, SWT.SEPARATOR);
 
 		subItem = new MenuItem(menu, SWT.NULL);
-		subItem.setText(_("Quit..."));
+		setMenuItemText(subItem, _("Quit"), 'Q');
 		subItem.addSelectionListener(new SelectionAdapter()
 		{
 			public void widgetSelected(SelectionEvent e)
@@ -1032,8 +1048,7 @@ public class Dance implements Runnable
 
 		// Edit -> Cut
 		MenuItem subItem = new MenuItem(menu, SWT.NULL);
-		subItem.setText(_("Cut"));
-		subItem.setAccelerator(SWT.CTRL + 'X');
+		setMenuItemText(subItem, _("Cut"), 'X');
 		subItem.addSelectionListener(new SelectionAdapter()
 		{
 			public void widgetSelected(SelectionEvent arg0)
@@ -1048,8 +1063,7 @@ public class Dance implements Runnable
 		});
 		
 		subItem = new MenuItem(menu, SWT.NULL);
-		subItem.setText(_("Copy"));
-		subItem.setAccelerator(SWT.CTRL + 'C');
+		setMenuItemText(subItem, _("Copy"), 'C');
 		subItem.addSelectionListener(new SelectionAdapter()
 		{
 			public void widgetSelected(SelectionEvent event)
@@ -1062,8 +1076,7 @@ public class Dance implements Runnable
 		});
 
 		subItem = new MenuItem(menu, SWT.NULL);
-		subItem.setText(_("Paste"));
-		subItem.setAccelerator(SWT.CTRL + 'V');
+		setMenuItemText(subItem, _("Paste"), 'V');
 		subItem.addSelectionListener(new SelectionAdapter()
 		{
 			public void widgetSelected(SelectionEvent event)
@@ -1100,7 +1113,8 @@ public class Dance implements Runnable
 		item.setMenu(menu);
 
 		MenuItem subItem = new MenuItem(menu, SWT.NULL);
-		subItem.setText(_("Zoom in"));
+		subItem.setText(_("Zoom in") + "\t+");
+		subItem.setAccelerator('+');
 		subItem.addSelectionListener(new SelectionAdapter()
 		{
 			public void widgetSelected(SelectionEvent arg0)
@@ -1110,7 +1124,8 @@ public class Dance implements Runnable
 		});
 		
 		subItem = new MenuItem(menu, SWT.NULL);
-		subItem.setText(_("Zoom out"));
+		subItem.setText(_("Zoom out") + "\t-");
+		subItem.setAccelerator('-');
 		subItem.addSelectionListener(new SelectionAdapter()
 		{
 			public void widgetSelected(SelectionEvent arg0)
