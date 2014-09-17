@@ -7,6 +7,8 @@ import java.util.LinkedList;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.KeyAdapter;
+import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.MouseMoveListener;
@@ -639,6 +641,27 @@ public class Ballroom extends Canvas
 			public void mouseUp(MouseEvent arg0)
 			{
 				mousePressed = false;
+			}
+		});
+
+		addKeyListener(new KeyAdapter()
+		{
+			@Override
+			public void keyPressed(KeyEvent e)
+			{
+				int dx = 0, dy = 0;
+				switch (e.keyCode)
+				{
+					case	SWT.ARROW_LEFT: dx = -1; break;
+					case	SWT.ARROW_RIGHT: dx = 1; break;
+					case	SWT.ARROW_UP: dy = 1; break;
+					case	SWT.ARROW_DOWN: dy = -1; break;
+				}
+				if (dx != 0 || dy != 0)
+				{
+					moveSelectedFeets(dx, dy);
+					emitFeetCoordinatesChangedEvent();
+				}
 			}
 		});
 	}
