@@ -1381,9 +1381,8 @@ public class Dance implements Runnable
 						Menu subMenu = new Menu(menuItem);
 						menuItem.setMenu(subMenu);
 
-						for (int j=0;j<allPatternsArrayList.get(i).size();j++)
+						for (Pattern.PatternInfo pi : allPatternsArrayList.get(i))
 						{
-							Pattern.PatternInfo pi = allPatternsArrayList.get(i).get(j);
 							MenuItem subItem = new MenuItem(subMenu,0);
 							subItem.setText(pi.name);
 							subItem.setData(pi.data);
