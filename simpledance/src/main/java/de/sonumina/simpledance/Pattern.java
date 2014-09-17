@@ -321,7 +321,14 @@ public class Pattern
 		if (array.length < num) return false;
 		return str.equalsIgnoreCase(array[num]);
 	}
-	
+
+	/**
+	 * Return the info of a pattern serialized by the given string.
+	 *
+	 * @param str the serialized pattern.
+	 *
+	 * @return the pattern info
+	 */
 	static public PatternInfo getPatternInfo(String str)
 	{
 		PatternInfo pi = new PatternInfo();
