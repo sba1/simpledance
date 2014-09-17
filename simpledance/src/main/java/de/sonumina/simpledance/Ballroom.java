@@ -445,10 +445,7 @@ public class Ballroom extends Canvas
 
 					redraw();
 					update();
-
-					BallroomEvent be = new BallroomEvent();
-					be.feetCoordinatesChanged = true;
-					emitEvent(be);					
+					emitFeetCoordinatesChangedEvent();
 				}
 
 				if (!mousePressed)
@@ -1051,6 +1048,16 @@ public class Ballroom extends Canvas
 		
 		BallroomEvent be = new BallroomEvent();
 		be.viewChanged = true;
+		emitEvent(be);
+	}
+
+	/**
+	 * Emit the event for feet coordinates having changed.
+	 */
+	private void emitFeetCoordinatesChangedEvent()
+	{
+		BallroomEvent be = new BallroomEvent();
+		be.feetCoordinatesChanged = true;
 		emitEvent(be);
 	}
 }
