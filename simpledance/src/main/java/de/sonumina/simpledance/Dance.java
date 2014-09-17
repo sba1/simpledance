@@ -9,6 +9,7 @@ import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -1308,9 +1309,9 @@ public class Dance implements Runnable
 					}
 				});
 
-				LinkedList [] allPatternsArray = new LinkedList[Pattern.DANCE_MAX];
-				for (int i=0;i<allPatternsArray.length;i++)
-					allPatternsArray[i] = new LinkedList();
+				ArrayList<LinkedList<Pattern.PatternInfo>> allPatternsArrayList = new ArrayList<>();
+				for (int i=0;i<Pattern.DANCE_MAX;i++)
+					allPatternsArrayList.add(new LinkedList<Pattern.PatternInfo>());
 
 				for (int i=0;i<list.length;i++)
 				{
@@ -1325,7 +1326,7 @@ public class Dance implements Runnable
 						String str = new String(input);
 						Pattern.PatternInfo pi = Pattern.getPatternInfo(str);
 						pi.data = file;
-						allPatternsArray[pi.type].add(pi);
+						allPatternsArrayList.get(pi.type).add(pi);
 					}
 					catch (FileNotFoundException e)
 					{
@@ -1350,9 +1351,9 @@ public class Dance implements Runnable
 
 				/* All patterns types get moved into the list */
 				LinkedList<Integer> allPatternsList = new LinkedList<Integer>();
-				for (int i=0;i<allPatternsArray.length;i++)
+				for (int i=0;i<allPatternsArrayList.size();i++)
 				{
-					if (allPatternsArray[i].size()>0)
+					if (allPatternsArrayList.get(i).size()>0)
 						allPatternsList.add(new Integer(i));
 				}
 				
@@ -1373,16 +1374,16 @@ public class Dance implements Runnable
 				{
 					int i = (iter.next()).intValue();
 					
-					if (allPatternsArray[i].size()>0)
+					if (allPatternsArrayList.get(i).size()>0)
 					{
 						MenuItem menuItem = new MenuItem(menu, SWT.CASCADE);
 						menuItem.setText(_(Pattern.getTypeName(i)));
 						Menu subMenu = new Menu(menuItem);
 						menuItem.setMenu(subMenu);
 
-						for (int j=0;j<allPatternsArray[i].size();j++)
+						for (int j=0;j<allPatternsArrayList.get(i).size();j++)
 						{
-							Pattern.PatternInfo pi = (Pattern.PatternInfo) allPatternsArray[i].get(j);
+							Pattern.PatternInfo pi = allPatternsArrayList.get(i).get(j);
 							MenuItem subItem = new MenuItem(subMenu,0);
 							subItem.setText(pi.name);
 							subItem.setData(pi.data);
