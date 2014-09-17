@@ -1356,14 +1356,14 @@ public class Dance implements Runnable
 					if (allPatternsArrayList.get(i).size()>0)
 						allPatternsList.add(new Integer(i));
 				}
-				
-				Collections.sort(allPatternsList,new Comparator()
+
+				/* Sort the list accoring to the translated names */
+				Collections.sort(allPatternsList,new Comparator<Integer>()
 				{
-					public int compare(Object arg0, Object arg1)
+					public int compare(Integer arg0, Integer arg1)
 					{
-						String s0 = _(Pattern.getTypeName(((Integer)arg0).intValue()));
-						String s1 = _(Pattern.getTypeName(((Integer)arg1).intValue()));
-						
+						String s0 = _(Pattern.getTypeName(arg0));
+						String s1 = _(Pattern.getTypeName(arg1));
 						return s0.compareTo(s1);
 					}
 				});
