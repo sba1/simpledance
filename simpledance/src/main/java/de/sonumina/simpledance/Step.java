@@ -3,12 +3,9 @@ package de.sonumina.simpledance;
 import static de.sonumina.simpledance.I18n.N_;
 
 /**
- * @author Standard
+ * This class represents a single step within a dance pattern.
  *
- * To change this generated comment edit the template variable "typecomment":
- * Window>Preferences>Java>Templates.
- * To enable and disable the creation of type comments go to
- * Window>Preferences>Java>Code Generation.
+ * @author Sebastian Bauer
  */
 public class Step
 {

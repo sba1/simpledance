@@ -1,11 +1,9 @@
 package de.sonumina.simpledance;
+
 /**
- * @author Standard
+ * Listener interface for intercepting of the Ballroom component.
  *
- * To change this generated comment edit the template variable "typecomment":
- * Window>Preferences>Java>Templates.
- * To enable and disable the creation of type comments go to
- * Window>Preferences>Java>Code Generation.
+ * @author Sebastian Bauer
  */
 public interface BallroomListener 
 {
