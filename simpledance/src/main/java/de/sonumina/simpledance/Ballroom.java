@@ -185,10 +185,12 @@ public class Ballroom extends Canvas
 		Render.RenderSceneArgs rsa = new Render.RenderSceneArgs();
 		rsa.pattern = pattern;
 		rsa.stepNumber = pattern.getCurrentStepNum();
-		rsa.visibleLeft = visibleLeft;
-		rsa.visibleTop = visibleTop;
-		rsa.visibleWidth = getClientArea().width * 100 / zoomFactor;
-		rsa.visibleHeight = getClientArea().height * 100 / zoomFactor;
+		int visibleWidth = getClientArea().width * 100 / zoomFactor;
+		int visibleHeight = getClientArea().height * 100 / zoomFactor;
+		rsa.visibleLeftTop = new Point(visibleLeft, visibleTop);
+		rsa.visibleRightTop = new Point(visibleLeft + visibleWidth - 1, visibleTop);
+		rsa.visibleLeftBottom = new Point(visibleLeft, visibleTop + visibleHeight - 1);
+		rsa.visibleRightBottom = new Point(visibleLeft + visibleWidth - 1, visibleTop + visibleHeight - 1);
 		rsa.pixelWidth = getClientArea().width;
 		rsa.pixelHeight = getClientArea().height;
 
