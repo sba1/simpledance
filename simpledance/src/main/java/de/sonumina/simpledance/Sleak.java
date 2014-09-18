@@ -153,8 +153,7 @@ public class Sleak
 			string += gcs + " GC(s)\n";
 		if (images != 0)
 			string += images + " Image(s)\n";
-		/* Currently regions are not counted. */
-		//	if (regions != 0) string += regions + " Region(s)\n";
+		if (regions != 0) string += regions + " Region(s)\n";
 		if (string.length() != 0)
 		{
 			string = string.substring(0, string.length() - 1);
@@ -333,7 +332,6 @@ public class Sleak
 	void layout()
 	{
 		Rectangle rect = shell.getClientArea();
-		String[] strings = new String[objects.length];
 		int width = 0;
 		String[] items = list.getItems();
 		GC gc = new GC(list);
