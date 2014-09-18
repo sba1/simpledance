@@ -22,7 +22,6 @@ import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
@@ -30,6 +29,7 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.ScrollBar;
 
+import de.sonumina.simpledance.graphics.Point;
 import de.sonumina.simpledance.graphics.swt.SWTContext;
 
 /**
@@ -379,7 +379,7 @@ public class Ballroom extends Canvas
 						{
 							gc.setBackground(ballroomColor);
 							gc.setFont(countFont);
-							Point p = gc.textExtent(count);
+							org.eclipse.swt.graphics.Point p = gc.textExtent(count);
 							gc.setForeground(countColor);
 							gc.drawText(count,getClientArea().x + getClientArea().width - 1 - p.x - 20,2);
 						}
