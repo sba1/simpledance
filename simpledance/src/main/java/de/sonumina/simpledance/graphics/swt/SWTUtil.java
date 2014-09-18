@@ -95,7 +95,7 @@ public class SWTUtil
 			ystart = 0;
 		}
 
-		int x1,y1;
+		int y1;
 
 		/* The formular as shown above is
 		 * 
@@ -122,7 +122,7 @@ public class SWTUtil
 			int o = p;
 			int y1_mul_t_accu = r - yw*vx*y;
 
-			for (int c = 0, x = 0; c < width; c++, x+=xadd)
+			for (int c = 0 /*, x = 0*/; c < width; c++/*, x+=xadd*/)
 			{
 				int red,green,blue;
 
