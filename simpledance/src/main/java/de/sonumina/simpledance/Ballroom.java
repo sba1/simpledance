@@ -76,8 +76,8 @@ public class Ballroom extends Canvas
 
 	private Pattern pattern;
 	private int zoomFactor = 300;
-	private int zoomLeft = 570;
-	private int zoomTop = 650;
+	private int visibleLeft = 570;
+	private int visibleTop = 650;
 	private int coordinatesX = -1;
 	private int coordinatesY = -1;
 	private boolean showAnimationOutline = false;
@@ -159,8 +159,8 @@ public class Ballroom extends Canvas
 	 * 	 * @param x	 * @param y	 * @return Point	 */
 	private Point transformPixToBallroom(int x, int y)
 	{
-		x = x * 100 / zoomFactor + zoomLeft;
-		y = - y * 100 / zoomFactor + zoomTop;
+		x = x * 100 / zoomFactor + visibleLeft;
+		y = - y * 100 / zoomFactor + visibleTop;
 		return new Point(x,y);
 	}
 	
@@ -170,8 +170,8 @@ public class Ballroom extends Canvas
 	 * 	 * @param x	 * @param y	 * @return Point	 */
 	private Point transformBallroomToPix(int x, int y)
 	{
-		x = (x - zoomLeft) * zoomFactor / 100;
-		y = (zoomTop - y) * zoomFactor / 100;
+		x = (x - visibleLeft) * zoomFactor / 100;
+		y = (visibleTop - y) * zoomFactor / 100;
 		return new Point(x,y);
 	}
 
@@ -185,8 +185,8 @@ public class Ballroom extends Canvas
 		Render.RenderSceneArgs rsa = new Render.RenderSceneArgs();
 		rsa.pattern = pattern;
 		rsa.stepNumber = pattern.getCurrentStepNum();
-		rsa.visibleLeft = zoomLeft;
-		rsa.visibleTop = zoomTop;
+		rsa.visibleLeft = visibleLeft;
+		rsa.visibleTop = visibleTop;
 		rsa.visibleWidth = getClientArea().width * 100 / zoomFactor;
 		rsa.visibleHeight = getClientArea().height * 100 / zoomFactor;
 		rsa.pixelWidth = getClientArea().width;
@@ -306,10 +306,10 @@ public class Ballroom extends Canvas
 				ScrollBar scrollbar = (ScrollBar)(event.widget);
 				if ((scrollbar.getStyle() & SWT.V_SCROLL) != 0)
 				{
-					zoomTop = 1200 - scrollbar.getSelection();
+					visibleTop = 1200 - scrollbar.getSelection();
 				} else
 				{
-					zoomLeft = scrollbar.getSelection();
+					visibleLeft = scrollbar.getSelection();
 				}
 				redraw();
 				update();
@@ -322,14 +322,14 @@ public class Ballroom extends Canvas
 		scrollbar.setMaximum(1199); 
 		scrollbar.setMinimum(0);
 		scrollbar.setIncrement(1);
-		scrollbar.setSelection(1200 - zoomTop);
+		scrollbar.setSelection(1200 - visibleTop);
 		scrollbar.addSelectionListener(selectionListener);
 		
 		scrollbar = getHorizontalBar();
 		scrollbar.setMaximum(1199); 
 		scrollbar.setMinimum(0);
 		scrollbar.setIncrement(1);
-		scrollbar.setSelection(zoomLeft);
+		scrollbar.setSelection(visibleLeft);
 		scrollbar.addSelectionListener(selectionListener);
 		
 		addControlListener(new ControlAdapter()
@@ -673,13 +673,13 @@ public class Ballroom extends Canvas
 			int lineStyle = gc.getLineStyle();
 			gc.setForeground(gridColor);
 			gc.setLineStyle(SWT.LINE_DOT);
-			for (int y = (zoomTop)/50*50;y>0;y-=50)
+			for (int y = (visibleTop)/50*50;y>0;y-=50)
 			{
 				Point p = transformBallroomToPix(0,y);
 				gc.drawLine(0,p.y,getClientArea().width-1,p.y);
 			}
 
-			for (int x = (zoomLeft + 49)/50*50;x<1200;x+=50)
+			for (int x = (visibleLeft + 49)/50*50;x<1200;x+=50)
 			{
 				Point p = transformBallroomToPix(x,0);
 				gc.drawLine(p.x,0,p.x,getClientArea().height-1);
@@ -715,8 +715,8 @@ public class Ballroom extends Canvas
 		int ballroomWidth = this.getClientArea().width * 100 / zoomFactor;
 		int ballroomHeight = this.getClientArea().height * 100 / zoomFactor;
 		
-		zoomLeft += (oldBallroomWidth - ballroomWidth)/2;
-		zoomTop -= (oldBallroomHeight - ballroomHeight)/2;
+		visibleLeft += (oldBallroomWidth - ballroomWidth)/2;
+		visibleTop -= (oldBallroomHeight - ballroomHeight)/2;
 		
 		redraw();
 		refreshScrollBars();
@@ -734,8 +734,8 @@ public class Ballroom extends Canvas
 		int ballroomWidth = this.getClientArea().width * 100 / zoomFactor;
 		int ballroomHeight = this.getClientArea().height * 100 / zoomFactor;
 		
-		zoomLeft += (oldBallroomWidth - ballroomWidth)/2;
-		zoomTop -= (oldBallroomHeight - ballroomHeight)/2;
+		visibleLeft += (oldBallroomWidth - ballroomWidth)/2;
+		visibleTop -= (oldBallroomHeight - ballroomHeight)/2;
 
 		redraw();
 		refreshScrollBars();
@@ -924,13 +924,13 @@ public class Ballroom extends Canvas
 		int visible = rect.height * 100 / zoomFactor;
 		scrollbar.setThumb(visible);
 		scrollbar.setPageIncrement(visible - 1);
-		scrollbar.setSelection(1200 - zoomTop);
+		scrollbar.setSelection(1200 - visibleTop);
 
 		scrollbar = getHorizontalBar();
 		visible = rect.width * 100 / zoomFactor;
 		scrollbar.setThumb(visible);
 		scrollbar.setPageIncrement(visible - 1);
-		scrollbar.setSelection(zoomLeft);
+		scrollbar.setSelection(visibleLeft);
 	}
 
 	private void emitEvent(BallroomEvent be)
@@ -1047,13 +1047,13 @@ public class Ballroom extends Canvas
 		if (pattern == null) return;
 		int bounds[] = pattern.getPatternBounds();
 		
-		zoomLeft = bounds[0] - 10;
-		zoomTop = bounds[1] + 20;
-		int zoomRight = bounds[2] + 10;
-		int zoomBottom = bounds[3] - 20; 
+		visibleLeft = bounds[0] - 10;
+		visibleTop = bounds[1] + 20;
+		int visibleRight = bounds[2] + 10;
+		int visibleBottom = bounds[3] - 20;
 
-		zoomFactor = this.getClientArea().width * 100 / (zoomRight - zoomLeft + 1);  
-		int newZoomFactor = this.getClientArea().height * 100 / (zoomTop - zoomBottom + 1);
+		zoomFactor = this.getClientArea().width * 100 / (visibleRight - visibleLeft + 1);
+		int newZoomFactor = this.getClientArea().height * 100 / (visibleTop - visibleBottom + 1);
 		if (newZoomFactor < zoomFactor) zoomFactor = newZoomFactor;
 		
 		if (zoomFactor == 0) zoomFactor = 1;
@@ -1061,8 +1061,8 @@ public class Ballroom extends Canvas
 		int ballroomWidth = this.getClientArea().width * 100 / zoomFactor;
 		int ballroomHeight = this.getClientArea().height * 100 / zoomFactor;
 
-		zoomLeft -= (ballroomWidth - (zoomRight - zoomLeft + 1))/2;
-		zoomTop += (ballroomHeight - (zoomTop - zoomBottom + 1))/2;
+		visibleLeft -= (ballroomWidth - (visibleRight - visibleLeft + 1))/2;
+		visibleTop += (ballroomHeight - (visibleTop - visibleBottom + 1))/2;
 		
 		redraw();
 		update();
