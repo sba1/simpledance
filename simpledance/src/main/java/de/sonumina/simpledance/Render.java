@@ -3,7 +3,6 @@ import java.awt.Polygon;
 
 import de.sonumina.simpledance.graphics.Color;
 import de.sonumina.simpledance.graphics.Context;
-import de.sonumina.simpledance.graphics.Font;
 import de.sonumina.simpledance.graphics.Point;
 import de.sonumina.simpledance.graphics.RGB;
 
@@ -32,7 +31,6 @@ public class Render
 	private Color animationColor;
 	private Color animationSelectedColor;
 	private Color countColor;
-	private Font countFont;
 	private Color gridColor;
 	private Color yellowColor;
 	private Color redColor;
@@ -86,7 +84,6 @@ public class Render
 		gridColor = context.allocateColor(0,0,0);
 
 		countColor = context.allocateColor(255,255,255);
-//		countFont = new Font(display,"Thorndale",20,0);
 
 		femaleLeftColor = context.allocateColor(244,231,240);
 		femaleRightColor = context.allocateColor(244,61,195);
