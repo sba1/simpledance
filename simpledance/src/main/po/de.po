@@ -1,373 +1,400 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+# German Translation for SimpleDance
+# Copyright (C) 2003-2014 by Sebastian Bauer
+# This file is distributed under the same license as the SimpleDance  package.
+# Sebastian Bauer <mail@sebastianbauer.info>, 2003-2014.
+#
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2003-03-28 12:07+0100\n"
+"Report-Msgid-Bugs-To: mail@sebastianbauer.info\n"
+"POT-Creation-Date: 2014-09-19 22:33+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-15\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Ballroom.java:640
-msgid "Rotate around long angle"
-msgstr ""
-
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Ballroom.java:654
-msgid "Insert way point"
-msgstr "Wegpunkt einfügen"
-
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Ballroom.java:664
-msgid "Remove all way points"
-msgstr "Alle Wegpunkte entfernen"
-
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Ballroom.java:679
-msgid "View whole Pattern"
-msgstr "Ganze Figur zeigen"
-
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Dance.java:396
-#: /cygdrive/d/eclipse/workspace/simpledance/source/DetailedOverviewCanvas.java:68
-msgid "Gent"
-msgstr "Herr"
-
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Dance.java:402
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Dance.java:437
-msgid "L"
-msgstr ""
-
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Dance.java:417
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Dance.java:453
-msgid "R"
-msgstr ""
-
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Dance.java:432
-#: /cygdrive/d/eclipse/workspace/simpledance/source/DetailedOverviewCanvas.java:76
-msgid "Lady"
-msgstr "Dame"
-
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Dance.java:549
-msgid "Creates a new dance pattern"
-msgstr "Erstellt eine neue Tanzfigure"
-
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Dance.java:555
-msgid "Opens a dance pattern"
-msgstr "Öffnen eine Tanzfigur"
-
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Dance.java:561
-msgid "Stores current dance pattern"
-msgstr "Sichert die aktuelle Tanzfigur"
-
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Dance.java:567
-msgid "Stores the current dance pattern under a given filename"
-msgstr ""
-
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Dance.java:582
-msgid "Plays the whole sequence"
-msgstr "Spielt die gesamte Sequenz"
-
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Dance.java:589
-msgid "Stops the playing"
-msgstr ""
-
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Dance.java:604
-msgid "Zoom in"
-msgstr "Zoom +"
-
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Dance.java:610
-msgid "Zoom out"
-msgstr "Zoom -"
-
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Dance.java:616
-msgid "Show the dancefloor's grid"
-msgstr "Zeige Tanzflächenmsuter"
-
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Dance.java:623
-msgid "Show previous step"
-msgstr "Vorherigen Schritt zeigen"
-
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Dance.java:629
-msgid "Show next step"
-msgstr "Nächsten Schritt zeigen"
-
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Dance.java:635
-msgid "Show feet of gent"
-msgstr ""
-
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Dance.java:642
-msgid "Show feet of lady"
-msgstr ""
-
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Dance.java:649
-msgid "Show animation"
-msgstr ""
-
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Dance.java:655
-msgid "Select the number of Animationframes"
-msgstr ""
-
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Dance.java:723
-msgid "Overview"
-msgstr "Übersicht"
-
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Dance.java:754
-#: /cygdrive/d/eclipse/workspace/simpledance/source/DetailedOverviewCanvas.java:67
-msgid "Step"
-msgstr "Schritt"
-
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Dance.java:759
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Dance.java:820
-#: /cygdrive/d/eclipse/workspace/simpledance/source/DetailedOverviewCanvas.java:84
-msgid "Count"
-msgstr "Zählen"
-
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Dance.java:763
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Dance.java:843
-msgid "Tempo"
-msgstr "Tempo"
-
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Dance.java:767
-msgid "Add step"
-msgstr ""
-
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Dance.java:777
-msgid "Remove step"
-msgstr ""
-
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Dance.java:846
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Dance.java:1089
-msgid "slow"
-msgstr "lang"
-
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Dance.java:847
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Dance.java:1088
-msgid "quick"
-msgstr "schnell"
-
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Dance.java:907
-msgid "File"
-msgstr "Datei"
-
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Dance.java:912
-msgid "New pattern"
-msgstr "Neues Muster"
-
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Dance.java:923
-msgid "Open pattern..."
-msgstr "Öffnen..."
-
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Dance.java:933
-msgid "Save pattern"
-msgstr ""
-
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Dance.java:944
-msgid "Save pattern as..."
-msgstr ""
-
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Dance.java:957
-msgid "Properties..."
-msgstr "Eigenschaften..."
-
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Dance.java:967
-msgid "Detailed step overview..."
-msgstr ""
-
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Dance.java:980
-msgid "Quit..."
-msgstr "Beenden..."
-
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Dance.java:994
-msgid "Edit"
-msgstr "Bearbeiten"
-
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Dance.java:999
-msgid "Cut"
-msgstr "Auschneiden"
-
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Dance.java:1015
-msgid "Copy"
-msgstr "Kopieren"
-
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Dance.java:1029
-msgid "Paste"
-msgstr "Einfügen"
-
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Dance.java:1046
-msgid "Enter relative coordinates"
-msgstr "Relative Koordinaten eingeben"
-
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Dance.java:1102
-msgid "Initial"
-msgstr "Ausgang"
-
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Dance.java:1408
-msgid "This file already exists. Are you sure to overwrite it?"
-msgstr "Die Datei existiert bereite. Wirklich überschreiben?"
-
-#: /cygdrive/d/eclipse/workspace/simpledance/source/DetailedOverviewShell.java:59
-msgid "Detailed step overview"
-msgstr "Detailierte Schrittübersicht"
-
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Pattern.java:37
-msgid "Other"
-msgstr "Anderer"
-
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Pattern.java:38
-msgid "Slow Walz"
-msgstr "Langsamer Walzer"
-
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Pattern.java:39
-msgid "Vienesse Walz"
-msgstr "Wiener Walzer"
-
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Pattern.java:40
-msgid "Tango"
-msgstr ""
-
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Pattern.java:41
-msgid "Foxtrott"
-msgstr ""
-
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Pattern.java:42
-msgid "Quickstep"
-msgstr ""
-
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Pattern.java:43
-msgid "Slowfox"
-msgstr ""
-
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Pattern.java:44
-msgid "Cha Cha Cha"
-msgstr ""
-
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Pattern.java:45
-msgid "Rumba"
-msgstr ""
-
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Pattern.java:46
-msgid "Jive"
-msgstr ""
-
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Pattern.java:47
-msgid "Samba"
-msgstr ""
-
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Pattern.java:48
-msgid "Paso Doble"
-msgstr ""
-
-#: /cygdrive/d/eclipse/workspace/simpledance/source/PatternProp.java:69
+#: de/sonumina/simpledance/PatternProp.java:59
 msgid "Edit pattern properties"
 msgstr "Tanzfigureneigenschaften ändern..."
 
-#: /cygdrive/d/eclipse/workspace/simpledance/source/PatternProp.java:78
+#: de/sonumina/simpledance/PatternProp.java:67
 msgid "Type"
 msgstr ""
 
-#: /cygdrive/d/eclipse/workspace/simpledance/source/PatternProp.java:89
+#: de/sonumina/simpledance/PatternProp.java:78
 msgid "Name"
 msgstr ""
 
-#: /cygdrive/d/eclipse/workspace/simpledance/source/PatternProp.java:99
+#: de/sonumina/simpledance/PatternProp.java:88
 msgid "Time signature"
 msgstr "Taktart"
 
-#: /cygdrive/d/eclipse/workspace/simpledance/source/PatternProp.java:117
+#: de/sonumina/simpledance/PatternProp.java:106
 msgid "Bars per minute"
-msgstr ""
+msgstr "Takte pro Minute"
 
-#: /cygdrive/d/eclipse/workspace/simpledance/source/PatternProp.java:126
+#: de/sonumina/simpledance/PatternProp.java:115
 msgid "Beats per slow step"
 msgstr "Schläge pro langsamen Schritt"
 
-#: /cygdrive/d/eclipse/workspace/simpledance/source/PatternProp.java:142
+#: de/sonumina/simpledance/PatternProp.java:131
 msgid "Apply"
 msgstr "Übernehmen"
 
-#: /cygdrive/d/eclipse/workspace/simpledance/source/PatternProp.java:170
+#: de/sonumina/simpledance/PatternProp.java:159
 msgid "Reset"
 msgstr "Zurück"
 
-#: /cygdrive/d/eclipse/workspace/simpledance/source/PatternProp.java:181
+#: de/sonumina/simpledance/PatternProp.java:170
 msgid "Close"
 msgstr "Schließen"
 
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Step.java:17
+#: de/sonumina/simpledance/Pattern.java:33
+msgid "Other"
+msgstr "Anderer"
+
+#: de/sonumina/simpledance/Pattern.java:34
+msgid "Slow Walz"
+msgstr "Langsamer Walzer"
+
+#: de/sonumina/simpledance/Pattern.java:35
+msgid "Vienesse Walz"
+msgstr "Wiener Walzer"
+
+#: de/sonumina/simpledance/Pattern.java:36
+msgid "Tango"
+msgstr ""
+
+#: de/sonumina/simpledance/Pattern.java:37
+msgid "Foxtrott"
+msgstr ""
+
+#: de/sonumina/simpledance/Pattern.java:38
+msgid "Quickstep"
+msgstr ""
+
+#: de/sonumina/simpledance/Pattern.java:39
+msgid "Slowfox"
+msgstr ""
+
+#: de/sonumina/simpledance/Pattern.java:40
+msgid "Cha Cha Cha"
+msgstr ""
+
+#: de/sonumina/simpledance/Pattern.java:41
+msgid "Rumba"
+msgstr ""
+
+#: de/sonumina/simpledance/Pattern.java:42
+msgid "Jive"
+msgstr ""
+
+#: de/sonumina/simpledance/Pattern.java:43
+msgid "Samba"
+msgstr ""
+
+#: de/sonumina/simpledance/Pattern.java:44
+msgid "Paso Doble"
+msgstr ""
+
+#: de/sonumina/simpledance/Pattern.java:45
+msgid "Disco Fox"
+msgstr ""
+
+#: de/sonumina/simpledance/Step.java:16
 msgid "Unspecified"
 msgstr ""
 
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Step.java:18
+#: de/sonumina/simpledance/Step.java:17
 msgid "Foot doesn't move"
 msgstr ""
 
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Step.java:19
+#: de/sonumina/simpledance/Step.java:18
 msgid "Heel step"
 msgstr "Fersenschritt"
 
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Step.java:20
+#: de/sonumina/simpledance/Step.java:19
 msgid "Ball step"
 msgstr "Ballenschritt"
 
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Step.java:21
+#: de/sonumina/simpledance/Step.java:20
 msgid "Ball step (stay)"
 msgstr ""
 
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Step.java:22
+#: de/sonumina/simpledance/Step.java:21
 msgid "Stay on ball"
 msgstr "Auf Ballen bleiben"
 
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Step.java:23
+#: de/sonumina/simpledance/Step.java:22
 msgid "Foot in the air"
 msgstr ""
 
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Step.java:24
+#: de/sonumina/simpledance/Step.java:23
 msgid "Heel turn"
 msgstr "Fersendrehung"
 
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Step.java:25
+#: de/sonumina/simpledance/Step.java:24
 msgid "Stand on foot"
 msgstr ""
 
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Step.java:26
+#: de/sonumina/simpledance/Step.java:25
 msgid "Stand on bale"
 msgstr ""
 
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Step.java:27
+#: de/sonumina/simpledance/Step.java:26
 msgid "Kick"
 msgstr "Kick"
 
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Step.java:28
+#: de/sonumina/simpledance/Step.java:27
 msgid "Appell"
 msgstr ""
 
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Step.java:29
+#: de/sonumina/simpledance/Step.java:28
 msgid "Bale Tap"
 msgstr ""
 
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Step.java:30
+#: de/sonumina/simpledance/Step.java:29
 msgid "Whole foot"
 msgstr ""
 
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Step.java:31
+#: de/sonumina/simpledance/Step.java:30
 msgid "Heel Tap"
 msgstr ""
 
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Step.java:32
+#: de/sonumina/simpledance/Step.java:31
 msgid "Toe Tap"
 msgstr ""
 
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Step.java:33
+#: de/sonumina/simpledance/Step.java:32
 msgid "Jump"
 msgstr ""
 
-#: /cygdrive/d/eclipse/workspace/simpledance/source/Step.java:34
+#: de/sonumina/simpledance/Step.java:33
 msgid "Without weight"
 msgstr ""
+
+#: de/sonumina/simpledance/DetailedOverviewShell.java:44
+msgid "Detailed step overview"
+msgstr "Detailierte Schrittübersicht"
+
+#: de/sonumina/simpledance/Ballroom.java:598
+msgid "Rotate around long angle"
+msgstr ""
+
+#: de/sonumina/simpledance/Ballroom.java:612
+msgid "Insert way point"
+msgstr "Wegpunkt einfügen"
+
+#: de/sonumina/simpledance/Ballroom.java:622
+msgid "Remove all way points"
+msgstr "Alle Wegpunkte entfernen"
+
+#: de/sonumina/simpledance/Ballroom.java:637
+msgid "View whole Pattern"
+msgstr "Ganze Figur zeigen"
+
+#: de/sonumina/simpledance/Dance.java:217
+msgid "Creates a new dance pattern"
+msgstr "Erstellt eine neue Tanzfigure"
+
+#: de/sonumina/simpledance/Dance.java:223
+msgid "Opens a dance pattern"
+msgstr "Öffnen eine Tanzfigur"
+
+#: de/sonumina/simpledance/Dance.java:229
+msgid "Stores current dance pattern"
+msgstr "Sichert die aktuelle Tanzfigur"
+
+#: de/sonumina/simpledance/Dance.java:235
+msgid "Stores the current dance pattern under a given filename"
+msgstr ""
+
+#: de/sonumina/simpledance/Dance.java:250
+msgid "Plays the whole sequence"
+msgstr "Spielt die gesamte Sequenz"
+
+#: de/sonumina/simpledance/Dance.java:257
+msgid "Stops the playing"
+msgstr ""
+
+#: de/sonumina/simpledance/Dance.java:264
+msgid "Plays backward one frame"
+msgstr ""
+
+#: de/sonumina/simpledance/Dance.java:271
+msgid "Plays forward one frame"
+msgstr ""
+
+#: de/sonumina/simpledance/Dance.java:286
+#: de/sonumina/simpledance/Dance.java:1128
+msgid "Zoom in"
+msgstr "Zoom +"
+
+#: de/sonumina/simpledance/Dance.java:292
+#: de/sonumina/simpledance/Dance.java:1139
+msgid "Zoom out"
+msgstr "Zoom -"
+
+#: de/sonumina/simpledance/Dance.java:298
+msgid "Show the dancefloor's grid"
+msgstr "Zeige Tanzflächenmsuter"
+
+#: de/sonumina/simpledance/Dance.java:305
+msgid "Show previous step"
+msgstr "Vorherigen Schritt zeigen"
+
+#: de/sonumina/simpledance/Dance.java:311
+msgid "Show next step"
+msgstr "Nächsten Schritt zeigen"
+
+#: de/sonumina/simpledance/Dance.java:317
+msgid "Show feet of gent"
+msgstr ""
+
+#: de/sonumina/simpledance/Dance.java:324
+msgid "Show feet of lady"
+msgstr ""
+
+#: de/sonumina/simpledance/Dance.java:331
+msgid "Show animation"
+msgstr ""
+
+#: de/sonumina/simpledance/Dance.java:337
+msgid "Select the number of Animationframes"
+msgstr ""
+
+#: de/sonumina/simpledance/Dance.java:588
+#: de/sonumina/simpledance/DetailedOverviewCanvas.java:65
+msgid "Gent"
+msgstr "Herr"
+
+#: de/sonumina/simpledance/Dance.java:594
+#: de/sonumina/simpledance/Dance.java:629
+msgid "L"
+msgstr ""
+
+#: de/sonumina/simpledance/Dance.java:609
+#: de/sonumina/simpledance/Dance.java:645
+msgid "R"
+msgstr ""
+
+#: de/sonumina/simpledance/Dance.java:624
+#: de/sonumina/simpledance/DetailedOverviewCanvas.java:73
+msgid "Lady"
+msgstr "Dame"
+
+#: de/sonumina/simpledance/Dance.java:750
+msgid "Overview"
+msgstr "Übersicht"
+
+#: de/sonumina/simpledance/Dance.java:774
+#: de/sonumina/simpledance/DetailedOverviewCanvas.java:64
+msgid "Step"
+msgstr "Schritt"
+
+#: de/sonumina/simpledance/Dance.java:779
+#: de/sonumina/simpledance/Dance.java:846
+#: de/sonumina/simpledance/DetailedOverviewCanvas.java:81
+msgid "Count"
+msgstr "Zählen"
+
+#: de/sonumina/simpledance/Dance.java:783
+#: de/sonumina/simpledance/Dance.java:869
+msgid "Tempo"
+msgstr "Tempo"
+
+#: de/sonumina/simpledance/Dance.java:792
+msgid "Add step"
+msgstr ""
+
+#: de/sonumina/simpledance/Dance.java:803
+msgid "Remove step"
+msgstr ""
+
+#: de/sonumina/simpledance/Dance.java:872
+#: de/sonumina/simpledance/Dance.java:1212
+msgid "slow"
+msgstr "lang"
+
+#: de/sonumina/simpledance/Dance.java:873
+#: de/sonumina/simpledance/Dance.java:1211
+msgid "quick"
+msgstr "schnell"
+
+#: de/sonumina/simpledance/Dance.java:955
+msgid "File"
+msgstr "Datei"
+
+#: de/sonumina/simpledance/Dance.java:960
+msgid "New pattern..."
+msgstr "Neue Tanzfigur..."
+
+#: de/sonumina/simpledance/Dance.java:972
+msgid "Open pattern..."
+msgstr "Öffnen..."
+
+#: de/sonumina/simpledance/Dance.java:982
+msgid "Save pattern"
+msgstr "Speichern"
+
+#: de/sonumina/simpledance/Dance.java:993
+msgid "Save pattern as..."
+msgstr "Speicher unter..."
+
+#: de/sonumina/simpledance/Dance.java:1008
+msgid "Export as PDF..."
+msgstr ""
+
+#: de/sonumina/simpledance/Dance.java:1021
+msgid "Properties..."
+msgstr "Eigenschaften..."
+
+#: de/sonumina/simpledance/Dance.java:1031
+msgid "Detailed step overview..."
+msgstr "Übersicht..."
+
+#: de/sonumina/simpledance/Dance.java:1044
+msgid "Quit"
+msgstr "Beenden..."
+
+#: de/sonumina/simpledance/Dance.java:1058
+msgid "Edit"
+msgstr "Bearbeiten"
+
+#: de/sonumina/simpledance/Dance.java:1063
+msgid "Cut"
+msgstr "Auschneiden"
+
+#: de/sonumina/simpledance/Dance.java:1078
+msgid "Copy"
+msgstr "Kopieren"
+
+#: de/sonumina/simpledance/Dance.java:1091
+msgid "Paste"
+msgstr "Einfügen"
+
+#: de/sonumina/simpledance/Dance.java:1107
+msgid "Enter relative coordinates"
+msgstr "Relative Koordinaten eingeben"
+
+#: de/sonumina/simpledance/Dance.java:1124
+msgid "View"
+msgstr "Ansicht"
+
+#: de/sonumina/simpledance/Dance.java:1152
+msgid "Show gradients"
+msgstr "Farbverlauf anzeigen"
+
+#: de/sonumina/simpledance/Dance.java:1225
+msgid "Initial"
+msgstr "Ausgang"
+
+#: de/sonumina/simpledance/Dance.java:1554
+msgid "This file already exists. Are you sure to overwrite it?"
+msgstr "Die Datei existiert bereite. Wirklich überschreiben?"
 
 #~ msgid "New..."
 #~ msgstr "Neu..."
