@@ -116,6 +116,7 @@
 				<version>1.2.4</version>
 				<configuration>
 					<poDirectory>${basedir}/src/main/po</poDirectory>
+					<targetBundle>SimpleDanceBundle</targetBundle>
 				</configuration>
 			</plugin>
 
