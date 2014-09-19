@@ -118,6 +118,14 @@
 					<poDirectory>${basedir}/src/main/po</poDirectory>
 					<targetBundle>SimpleDanceBundle</targetBundle>
 				</configuration>
+				<executions>
+					<execution>
+						<phase>compile</phase>
+						<goals>
+							<goal>dist</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 
 		</plugins>
