@@ -117,6 +117,7 @@
 				<configuration>
 					<poDirectory>${basedir}/src/main/po</poDirectory>
 					<targetBundle>SimpleDanceBundle</targetBundle>
+					<keywords>-k_ -kN_</keywords>
 				</configuration>
 				<executions>
 					<execution>
