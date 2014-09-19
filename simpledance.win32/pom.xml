@@ -50,8 +50,8 @@
 						</goals>
 						<configuration>
 							<headerType>gui</headerType>
-							<jar>${project.build.directory}/${artifactId}-${version}-jar-with-dependencies.jar </jar>
-							<outfile>${project.build.directory}/simpledance-${version}.exe</outfile>
+							<jar>${project.build.directory}/${project.artifactId}-${project.version}-jar-with-dependencies.jar </jar>
+							<outfile>${project.build.directory}/simpledance-${project.version}.exe</outfile>
 							<downloadUrl>http://java.com/download</downloadUrl>
 							<classPath>
 								<mainClass>de.sonumina.simpledance.SimpleDance</mainClass>
