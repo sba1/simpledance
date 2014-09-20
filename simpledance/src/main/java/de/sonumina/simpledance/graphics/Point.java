@@ -7,10 +7,10 @@
 package de.sonumina.simpledance.graphics;
 
 /**
- * @author sba
+ * This is a simple point or two dimensional vector together with some
+ * simple operations in Euclidean space.
  *
- * To change the template for this generated type comment go to
- * Window>Preferences>Java>Code Generation>Code and Comments
+ * @author Sebastian Bauer
  */
 public class Point
 {
