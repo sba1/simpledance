@@ -1,6 +1,12 @@
 package de.sonumina.simpledance;
 
 import static de.sonumina.simpledance.I18n._;
+import static java.lang.Math.atan;
+import static java.lang.Math.cos;
+import static java.lang.Math.round;
+import static java.lang.Math.sin;
+import static java.lang.Math.toDegrees;
+import static java.lang.Math.toRadians;
 
 import java.util.LinkedList;
 
@@ -121,7 +127,7 @@ public class Ballroom extends Canvas
 			if (my != y)
 			{
 				double t = (mx - x)/(double)(y - my);
-				angle = (int)Math.toDegrees(Math.atan(t));
+				angle = (int)toDegrees(atan(t));
 				if (my > y) angle = 180 + angle; 				
 			} else angle = 90;
 		} else
@@ -130,7 +136,7 @@ public class Ballroom extends Canvas
 			if (my != y)
 			{
 				double t = (mx - x)/(double)(my - y);
-				angle = (int)Math.toDegrees(Math.atan(t));
+				angle = (int)toDegrees(atan(t));
 				if (my > y) angle = 180 - angle;
 				else angle = 360 - angle; 				
 			} else angle = 270;
@@ -420,8 +426,8 @@ public class Ballroom extends Canvas
 								p.x,p.y);
 
 							WayPoint feetCoord = pattern.getStep(lastSelectedStepIndex).getFoot(lastSelectedFootIndex).getStartingWayPoint();
-							feetCoord.x = rotationCenterBallroomPoint.x - (int)((distance * Math.sin(Math.toRadians(winkel))));
-							feetCoord.y = rotationCenterBallroomPoint.y + (int)((distance * Math.cos(Math.toRadians(winkel))));
+							feetCoord.x = rotationCenterBallroomPoint.x - (int)((distance * sin(toRadians(winkel))));
+							feetCoord.y = rotationCenterBallroomPoint.y + (int)((distance * cos(toRadians(winkel))));
 							feetCoord.a = winkel;
 						} else
 						if (dragOperation == DRAG_ROTATE_HEEL)
@@ -434,8 +440,8 @@ public class Ballroom extends Canvas
 							if (winkel < 0) winkel += 360;
 
 							WayPoint feetCoord = pattern.getStep(lastSelectedStepIndex).getFoot(lastSelectedFootIndex).getStartingWayPoint();
-							feetCoord.x = rotationCenterBallroomPoint.x + (int)((distance * Math.sin(Math.toRadians(winkel))));
-							feetCoord.y = rotationCenterBallroomPoint.y - (int)((distance * Math.cos(Math.toRadians(winkel))));
+							feetCoord.x = rotationCenterBallroomPoint.x + (int)((distance * sin(toRadians(winkel))));
+							feetCoord.y = rotationCenterBallroomPoint.y - (int)((distance * cos(toRadians(winkel))));
 							feetCoord.a = winkel;
 						} else
 						if (dragOperation == DRAG_MOVE_WAYPOINT)
@@ -890,14 +896,14 @@ public class Ballroom extends Canvas
 					int px =  feetCoord.x - rotationCenterX;
 					int py =  feetCoord.y - rotationCenterY;
 
-					double cosa = Math.cos(Math.toRadians(-da));
-					double sina = Math.sin(Math.toRadians(-da));
+					double cosa = cos(toRadians(-da));
+					double sina = sin(toRadians(-da));
     		
 					double newx = (px * cosa + py * sina);
 					double newy = (-px * sina + py * cosa);
 					
-					feetCoord.x = (int)Math.round(newx) + rotationCenterX;
-					feetCoord.y = (int)Math.round(newy) + rotationCenterY;
+					feetCoord.x = (int)round(newx) + rotationCenterX;
+					feetCoord.y = (int)round(newy) + rotationCenterY;
 					feetCoord.a += da;
 					if (feetCoord.a < 0) feetCoord.a += 360;
 					if (feetCoord.a > 359) feetCoord.a -= 360;
