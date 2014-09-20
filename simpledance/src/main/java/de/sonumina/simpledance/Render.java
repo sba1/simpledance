@@ -171,17 +171,8 @@ public class Render
 	 */
 	private WayPoint transformBallroomToPixel(RenderSceneArgs rsa, WayPoint feetCoord)
 	{
-		int visibleLeft = rsa.visibleLeftTop.x;
-		int visibleTop = rsa.visibleLeftTop.y;
-		int visibleWidth = rsa.visibleRightBottom.x - visibleLeft + 1;
-		int visibleHeight = rsa.visibleRightBottom.y - visibleTop + 1;
-
-		int x = (feetCoord.x - visibleLeft) * rsa.pixelWidth / visibleWidth;
-		int y = (visibleTop - feetCoord.y) * rsa.pixelHeight / visibleHeight;
-		int a = feetCoord.a;
-
-		WayPoint newFeetCoord = new WayPoint(x,y,a);
-		return newFeetCoord;
+		Point p = transformBallroomToPixel(rsa, feetCoord.x, feetCoord.y);
+		return new WayPoint(p.x,  p.y,  feetCoord.a);
 	}
 
 	/**
