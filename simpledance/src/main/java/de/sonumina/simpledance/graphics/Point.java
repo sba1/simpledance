@@ -20,6 +20,12 @@ public class Point
 
 	public Point(int x, int y){this.x = x;this.y = y;};
 
+	@Override
+	public String toString()
+	{
+		return "(" + x + ", " + y + ")";
+	}
+
 	/**
 	 * Rotate this point against a given origin with the given angle.
 	 *
