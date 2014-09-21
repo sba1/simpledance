@@ -27,6 +27,17 @@ public class Point
 	}
 
 	/**
+	 * Add the coordiantes of the given point to the this one.
+	 *
+	 * @param p
+	 * @return
+	 */
+	public Point add(Point p)
+	{
+		return new Point(x + p.x, y + p.y);
+	}
+
+	/**
 	 * Rotate this point against a given origin with the given angle.
 	 *
 	 * @param angle
