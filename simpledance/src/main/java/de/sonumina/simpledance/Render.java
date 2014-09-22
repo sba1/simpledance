@@ -144,6 +144,7 @@ public class Render
 		public Point visibleRightTop;
 		public Point visibleLeftBottom;
 		public Point visibleRightBottom;
+		public int visibleRotation;
 
 		public int pixelWidth;
 		public int pixelHeight;
@@ -185,14 +186,17 @@ public class Render
 	 */
 	private Point transformBallroomToPixel(RenderSceneArgs rsa, int x, int y)
 	{
-		int visibleLeft = rsa.visibleLeftTop.x;
-		int visibleTop = rsa.visibleLeftTop.y;
-		int visibleWidth = rsa.visibleRightBottom.x - visibleLeft + 1;
-		int visibleHeight = rsa.visibleRightBottom.y - visibleTop + 1;
+		int visibleWidth = rsa.visibleLeftTop.distance(rsa.visibleRightTop);
+		int visibleHeight = rsa.visibleLeftTop.distance(rsa.visibleLeftBottom);
 
-		x = (x - visibleLeft) * rsa.pixelWidth / visibleWidth;
-		y = (visibleTop - y) * rsa.pixelHeight / visibleHeight;
+		Point p = new Point(x, y);
 
+		/* Apply the view rotation */
+		Point pRotated = p.rotate(-rsa.visibleRotation, rsa.visibleLeftBottom);
+
+		/* Scale and consider the fact that y is mirrored */
+		x = (pRotated.x - rsa.visibleLeftBottom.x) * rsa.pixelWidth / visibleWidth;
+		y = (visibleHeight - (pRotated.y - rsa.visibleLeftBottom.y)) * rsa.pixelHeight / visibleHeight;
 		return new Point(x,y);
 	}
 
@@ -225,11 +229,11 @@ public class Render
     	context.pushCurrentTransform();
 
     	WayPoint transFeetCoord = transformBallroomToPixel(rsa, feetCoord);
-		int visibleLeft = rsa.visibleLeftTop.x;
-		int visibleWidth = rsa.visibleRightBottom.x - visibleLeft + 1;
+		int visibleWidth = rsa.visibleLeftTop.distance(rsa.visibleRightTop);
 		float scale = (float)rsa.pixelWidth / pixSize / (float)visibleWidth * ballroomSize;
     	context.applyTranslationTransformation(transFeetCoord.x, transFeetCoord.y);
     	context.applyRotateTransformation(-feetCoord.a);
+    	context.applyRotateTransformation(rsa.visibleRotation);
     	context.applyScaleTransformation(scale);
     	if (mirror) context.applyScaleXTransformation(-1.f);
 
@@ -244,11 +248,11 @@ public class Render
     	context.pushCurrentTransform();
 
     	WayPoint transFeetCoord = transformBallroomToPixel(rsa, feetCoord);
-		int visibleLeft = rsa.visibleLeftTop.x;
-		int visibleWidth = rsa.visibleRightBottom.x - visibleLeft + 1;
+		int visibleWidth = rsa.visibleLeftTop.distance(rsa.visibleRightTop);
 		float scale = (float)rsa.pixelWidth / pixSize / (float)visibleWidth * ballroomSize;
     	context.applyTranslationTransformation(transFeetCoord.x, transFeetCoord.y);
     	context.applyRotateTransformation(-feetCoord.a);
+    	context.applyRotateTransformation(rsa.visibleRotation);
     	context.applyScaleTransformation(scale);
     	if (mirror) context.applyScaleXTransformation(-1.f);
 
@@ -262,11 +266,11 @@ public class Render
     	context.pushCurrentTransform();
 
     	WayPoint transFeetCoord = transformBallroomToPixel(rsa, feetCoord);
-		int visibleLeft = rsa.visibleLeftTop.x;
-		int visibleWidth = rsa.visibleRightBottom.x - visibleLeft + 1;
+		int visibleWidth = rsa.visibleLeftTop.distance(rsa.visibleRightTop);
 		float scale = (float)rsa.pixelWidth / pixSize / (float)visibleWidth * ballroomSize;
     	context.applyTranslationTransformation(transFeetCoord.x, transFeetCoord.y);
     	context.applyRotateTransformation(-feetCoord.a);
+    	context.applyRotateTransformation(rsa.visibleRotation);
     	context.applyScaleTransformation(scale);
     	if (mirror) context.applyScaleXTransformation(-1.f);
 
