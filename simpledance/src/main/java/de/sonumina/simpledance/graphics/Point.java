@@ -38,6 +38,17 @@ public class Point
 	}
 
 	/**
+	 * Return the middle of this point and the given point.
+	 *
+	 * @param p
+	 * @return
+	 */
+	public Point center(Point p)
+	{
+		return new Point((x + p.x)/2, (y+p.y)/2);
+	}
+
+	/**
 	 * Calculates the Euclidean distance form this point to the given one.
 	 *
 	 * @param p
