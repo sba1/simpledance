@@ -1144,7 +1144,29 @@ public class Dance implements Runnable
 				ballroom.zoomOut();
 			}
 		});
-		
+
+		subItem = new MenuItem(menu, SWT.NULL);
+		subItem.setText(_("Rotate clockwise") + "\t[");
+		subItem.setAccelerator('[');
+		subItem.addSelectionListener(new SelectionAdapter()
+		{
+			public void widgetSelected(SelectionEvent arg0)
+			{
+				ballroom.rotate(5);
+			}
+		});
+
+		subItem = new MenuItem(menu, SWT.NULL);
+		subItem.setText(_("Rotate counterclockwise") + "\t]");
+		subItem.setAccelerator(']');
+		subItem.addSelectionListener(new SelectionAdapter()
+		{
+			public void widgetSelected(SelectionEvent arg0)
+			{
+				ballroom.rotate(-5);
+			}
+		});
+
 		subItem = new MenuItem(menu, SWT.SEPARATOR);
 		
 		subItem = new MenuItem(menu, SWT.CHECK);
