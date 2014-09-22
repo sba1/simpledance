@@ -38,6 +38,17 @@ public class Point
 	}
 
 	/**
+	 * Calculates the Euclidean distance form this point to the given one.
+	 *
+	 * @param p
+	 * @return
+	 */
+	public int distance(Point p)
+	{
+		return (int)Math.sqrt((double)(x - p.x)*(x - p.x) + (double)(y - p.y)*(y - p.y));
+	}
+
+	/**
 	 * Rotate this point against a given origin with the given angle.
 	 *
 	 * @param angle
