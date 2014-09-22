@@ -17,6 +17,7 @@ import com.lowagie.text.PageSize;
 import com.lowagie.text.Table;
 import com.lowagie.text.pdf.PdfWriter;
 
+import de.sonumina.simpledance.graphics.Point;
 import de.sonumina.simpledance.graphics.swt.SWTContext;
 
 /*
@@ -161,21 +162,25 @@ public class PDFOutput
 					rsa.showGent = true;
 					rsa.showLady = true;
 
-					rsa.visibleLeft = bounds[0] - 25;
-					rsa.visibleTop = bounds[1] + 25;
-					rsa.visibleWidth = Math.abs(bounds[2] - bounds[0]) + 51;
-					rsa.visibleHeight = Math.abs(bounds[3] - bounds[1]) + 51;
+					int visibleLeft = bounds[0] - 25;
+					int visibleTop = bounds[1] + 25;
+					int visibleWidth = Math.abs(bounds[2] - bounds[0]) + 51;
+					int visibleHeight = Math.abs(bounds[3] - bounds[1]) + 51;
 					
-					if (rsa.visibleWidth > rsa.visibleHeight)
+					if (visibleWidth > visibleHeight)
 					{
-						rsa.visibleTop += (rsa.visibleWidth - rsa.visibleHeight)/2;
-						rsa.visibleHeight = rsa.visibleWidth;
-					} else if (rsa.visibleHeight > rsa.visibleWidth)
+						visibleTop += (visibleWidth - visibleHeight)/2;
+						visibleHeight = visibleWidth;
+					} else if (visibleHeight > visibleWidth)
 					{
-						rsa.visibleLeft -= (rsa.visibleHeight - rsa.visibleWidth)/2;
-						rsa.visibleWidth = rsa.visibleHeight;
+						visibleLeft -= (visibleHeight - visibleWidth)/2;
+						visibleWidth = visibleHeight;
 					}
-					
+					rsa.visibleLeftTop = new Point(visibleLeft, visibleTop);
+					rsa.visibleRightTop = new Point(visibleLeft + visibleWidth - 1, visibleTop);
+					rsa.visibleLeftBottom = new Point(visibleLeft, visibleTop + visibleHeight - 1);
+					rsa.visibleRightBottom = new Point(visibleLeft + visibleWidth - 1, visibleTop + visibleHeight - 1);
+
 					rsa.pixelWidth = width;
 					rsa.pixelHeight = height;
 					render.renderScence(rsa);

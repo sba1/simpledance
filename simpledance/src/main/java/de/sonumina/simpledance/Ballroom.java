@@ -1,6 +1,12 @@
 package de.sonumina.simpledance;
 
 import static de.sonumina.simpledance.I18n._;
+import static java.lang.Math.atan;
+import static java.lang.Math.cos;
+import static java.lang.Math.round;
+import static java.lang.Math.sin;
+import static java.lang.Math.toDegrees;
+import static java.lang.Math.toRadians;
 
 import java.util.LinkedList;
 
@@ -22,6 +28,7 @@ import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.LineAttributes;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
@@ -69,6 +76,9 @@ public class Ballroom extends Canvas
 	private Menu contextMenu;
 	private Font countFont;
 
+	private int horizontalScrollbarSelection;
+	private int verticalScrollbarSelection;
+
 	private int bufferWidth = -1;
 	private int bufferHeight = -1;
 	private Image bufferImage;
@@ -76,6 +86,7 @@ public class Ballroom extends Canvas
 
 	private Pattern pattern;
 	private int zoomFactor = 300;
+	private int rotation = 0;
 	private int visibleLeft = 570;
 	private int visibleTop = 650;
 	private int coordinatesX = -1;
@@ -121,7 +132,7 @@ public class Ballroom extends Canvas
 			if (my != y)
 			{
 				double t = (mx - x)/(double)(y - my);
-				angle = (int)Math.toDegrees(Math.atan(t));
+				angle = (int)toDegrees(atan(t));
 				if (my > y) angle = 180 + angle; 				
 			} else angle = 90;
 		} else
@@ -130,7 +141,7 @@ public class Ballroom extends Canvas
 			if (my != y)
 			{
 				double t = (mx - x)/(double)(my - y);
-				angle = (int)Math.toDegrees(Math.atan(t));
+				angle = (int)toDegrees(atan(t));
 				if (my > y) angle = 180 - angle;
 				else angle = 360 - angle; 				
 			} else angle = 270;
@@ -159,8 +170,9 @@ public class Ballroom extends Canvas
 	 * 	 * @param x	 * @param y	 * @return Point	 */
 	private Point transformPixToBallroom(int x, int y)
 	{
-		x = x * 100 / zoomFactor + visibleLeft;
-		y = - y * 100 / zoomFactor + visibleTop;
+		Point r = new Point(x * 100, y * 100).rotate(-rotation);
+		x = r.x / zoomFactor + visibleLeft;
+		y = - r.y / zoomFactor + visibleTop;
 		return new Point(x,y);
 	}
 	
@@ -185,10 +197,13 @@ public class Ballroom extends Canvas
 		Render.RenderSceneArgs rsa = new Render.RenderSceneArgs();
 		rsa.pattern = pattern;
 		rsa.stepNumber = pattern.getCurrentStepNum();
-		rsa.visibleLeft = visibleLeft;
-		rsa.visibleTop = visibleTop;
-		rsa.visibleWidth = getClientArea().width * 100 / zoomFactor;
-		rsa.visibleHeight = getClientArea().height * 100 / zoomFactor;
+		int visibleWidth = getClientArea().width * 100 / zoomFactor;
+		int visibleHeight = getClientArea().height * 100 / zoomFactor;
+		rsa.visibleLeftTop = new Point(visibleLeft, visibleTop);
+		rsa.visibleRightTop = rsa.visibleLeftTop.add(new Point(visibleWidth, 0).rotate(rotation));
+		rsa.visibleLeftBottom = rsa.visibleLeftTop.add(new Point(0, -visibleHeight).rotate(rotation));
+		rsa.visibleRightBottom = rsa.visibleLeftTop.add(new Point(visibleWidth, -visibleHeight).rotate(rotation));
+		rsa.visibleRotation = rotation;
 		rsa.pixelWidth = getClientArea().width;
 		rsa.pixelHeight = getClientArea().height;
 
@@ -304,13 +319,19 @@ public class Ballroom extends Canvas
 			public void widgetSelected(SelectionEvent event)
 			{
 				ScrollBar scrollbar = (ScrollBar)(event.widget);
+				Point diff;
 				if ((scrollbar.getStyle() & SWT.V_SCROLL) != 0)
 				{
-					visibleTop = 1200 - scrollbar.getSelection();
+					diff = new Point(0, verticalScrollbarSelection - scrollbar.getSelection()).rotate(rotation);
+					verticalScrollbarSelection = scrollbar.getSelection();
 				} else
 				{
-					visibleLeft = scrollbar.getSelection();
+					diff = new Point(scrollbar.getSelection() - horizontalScrollbarSelection, 0).rotate(rotation);
+					horizontalScrollbarSelection = scrollbar.getSelection();
 				}
+				visibleLeft += diff.x;
+				visibleTop += diff.y;
+
 				redraw();
 				update();
 			}
@@ -324,6 +345,7 @@ public class Ballroom extends Canvas
 		scrollbar.setIncrement(1);
 		scrollbar.setSelection(1200 - visibleTop);
 		scrollbar.addSelectionListener(selectionListener);
+		verticalScrollbarSelection = scrollbar.getSelection();
 		
 		scrollbar = getHorizontalBar();
 		scrollbar.setMaximum(1199); 
@@ -331,6 +353,7 @@ public class Ballroom extends Canvas
 		scrollbar.setIncrement(1);
 		scrollbar.setSelection(visibleLeft);
 		scrollbar.addSelectionListener(selectionListener);
+		horizontalScrollbarSelection = scrollbar.getSelection();
 		
 		addControlListener(new ControlAdapter()
 		{
@@ -418,8 +441,8 @@ public class Ballroom extends Canvas
 								p.x,p.y);
 
 							WayPoint feetCoord = pattern.getStep(lastSelectedStepIndex).getFoot(lastSelectedFootIndex).getStartingWayPoint();
-							feetCoord.x = rotationCenterBallroomPoint.x - (int)((distance * Math.sin(Math.toRadians(winkel))));
-							feetCoord.y = rotationCenterBallroomPoint.y + (int)((distance * Math.cos(Math.toRadians(winkel))));
+							feetCoord.x = rotationCenterBallroomPoint.x - (int)((distance * sin(toRadians(winkel))));
+							feetCoord.y = rotationCenterBallroomPoint.y + (int)((distance * cos(toRadians(winkel))));
 							feetCoord.a = winkel;
 						} else
 						if (dragOperation == DRAG_ROTATE_HEEL)
@@ -432,8 +455,8 @@ public class Ballroom extends Canvas
 							if (winkel < 0) winkel += 360;
 
 							WayPoint feetCoord = pattern.getStep(lastSelectedStepIndex).getFoot(lastSelectedFootIndex).getStartingWayPoint();
-							feetCoord.x = rotationCenterBallroomPoint.x + (int)((distance * Math.sin(Math.toRadians(winkel))));
-							feetCoord.y = rotationCenterBallroomPoint.y - (int)((distance * Math.cos(Math.toRadians(winkel))));
+							feetCoord.x = rotationCenterBallroomPoint.x + (int)((distance * sin(toRadians(winkel))));
+							feetCoord.y = rotationCenterBallroomPoint.y - (int)((distance * cos(toRadians(winkel))));
 							feetCoord.a = winkel;
 						} else
 						if (dragOperation == DRAG_MOVE_WAYPOINT)
@@ -670,21 +693,28 @@ public class Ballroom extends Canvas
 	{
 		if (showGrid)
 		{
+			/* Draw the grid, this is very unoptimized, it should be best done by Render */
+			context.pushCurrentTransform();
 			int lineStyle = gc.getLineStyle();
 			gc.setForeground(gridColor);
-			gc.setLineStyle(SWT.LINE_DOT);
-			for (int y = (visibleTop)/50*50;y>0;y-=50)
+			gc.setLineAttributes(new LineAttributes(1, SWT.CAP_FLAT, SWT.JOIN_MITER, SWT.LINE_DOT, null, 0, 10));
+			context.applyRotateTransformation(rotation);
+			for (int y = 1200; y > 0; y -= 50)
 			{
 				Point p = transformBallroomToPix(0,y);
-				gc.drawLine(0,p.y,getClientArea().width-1,p.y);
+				gc.drawLine(-1200,p.y,getClientArea().width+getClientArea().height-1,p.y);
 			}
 
-			for (int x = (visibleLeft + 49)/50*50;x<1200;x+=50)
+			for (int x = 0; x < 1200; x += 50)
 			{
 				Point p = transformBallroomToPix(x,0);
-				gc.drawLine(p.x,0,p.x,getClientArea().height-1);
+				gc.drawLine(p.x,-1200, p.x,getClientArea().width+getClientArea().height-1);
 			}
 			gc.setLineStyle(lineStyle);
+
+			/* Workaround for Eclipse Bug 214841 (FIXME: this is not the right place where to account for it) */
+			context.drawPolygon(new int[]{});
+			context.popCurrentTransform();
 		}
 	}
 
@@ -736,6 +766,33 @@ public class Ballroom extends Canvas
 		
 		visibleLeft += (oldBallroomWidth - ballroomWidth)/2;
 		visibleTop -= (oldBallroomHeight - ballroomHeight)/2;
+
+		redraw();
+		refreshScrollBars();
+	}
+
+	/**
+	 * Rotate the view using the given angle.
+	 *
+	 * @param angle
+	 */
+	public void rotate(int angle)
+	{
+		int visibleLeft = this.visibleLeft;
+		int visibleTop = this.visibleTop;
+
+		int visibleWidth = getClientArea().width * 100 / zoomFactor;
+		int visibleHeight = getClientArea().height * 100 / zoomFactor;
+
+		Point extend = new Point(visibleWidth, -visibleHeight).rotate(rotation);
+		Point visibleLeftTop = new Point(visibleLeft, visibleTop);
+		Point visibleRightBottom = new Point(visibleLeft + extend.x, visibleTop + extend.y);
+		Point center = visibleLeftTop.center(visibleRightBottom);
+
+		Point newVisibleLeftTop = visibleLeftTop.rotate(angle, center);
+		this.visibleLeft = newVisibleLeftTop.x;
+		this.visibleTop = newVisibleLeftTop.y;
+		rotation += angle;
 
 		redraw();
 		refreshScrollBars();
@@ -888,14 +945,14 @@ public class Ballroom extends Canvas
 					int px =  feetCoord.x - rotationCenterX;
 					int py =  feetCoord.y - rotationCenterY;
 
-					double cosa = Math.cos(Math.toRadians(-da));
-					double sina = Math.sin(Math.toRadians(-da));
+					double cosa = cos(toRadians(-da));
+					double sina = sin(toRadians(-da));
     		
 					double newx = (px * cosa + py * sina);
 					double newy = (-px * sina + py * cosa);
 					
-					feetCoord.x = (int)Math.round(newx) + rotationCenterX;
-					feetCoord.y = (int)Math.round(newy) + rotationCenterY;
+					feetCoord.x = (int)round(newx) + rotationCenterX;
+					feetCoord.y = (int)round(newy) + rotationCenterY;
 					feetCoord.a += da;
 					if (feetCoord.a < 0) feetCoord.a += 360;
 					if (feetCoord.a > 359) feetCoord.a -= 360;
@@ -925,12 +982,14 @@ public class Ballroom extends Canvas
 		scrollbar.setThumb(visible);
 		scrollbar.setPageIncrement(visible - 1);
 		scrollbar.setSelection(1200 - visibleTop);
+		verticalScrollbarSelection = scrollbar.getSelection();
 
 		scrollbar = getHorizontalBar();
 		visible = rect.width * 100 / zoomFactor;
 		scrollbar.setThumb(visible);
 		scrollbar.setPageIncrement(visible - 1);
 		scrollbar.setSelection(visibleLeft);
+		horizontalScrollbarSelection = scrollbar.getSelection();
 	}
 
 	private void emitEvent(BallroomEvent be)
