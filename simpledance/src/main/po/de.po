@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: mail@sebastianbauer.info\n"
-"POT-Creation-Date: 2014-09-19 22:33+0200\n"
+"POT-Creation-Date: 2014-09-23 21:15+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: de\n"
@@ -180,19 +180,19 @@ msgstr ""
 msgid "Detailed step overview"
 msgstr "Detailierte Schrittübersicht"
 
-#: de/sonumina/simpledance/Ballroom.java:598
+#: de/sonumina/simpledance/Ballroom.java:621
 msgid "Rotate around long angle"
 msgstr ""
 
-#: de/sonumina/simpledance/Ballroom.java:612
+#: de/sonumina/simpledance/Ballroom.java:635
 msgid "Insert way point"
 msgstr "Wegpunkt einfügen"
 
-#: de/sonumina/simpledance/Ballroom.java:622
+#: de/sonumina/simpledance/Ballroom.java:645
 msgid "Remove all way points"
 msgstr "Alle Wegpunkte entfernen"
 
-#: de/sonumina/simpledance/Ballroom.java:637
+#: de/sonumina/simpledance/Ballroom.java:660
 msgid "View whole Pattern"
 msgstr "Ganze Figur zeigen"
 
@@ -308,19 +308,19 @@ msgstr "Tempo"
 
 #: de/sonumina/simpledance/Dance.java:792
 msgid "Add step"
-msgstr ""
+msgstr "Hinzufügen"
 
 #: de/sonumina/simpledance/Dance.java:803
 msgid "Remove step"
-msgstr ""
+msgstr "Entfernen"
 
 #: de/sonumina/simpledance/Dance.java:872
-#: de/sonumina/simpledance/Dance.java:1212
+#: de/sonumina/simpledance/Dance.java:1234
 msgid "slow"
 msgstr "lang"
 
 #: de/sonumina/simpledance/Dance.java:873
-#: de/sonumina/simpledance/Dance.java:1211
+#: de/sonumina/simpledance/Dance.java:1233
 msgid "quick"
 msgstr "schnell"
 
@@ -384,15 +384,23 @@ msgstr "Relative Koordinaten eingeben"
 msgid "View"
 msgstr "Ansicht"
 
-#: de/sonumina/simpledance/Dance.java:1152
+#: de/sonumina/simpledance/Dance.java:1150
+msgid "Rotate clockwise"
+msgstr "Nach rechts drehen"
+
+#: de/sonumina/simpledance/Dance.java:1161
+msgid "Rotate counterclockwise"
+msgstr "Nach links drehen"
+
+#: de/sonumina/simpledance/Dance.java:1174
 msgid "Show gradients"
 msgstr "Farbverlauf anzeigen"
 
-#: de/sonumina/simpledance/Dance.java:1225
+#: de/sonumina/simpledance/Dance.java:1247
 msgid "Initial"
 msgstr "Ausgang"
 
-#: de/sonumina/simpledance/Dance.java:1554
+#: de/sonumina/simpledance/Dance.java:1576
 msgid "This file already exists. Are you sure to overwrite it?"
 msgstr "Die Datei existiert bereite. Wirklich überschreiben?"
 
