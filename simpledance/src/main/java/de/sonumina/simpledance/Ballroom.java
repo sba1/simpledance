@@ -1111,14 +1111,17 @@ public class Ballroom extends Canvas
 		int visibleRight = bounds[2] + 10;
 		int visibleBottom = bounds[3] - 20;
 
-		zoomFactor = this.getClientArea().width * 100 / (visibleRight - visibleLeft + 1);
-		int newZoomFactor = this.getClientArea().height * 100 / (visibleTop - visibleBottom + 1);
+		int clientWidth = this.getClientArea().width * 100;
+		int clientHeight = this.getClientArea().height * 100;
+
+		zoomFactor = clientWidth / (visibleRight - visibleLeft + 1);
+		int newZoomFactor = clientHeight / (visibleTop - visibleBottom + 1);
 		if (newZoomFactor < zoomFactor) zoomFactor = newZoomFactor;
 		
 		if (zoomFactor == 0) zoomFactor = 1;
 
-		int ballroomWidth = this.getClientArea().width * 100 / zoomFactor;
-		int ballroomHeight = this.getClientArea().height * 100 / zoomFactor;
+		int ballroomWidth = clientWidth / zoomFactor;
+		int ballroomHeight = clientHeight / zoomFactor;
 
 		visibleLeft -= (ballroomWidth - (visibleRight - visibleLeft + 1))/2;
 		visibleTop += (ballroomHeight - (visibleTop - visibleBottom + 1))/2;
