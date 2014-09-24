@@ -1137,12 +1137,17 @@ public class Ballroom extends Canvas
 		
 		if (zoomFactor == 0) zoomFactor = 1;
 
-		int ballroomWidth = clientWidth / zoomFactor;
-		int ballroomHeight = clientHeight / zoomFactor;
+		/* Determine the lengths within the ballroom in each dimension that is covered by the current
+		 * render view in accordance to the rotation */
+		Point ballroomRotated = new Point(clientWidth, clientHeight).rotate(-rotation);
+		int ballroomWidth = ballroomRotated.x / zoomFactor;
+		int ballroomHeight = ballroomRotated.y / zoomFactor;
 
-		visibleLeft = leftTop.x - (ballroomWidth - visibleWidth)/2;
-		visibleTop = leftTop.y + (ballroomHeight - visibleHeight)/2;
-		
+		/* Determine left top ballroom coordinates based on the center of the step. We move the center
+		 * such that we hit the center of the render view */
+		visibleLeft = center.x - ballroomWidth / 2;
+		visibleTop = center.y + ballroomHeight / 2;
+
 		redraw();
 		update();
 		
