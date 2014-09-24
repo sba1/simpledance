@@ -3,6 +3,8 @@ package de.sonumina.simpledance;
 import static de.sonumina.simpledance.I18n._;
 import static java.lang.Math.atan;
 import static java.lang.Math.cos;
+import static java.lang.Math.min;
+import static java.lang.Math.max;
 import static java.lang.Math.round;
 import static java.lang.Math.sin;
 import static java.lang.Math.toDegrees;
@@ -1105,17 +1107,32 @@ public class Ballroom extends Canvas
 	{
 		if (pattern == null) return;
 		int bounds[] = pattern.getPatternBounds();
-		
-		visibleLeft = bounds[0] - 10;
-		visibleTop = bounds[1] + 20;
-		int visibleRight = bounds[2] + 10;
-		int visibleBottom = bounds[3] - 20;
+
+		Point leftTop = new Point(bounds[0] - 10, bounds[1] + 20);
+		Point rightBottom = new Point(bounds[2] + 10, bounds[3] - 20);
+		Point leftBottom = new Point(leftTop.x, rightBottom.y);
+		Point rightTop = new Point(rightBottom.x, leftTop.y);
+
+		/* Rotate */
+		Point center = leftTop.center(rightBottom);
+		leftTop = leftTop.rotate(rotation, center);
+		rightBottom = rightBottom.rotate(rotation, center);
+		leftBottom = leftBottom.rotate(rotation, center);
+		rightTop = rightTop.rotate(rotation, center);
+
+		/* Determine extent the current step covers after rotation */
+		int maxX = max(max(max(leftTop.x, rightBottom.x), leftBottom.x), rightTop.x);
+		int minX = min(min(min(leftTop.x, rightBottom.x), leftBottom.x), rightTop.x);
+		int maxY = max(max(max(leftTop.y, rightBottom.y), leftBottom.y), rightTop.y);
+		int minY = min(min(min(leftTop.y, rightBottom.y), leftBottom.y), rightTop.y);
+		int visibleWidth = maxX -  minX + 1;
+		int visibleHeight = maxY - minY + 1;
 
 		int clientWidth = this.getClientArea().width * 100;
 		int clientHeight = this.getClientArea().height * 100;
 
-		zoomFactor = clientWidth / (visibleRight - visibleLeft + 1);
-		int newZoomFactor = clientHeight / (visibleTop - visibleBottom + 1);
+		zoomFactor = clientWidth / visibleWidth;
+		int newZoomFactor = clientHeight / visibleHeight;
 		if (newZoomFactor < zoomFactor) zoomFactor = newZoomFactor;
 		
 		if (zoomFactor == 0) zoomFactor = 1;
@@ -1123,8 +1140,8 @@ public class Ballroom extends Canvas
 		int ballroomWidth = clientWidth / zoomFactor;
 		int ballroomHeight = clientHeight / zoomFactor;
 
-		visibleLeft -= (ballroomWidth - (visibleRight - visibleLeft + 1))/2;
-		visibleTop += (ballroomHeight - (visibleTop - visibleBottom + 1))/2;
+		visibleLeft = leftTop.x - (ballroomWidth - visibleWidth)/2;
+		visibleTop = leftTop.y + (ballroomHeight - visibleHeight)/2;
 		
 		redraw();
 		update();
