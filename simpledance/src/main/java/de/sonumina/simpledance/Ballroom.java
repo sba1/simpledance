@@ -1131,10 +1131,10 @@ public class Ballroom extends Canvas
 		int clientWidth = this.getClientArea().width * 100;
 		int clientHeight = this.getClientArea().height * 100;
 
+		/* Calculate the zoom factor such that we cover the full extent of the step */
 		zoomFactor = clientWidth / visibleWidth;
 		int newZoomFactor = clientHeight / visibleHeight;
 		if (newZoomFactor < zoomFactor) zoomFactor = newZoomFactor;
-		
 		if (zoomFactor == 0) zoomFactor = 1;
 
 		/* Determine the lengths within the ballroom in each dimension that is covered by the current
