@@ -1,4 +1,7 @@
 package de.sonumina.simpledance;
+
+import static java.lang.Math.max;
+
 import java.awt.Polygon;
 
 import de.sonumina.simpledance.graphics.Color;
@@ -190,6 +193,10 @@ public class Render
 		int visibleHeight = rsa.visibleLeftTop.distance(rsa.visibleLeftBottom);
 
 		Point p = new Point(x, y);
+
+		/* Avoid division by zero */
+		visibleWidth = max(1, visibleWidth);
+		visibleHeight = max(1, visibleHeight);
 
 		/* Apply the view rotation */
 		Point pRotated = p.rotate(-rsa.visibleRotation, rsa.visibleLeftBottom);
