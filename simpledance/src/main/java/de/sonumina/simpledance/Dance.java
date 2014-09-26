@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
-import java.util.ListIterator;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
@@ -1397,20 +1396,16 @@ public class Dance implements Runnable
 					}
 				});
 
-				ListIterator<Integer> iter = allPatternsList.listIterator();
-				
-				while (iter.hasNext())
+				for (int patternIndex : allPatternsList)
 				{
-					int i = (iter.next()).intValue();
-					
-					if (allPatternsArrayList.get(i).size()>0)
+					if (allPatternsArrayList.get(patternIndex).size()>0)
 					{
 						MenuItem menuItem = new MenuItem(menu, SWT.CASCADE);
-						menuItem.setText(_(Pattern.getTypeName(i)));
+						menuItem.setText(_(Pattern.getTypeName(patternIndex)));
 						Menu subMenu = new Menu(menuItem);
 						menuItem.setMenu(subMenu);
 
-						for (Pattern.PatternInfo pi : allPatternsArrayList.get(i))
+						for (Pattern.PatternInfo pi : allPatternsArrayList.get(patternIndex))
 						{
 							MenuItem subItem = new MenuItem(subMenu,0);
 							subItem.setText(pi.name);
