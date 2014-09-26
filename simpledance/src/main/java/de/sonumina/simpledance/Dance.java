@@ -6,7 +6,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
@@ -1326,103 +1325,54 @@ public class Dance implements Runnable
 		{
 			Menu menu = new Menu(shell);
 
-			File directory = new File("./patterns/");
-			if (directory.exists())
+			ArrayList<LinkedList<Pattern.PatternInfo>> allPatternsArrayList = Util.listAllPatterns("./patterns/");
+
+			/* All patterns types get moved into the list */
+			LinkedList<Integer> allPatternsList = new LinkedList<Integer>();
+			for (int i=0;i<allPatternsArrayList.size();i++)
 			{
-				String [] list = directory.list(new FilenameFilter()
+				if (allPatternsArrayList.get(i).size()>0)
+					allPatternsList.add(new Integer(i));
+			}
+
+			/* Sort the list according to the translated names */
+			Collections.sort(allPatternsList,new Comparator<Integer>()
+			{
+				public int compare(Integer arg0, Integer arg1)
 				{
-					public boolean accept(File file, String name)
-					{
-						return name.endsWith(".sdn");
-					}
-				});
+					String s0 = _(Pattern.getTypeName(arg0));
+					String s1 = _(Pattern.getTypeName(arg1));
+					return s0.compareTo(s1);
+				}
+			});
 
-				ArrayList<LinkedList<Pattern.PatternInfo>> allPatternsArrayList = new ArrayList<>();
-				for (int i=0;i<Pattern.DANCE_MAX;i++)
-					allPatternsArrayList.add(new LinkedList<Pattern.PatternInfo>());
-
-				for (int i=0;i<list.length;i++)
+			for (int patternIndex : allPatternsList)
+			{
+				if (allPatternsArrayList.get(patternIndex).size()>0)
 				{
-					File file = new File(directory,list[i]);
+					MenuItem menuItem = new MenuItem(menu, SWT.CASCADE);
+					menuItem.setText(_(Pattern.getTypeName(patternIndex)));
+					Menu subMenu = new Menu(menuItem);
+					menuItem.setMenu(subMenu);
 
-					FileInputStream fis = null;
-					try
+					for (Pattern.PatternInfo pi : allPatternsArrayList.get(patternIndex))
 					{
-						fis = new FileInputStream(file);
-						byte [] input = new byte[fis.available()];
-						fis.read(input);
-						String str = new String(input);
-						Pattern.PatternInfo pi = Pattern.getPatternInfo(str);
-						pi.data = file;
-						allPatternsArrayList.get(pi.type).add(pi);
-					}
-					catch (FileNotFoundException e)
-					{
-					}
-					catch (IOException e)
-					{
-					}
-					finally
-					{
-						try
+						MenuItem subItem = new MenuItem(subMenu,0);
+						subItem.setText(pi.name);
+						subItem.setData(pi.data);
+						subItem.addSelectionListener(new SelectionAdapter()
 						{
-							if (fis != null)
+							public void widgetSelected(SelectionEvent event)
 							{
-								fis.close();
+								MenuItem selectedItem = (MenuItem)event.widget;
+								File file = (File)selectedItem.getData();
+								loadPattern(file.getPath());
 							}
-						}
-						catch (IOException e)
-						{
-						}
-					}
-				}
-
-				/* All patterns types get moved into the list */
-				LinkedList<Integer> allPatternsList = new LinkedList<Integer>();
-				for (int i=0;i<allPatternsArrayList.size();i++)
-				{
-					if (allPatternsArrayList.get(i).size()>0)
-						allPatternsList.add(new Integer(i));
-				}
-
-				/* Sort the list according to the translated names */
-				Collections.sort(allPatternsList,new Comparator<Integer>()
-				{
-					public int compare(Integer arg0, Integer arg1)
-					{
-						String s0 = _(Pattern.getTypeName(arg0));
-						String s1 = _(Pattern.getTypeName(arg1));
-						return s0.compareTo(s1);
-					}
-				});
-
-				for (int patternIndex : allPatternsList)
-				{
-					if (allPatternsArrayList.get(patternIndex).size()>0)
-					{
-						MenuItem menuItem = new MenuItem(menu, SWT.CASCADE);
-						menuItem.setText(_(Pattern.getTypeName(patternIndex)));
-						Menu subMenu = new Menu(menuItem);
-						menuItem.setMenu(subMenu);
-
-						for (Pattern.PatternInfo pi : allPatternsArrayList.get(patternIndex))
-						{
-							MenuItem subItem = new MenuItem(subMenu,0);
-							subItem.setText(pi.name);
-							subItem.setData(pi.data);
-							subItem.addSelectionListener(new SelectionAdapter()
-							{
-								public void widgetSelected(SelectionEvent event)
-								{
-									MenuItem selectedItem = (MenuItem)event.widget;
-									File file = (File)selectedItem.getData();
-									loadPattern(file.getPath());
-								}
-							});
-						}							
+						});
 					}
 				}
 			}
+
 			return menu;
 		}
 
