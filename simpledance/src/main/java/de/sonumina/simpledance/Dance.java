@@ -1379,7 +1379,7 @@ public class Dance implements Runnable
 						allPatternsList.add(new Integer(i));
 				}
 
-				/* Sort the list accoring to the translated names */
+				/* Sort the list according to the translated names */
 				Collections.sort(allPatternsList,new Comparator<Integer>()
 				{
 					public int compare(Integer arg0, Integer arg1)
