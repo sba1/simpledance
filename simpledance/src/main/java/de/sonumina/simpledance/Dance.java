@@ -159,12 +159,19 @@ public class Dance implements Runnable
 		} 
 		return image;
 	}
-	
+
+	/**
+	 * Sets the given value for the given text.
+	 *
+	 * @param text the text control
+	 * @param value the value to set
+	 */
 	private void setInteger(Text text, int value)
 	{
 		String str = text.getText();
-		if (!str.equals(value + ""))
-			text.setText(value + "");
+		String newStr = Integer.toString(value);
+		if (!str.equals(newStr))
+			text.setText(newStr);
 	}
 
 	/**
