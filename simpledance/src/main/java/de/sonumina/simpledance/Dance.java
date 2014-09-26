@@ -1005,11 +1005,11 @@ public class Dance implements Runnable
 			}
 		});
 
-		new MenuItem(menu, SWT.SEPARATOR);
-		
 		/* disabled as this is not working */
 		if (false)
 		{
+			new MenuItem(menu, SWT.SEPARATOR);
+
 			subItem = new MenuItem(menu, SWT.NULL);
 			subItem.setText(_("Export as PDF..."));
 			subItem.addSelectionListener(new SelectionAdapter()
