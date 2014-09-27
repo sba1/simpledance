@@ -14,7 +14,7 @@ package de.sonumina.simpledance.graphics;
  */
 abstract public class Context
 {
-	public static enum LineStyle
+	public enum LineStyle
 	{
 		NORMAL,
 		DOT
