@@ -376,10 +376,10 @@ public class Ballroom extends Canvas
 				
 				drawGrid(gc);
 
+				render.renderScence(getRenderSceneArgs());
+
 				if (pattern != null)
 				{
-					render.renderScence(getRenderSceneArgs());
-
 					if (showCoordinates)
 					{
 						if (coordinatesX != -1 && coordinatesY != -1)
