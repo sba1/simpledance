@@ -17,6 +17,7 @@ import org.eclipse.swt.widgets.Display;
 
 import de.sonumina.simpledance.graphics.Color;
 import de.sonumina.simpledance.graphics.Context;
+import de.sonumina.simpledance.graphics.LineStyle;
 import de.sonumina.simpledance.graphics.Point;
 import de.sonumina.simpledance.graphics.RGB;
 

@@ -14,12 +14,6 @@ package de.sonumina.simpledance.graphics;
  */
 abstract public class Context
 {
-	public enum LineStyle
-	{
-		NORMAL,
-		DOT
-	}
-
 	protected Color foreground;
 	protected Color background;
 	protected int lineWidth;
