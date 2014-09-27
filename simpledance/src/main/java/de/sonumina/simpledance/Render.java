@@ -7,6 +7,7 @@ import java.awt.Polygon;
 
 import de.sonumina.simpledance.graphics.Color;
 import de.sonumina.simpledance.graphics.Context;
+import de.sonumina.simpledance.graphics.Context.LineStyle;
 import de.sonumina.simpledance.graphics.Point;
 import de.sonumina.simpledance.graphics.RGB;
 
@@ -159,6 +160,7 @@ public class Render
 		public boolean showGradients;
 		public boolean showPrevStep;
 		public boolean insideAnimation;
+		public boolean showGrid;
 		public boolean showLady;
 		public boolean showGent;
 		public boolean showAnimationOutline;
@@ -492,7 +494,39 @@ public class Render
 		myDrawOval(rsa,ballroomCoord,ballroomBaleX,ballroomBaleY);
 		myDrawOval(rsa,ballroomCoord,ballroomHeelX,ballroomHeelY);
 	}
-	
+
+	/**
+	 * Render the grid.
+	 *
+	 * @param rsa
+	 */
+	private void drawGrid(RenderSceneArgs rsa)
+	{
+		if (rsa.showGrid)
+		{
+			/* Draw the grid, this is very unoptimized */
+			context.setForeground(gridColor);
+			context.setLineStyle(LineStyle.DOT);
+
+			for (int y = 1200; y > 0; y -= 50)
+			{
+				Point p1 = transformBallroomToPixel(rsa, 0, y);
+				Point p2 = transformBallroomToPixel(rsa, 1200, y);
+				context.drawLine(p1.x, p1.y, p2.x, p2.y);
+			}
+
+			for (int x = 0; x < 1200; x += 50)
+			{
+				Point p1 = transformBallroomToPixel(rsa, x, 1200);
+				Point p2 = transformBallroomToPixel(rsa, x, 0);
+				context.drawLine(p1.x, p1.y, p2.x, p2.y);
+
+			}
+
+			context.setLineStyle(LineStyle.NORMAL);
+		}
+	}
+
 	/**
 	 * Render the scene according to the given rsa
 	 * 
@@ -500,6 +534,8 @@ public class Render
 	 */
 	public void renderScence(RenderSceneArgs rsa)
 	{
+		drawGrid(rsa);
+
 		Pattern pattern = rsa.pattern;
 		if (pattern == null) return;
 

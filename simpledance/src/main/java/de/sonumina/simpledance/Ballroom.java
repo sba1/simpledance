@@ -28,7 +28,6 @@ import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.LineAttributes;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
@@ -175,17 +174,6 @@ public class Ballroom extends Canvas
 		y = - r.y / zoomFactor + visibleTop;
 		return new Point(x,y);
 	}
-	
-	
-	/**
-	 * Transforms ballroom Coordinates to pixel coordinates
-	 * 	 * @param x	 * @param y	 * @return Point	 */
-	private Point transformBallroomToPix(int x, int y)
-	{
-		x = (x - visibleLeft) * zoomFactor / 100;
-		y = (visibleTop - y) * zoomFactor / 100;
-		return new Point(x,y);
-	}
 
 	/**
 	 * Returns the current scene parameters relevant for rendering.
@@ -207,6 +195,7 @@ public class Ballroom extends Canvas
 		rsa.pixelWidth = getClientArea().width;
 		rsa.pixelHeight = getClientArea().height;
 
+		rsa.showGrid = showGrid;
 		rsa.showPrevStep = showPrevStep;
 		rsa.showGradients = showGradients;
 		rsa.showPrevStep = showPrevStep;
@@ -373,8 +362,6 @@ public class Ballroom extends Canvas
 
 				gc.setBackground(ballroomColor);
 				gc.fillRectangle(bounds);
-				
-				drawGrid(gc);
 
 				render.renderScence(getRenderSceneArgs());
 
@@ -687,35 +674,6 @@ public class Ballroom extends Canvas
 				}
 			}
 		});
-	}
-
-	private void drawGrid(GC gc)
-	{
-		if (showGrid)
-		{
-			/* Draw the grid, this is very unoptimized, it should be best done by Render */
-			context.pushCurrentTransform();
-			int lineStyle = gc.getLineStyle();
-			gc.setForeground(gridColor);
-			gc.setLineAttributes(new LineAttributes(1, SWT.CAP_FLAT, SWT.JOIN_MITER, SWT.LINE_DOT, null, 0, 10));
-			context.applyRotateTransformation(rotation);
-			for (int y = 1200; y > 0; y -= 50)
-			{
-				Point p = transformBallroomToPix(0,y);
-				gc.drawLine(-1200,p.y,getClientArea().width+getClientArea().height-1,p.y);
-			}
-
-			for (int x = 0; x < 1200; x += 50)
-			{
-				Point p = transformBallroomToPix(x,0);
-				gc.drawLine(p.x,-1200, p.x,getClientArea().width+getClientArea().height-1);
-			}
-			gc.setLineStyle(lineStyle);
-
-			/* Workaround for Eclipse Bug 214841 (FIXME: this is not the right place where to account for it) */
-			context.drawPolygon(new int[]{});
-			context.popCurrentTransform();
-		}
 	}
 
 	/**
