@@ -14,9 +14,16 @@ package de.sonumina.simpledance.graphics;
  */
 abstract public class Context
 {
+	public static enum LineStyle
+	{
+		NORMAL,
+		DOT
+	}
+
 	protected Color foreground;
 	protected Color background;
 	protected int lineWidth;
+	protected LineStyle lineStyle;
 	protected Font font;
 	
 	/* Pixel operation */
@@ -127,4 +134,23 @@ abstract public class Context
 		return font;
 	}
 
+	/**
+	 * Set the line style.
+	 *
+	 * @param lineStyle
+	 */
+	public void setLineStyle(LineStyle lineStyle)
+	{
+		this.lineStyle = lineStyle;
+	}
+
+	/**
+	 * Return the current line style.
+	 *
+	 * @return
+	 */
+	public LineStyle getLineStyle()
+	{
+		return lineStyle;
+	}
 }
