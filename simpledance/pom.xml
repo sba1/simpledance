@@ -94,6 +94,8 @@
 					<compilerId>eclipse</compilerId>
 					<source>1.7</source>
 					<target>1.6</target>
+					<!-- This avoid problems with the enum -->
+					<optimize>true</optimize>
 				</configuration>
 				<dependencies>
 					<dependency>
