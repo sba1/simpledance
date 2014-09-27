@@ -1,6 +1,7 @@
 package de.sonumina.simpledance;
 
 import static java.lang.Math.max;
+import static java.lang.Math.min;
 
 import java.awt.Polygon;
 
@@ -672,5 +673,79 @@ public class Render
 		}
 
 		return ci;
+	}
+
+	/**
+	 * The result of viewWholePattern().
+	 *
+	 * @author Sebastian Bauer
+	 */
+	static public class ViewWholePatternResult
+	{
+		boolean valid;
+		int zoomFactor;
+		int visibleLeft;
+		int visibleTop;
+	}
+
+	/**
+	 * Calculate the view settings such that the whole pattern that is specified in
+	 * is visible. The rotation itself will be not be changed.
+	 *
+	 * @param rsa the input parameter that specifies among other thing which pattern to use.
+	 *
+	 * @return the new view settings.
+	 */
+	ViewWholePatternResult viewWholePattern(RenderSceneArgs rsa)
+	{
+		ViewWholePatternResult result = new ViewWholePatternResult();
+
+		if (rsa.pattern == null) return result;
+		int bounds[] = rsa.pattern.getPatternBounds();
+
+		Point leftTop = new Point(bounds[0] - 10, bounds[1] + 20);
+		Point rightBottom = new Point(bounds[2] + 10, bounds[3] - 20);
+		Point leftBottom = new Point(leftTop.x, rightBottom.y);
+		Point rightTop = new Point(rightBottom.x, leftTop.y);
+
+		/* Rotate */
+		Point center = leftTop.center(rightBottom);
+		leftTop = leftTop.rotate(rsa.visibleRotation, center);
+		rightBottom = rightBottom.rotate(rsa.visibleRotation, center);
+		leftBottom = leftBottom.rotate(rsa.visibleRotation, center);
+		rightTop = rightTop.rotate(rsa.visibleRotation, center);
+
+		/* Determine extent the current step covers after rotation */
+		int maxX = max(max(max(leftTop.x, rightBottom.x), leftBottom.x), rightTop.x);
+		int minX = min(min(min(leftTop.x, rightBottom.x), leftBottom.x), rightTop.x);
+		int maxY = max(max(max(leftTop.y, rightBottom.y), leftBottom.y), rightTop.y);
+		int minY = min(min(min(leftTop.y, rightBottom.y), leftBottom.y), rightTop.y);
+		int visibleWidth = maxX -  minX + 1;
+		int visibleHeight = maxY - minY + 1;
+
+		int clientWidth = rsa.pixelWidth * 100;
+		int clientHeight = rsa.pixelHeight * 100;
+
+		/* Calculate the zoom factor such that we cover the full extent of the step */
+		int zoomFactor = max(1, min(clientWidth / visibleWidth, clientHeight / visibleHeight));
+
+		/* Determine the lengths within the ballroom in each dimension that is covered by the current
+		 * render view in accordance to the rotation */
+		Point ballroomRotated = new Point(clientWidth, clientHeight).rotate(-rsa.visibleRotation);
+		int ballroomWidth = ballroomRotated.x / zoomFactor;
+		int ballroomHeight = ballroomRotated.y / zoomFactor;
+
+		/* Determine left top ballroom coordinates based on the center of the step. We move the center
+		 * such that we hit the center of the render view */
+		result.visibleLeft = center.x - ballroomWidth / 2;
+		result.visibleTop = center.y + ballroomHeight / 2;
+
+		/* Also return the zoom factor */
+		result.zoomFactor = zoomFactor;
+
+		/* Yes, and it is valid */
+		result.valid = true;
+
+		return result;
 	}
 }

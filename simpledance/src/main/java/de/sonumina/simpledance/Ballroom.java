@@ -3,8 +3,6 @@ package de.sonumina.simpledance;
 import static de.sonumina.simpledance.I18n._;
 import static java.lang.Math.atan;
 import static java.lang.Math.cos;
-import static java.lang.Math.min;
-import static java.lang.Math.max;
 import static java.lang.Math.round;
 import static java.lang.Math.sin;
 import static java.lang.Math.toDegrees;
@@ -1105,54 +1103,23 @@ public class Ballroom extends Canvas
 	
 	public void viewWholePattern()
 	{
-		if (pattern == null) return;
-		int bounds[] = pattern.getPatternBounds();
+		Render.ViewWholePatternResult result = render.viewWholePattern(getRenderSceneArgs());
 
-		Point leftTop = new Point(bounds[0] - 10, bounds[1] + 20);
-		Point rightBottom = new Point(bounds[2] + 10, bounds[3] - 20);
-		Point leftBottom = new Point(leftTop.x, rightBottom.y);
-		Point rightTop = new Point(rightBottom.x, leftTop.y);
+		if (result.valid)
+		{
+			visibleLeft = result.visibleLeft;
+			visibleTop = result.visibleTop;
+			zoomFactor = result.zoomFactor;
 
-		/* Rotate */
-		Point center = leftTop.center(rightBottom);
-		leftTop = leftTop.rotate(rotation, center);
-		rightBottom = rightBottom.rotate(rotation, center);
-		leftBottom = leftBottom.rotate(rotation, center);
-		rightTop = rightTop.rotate(rotation, center);
+			redraw();
+			update();
 
-		/* Determine extent the current step covers after rotation */
-		int maxX = max(max(max(leftTop.x, rightBottom.x), leftBottom.x), rightTop.x);
-		int minX = min(min(min(leftTop.x, rightBottom.x), leftBottom.x), rightTop.x);
-		int maxY = max(max(max(leftTop.y, rightBottom.y), leftBottom.y), rightTop.y);
-		int minY = min(min(min(leftTop.y, rightBottom.y), leftBottom.y), rightTop.y);
-		int visibleWidth = maxX -  minX + 1;
-		int visibleHeight = maxY - minY + 1;
+			refreshScrollBars();
 
-		int clientWidth = this.getClientArea().width * 100;
-		int clientHeight = this.getClientArea().height * 100;
-
-		/* Calculate the zoom factor such that we cover the full extent of the step */
-		zoomFactor = max(1, min(clientWidth / visibleWidth, clientHeight / visibleHeight));
-
-		/* Determine the lengths within the ballroom in each dimension that is covered by the current
-		 * render view in accordance to the rotation */
-		Point ballroomRotated = new Point(clientWidth, clientHeight).rotate(-rotation);
-		int ballroomWidth = ballroomRotated.x / zoomFactor;
-		int ballroomHeight = ballroomRotated.y / zoomFactor;
-
-		/* Determine left top ballroom coordinates based on the center of the step. We move the center
-		 * such that we hit the center of the render view */
-		visibleLeft = center.x - ballroomWidth / 2;
-		visibleTop = center.y + ballroomHeight / 2;
-
-		redraw();
-		update();
-		
-		refreshScrollBars();
-		
-		BallroomEvent be = new BallroomEvent();
-		be.viewChanged = true;
-		emitEvent(be);
+			BallroomEvent be = new BallroomEvent();
+			be.viewChanged = true;
+			emitEvent(be);
+		}
 	}
 
 	/**
