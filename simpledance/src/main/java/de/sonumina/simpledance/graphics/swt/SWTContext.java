@@ -252,4 +252,21 @@ public class SWTContext extends Context
 		for (int i=0; i<destPointArray.length; i++)
 			destPointArray[i] = (int)pointArray[i];
 	}
+
+	@Override
+	public void setLineStyle(LineStyle lineStyle)
+	{
+		super.setLineStyle(lineStyle);
+
+		switch (lineStyle)
+		{
+			case	NORMAL:
+					gc.setLineAttributes(lineAttributes);
+					break;
+
+			case	DOT:
+					gc.setLineAttributes(new LineAttributes(1, SWT.CAP_FLAT, SWT.JOIN_MITER, SWT.LINE_DOT, null, 0, 10));
+					break;
+		}
+	}
 }
