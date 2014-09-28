@@ -1,4 +1,4 @@
-package de.sonumina.simpledance;
+package de.sonumina.simpledance.core;
 /**
  * This class represents a fraction and defines some operation
  * like addition and subtraction on it. 

@@ -1,4 +1,5 @@
-package de.sonumina.simpledance;
+package de.sonumina.simpledance.core;
+
 /*
  * Created on 19.04.2003
  *

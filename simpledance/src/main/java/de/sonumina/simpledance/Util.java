@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import de.sonumina.simpledance.core.Pattern;
+
 /**
  * Class providing some static methods.
  *

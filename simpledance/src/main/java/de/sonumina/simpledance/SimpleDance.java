@@ -3,6 +3,8 @@ import org.eclipse.swt.graphics.DeviceData;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
+import de.sonumina.simpledance.core.Pattern;
+
 /**
  * @author sebauer
  *

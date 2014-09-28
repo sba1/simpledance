@@ -35,6 +35,7 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.ScrollBar;
 
+import de.sonumina.simpledance.core.Pattern;
 import de.sonumina.simpledance.core.Step;
 import de.sonumina.simpledance.core.WayPoint;
 import de.sonumina.simpledance.graphics.Point;

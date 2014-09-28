@@ -1,12 +1,8 @@
-package de.sonumina.simpledance;
+package de.sonumina.simpledance.core;
 
 import static de.sonumina.simpledance.core.I18n.N_;
 
 import java.util.LinkedList;
-
-import de.sonumina.simpledance.core.Foot;
-import de.sonumina.simpledance.core.Step;
-import de.sonumina.simpledance.core.WayPoint;
 
 /**
  * This class represents a single dance pattern.
@@ -17,20 +13,20 @@ public class Pattern
 {
 	private String filename;
 
-	static final int DANCE_OTHER = 0;
-	static final int DANCE_SLOW_WALZ = 1;
-	static final int DANCE_VIENESSE_WALZ = 2;
-	static final int DANCE_TANGO = 3;
-	static final int DANCE_FOXTROTT = 4;
-	static final int DANCE_QUICKSTEP = 5;
-	static final int DANCE_SLOWFOX = 6;
-	static final int DANCE_CHA_CHA_CHA = 7;
-	static final int DANCE_RUMBA = 8;
-	static final int DANCE_JIVE = 9;
-	static final int DANCE_SAMBA = 10;
-	static final int DANCE_PASO_DOBLE = 11;
-	static final int DANCE_DISCO_FOX = 12;
-	static final int DANCE_MAX = 13;
+	static public final int DANCE_OTHER = 0;
+	static public final int DANCE_SLOW_WALZ = 1;
+	static public final int DANCE_VIENESSE_WALZ = 2;
+	static public final int DANCE_TANGO = 3;
+	static public final int DANCE_FOXTROTT = 4;
+	static public final int DANCE_QUICKSTEP = 5;
+	static public final int DANCE_SLOWFOX = 6;
+	static public final int DANCE_CHA_CHA_CHA = 7;
+	static public final int DANCE_RUMBA = 8;
+	static public final int DANCE_JIVE = 9;
+	static public final int DANCE_SAMBA = 10;
+	static public final int DANCE_PASO_DOBLE = 11;
+	static public final int DANCE_DISCO_FOX = 12;
+	static public final int DANCE_MAX = 13;
 	
 	static final String typeNames[] =
 	{
@@ -49,7 +45,7 @@ public class Pattern
 		N_("Disco Fox"),
 	};
 	
-	static final String getTypeName(int type)
+	static final public String getTypeName(int type)
 	{
 		if (type >= DANCE_OTHER && type < DANCE_MAX)
 			return typeNames[type];
@@ -132,7 +128,7 @@ public class Pattern
 		return ti;
 	}
 	
-	Fraction getStepTempo(int stepNo)
+	public Fraction getStepTempo(int stepNo)
 	{
 		Step step = getStep(stepNo);
 		
