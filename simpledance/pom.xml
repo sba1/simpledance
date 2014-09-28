@@ -160,5 +160,10 @@
 			<version>4.3.2</version>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>de.sonumina</groupId>
+			<artifactId>simpledance.core</artifactId>
+			<version>0.10-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 </project>
