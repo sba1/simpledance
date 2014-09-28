@@ -6,6 +6,7 @@ import static java.lang.Math.min;
 import java.awt.Polygon;
 
 import de.sonumina.simpledance.core.Foot;
+import de.sonumina.simpledance.core.Step;
 import de.sonumina.simpledance.core.WayPoint;
 import de.sonumina.simpledance.graphics.Color;
 import de.sonumina.simpledance.graphics.Context;

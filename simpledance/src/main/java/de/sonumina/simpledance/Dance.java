@@ -51,6 +51,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 
+import de.sonumina.simpledance.core.Step;
 import de.sonumina.simpledance.core.WayPoint;
 
 /**

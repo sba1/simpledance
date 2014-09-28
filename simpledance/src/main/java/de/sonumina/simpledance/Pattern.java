@@ -5,6 +5,7 @@ import static de.sonumina.simpledance.core.I18n.N_;
 import java.util.LinkedList;
 
 import de.sonumina.simpledance.core.Foot;
+import de.sonumina.simpledance.core.Step;
 import de.sonumina.simpledance.core.WayPoint;
 
 /**

@@ -17,6 +17,7 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 
+import de.sonumina.simpledance.core.Step;
 import de.sonumina.simpledance.core.WayPoint;
 
 /**

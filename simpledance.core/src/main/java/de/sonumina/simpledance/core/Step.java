@@ -1,8 +1,6 @@
-package de.sonumina.simpledance;
+package de.sonumina.simpledance.core;
 
 import static de.sonumina.simpledance.core.I18n.N_;
-import de.sonumina.simpledance.core.Foot;
-import de.sonumina.simpledance.core.WayPoint;
 
 /**
  * This class represents a single step within a dance pattern.
@@ -13,7 +11,7 @@ public class Step
 {
 	private Foot [] feet = new Foot[4];
 	
-	static String [] stepTypes = new String []
+	static public String [] stepTypes = new String []
 	{
 		N_("Unspecified"),
 		N_("Foot doesn't move"),
@@ -70,7 +68,7 @@ public class Step
 		}
 	}
 	
-	WayPoint getStartingWayPoint(int feetNum)
+	public WayPoint getStartingWayPoint(int feetNum)
 	{
 		return feet[feetNum].getStartingWayPoint();
 	}
