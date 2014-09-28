@@ -1,4 +1,4 @@
-package de.sonumina.simpledance;
+package de.sonumina.simpledance.core;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -7,8 +7,6 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
-
-import de.sonumina.simpledance.core.Pattern;
 
 /**
  * Class providing some static methods.
