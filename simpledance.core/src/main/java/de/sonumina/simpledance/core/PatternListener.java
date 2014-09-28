@@ -14,9 +14,7 @@ package de.sonumina.simpledance.core;
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
 
-public class PatternListener
+public interface PatternListener
 {
-	public void newStepActive(Pattern pattern, int newStepNum)
-	{
-	}
+	public void newStepActive(Pattern pattern, int newStepNum);
 }
