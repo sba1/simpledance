@@ -11,24 +11,24 @@ import de.sonumina.simpledance.core.WayPoint;
  */
 public class Foot
 {
-	static final int NOT_SPECIFIED = 0;
-	static final int FOOT_NOT_MOVED = 1;
-	static final int HEEL_STEP = 2;
-	static final int BALL_STEP = 3;
-	static final int BALL_STEP_STAY = 4;
-	static final int BALL_STAY = 5;
-	static final int FOOT_IN_THE_AIR = 6;
-	static final int HEEL_TURN = 7;
-	static final int STAND_ON_FOOT = 8;
-	static final int STAND_IN_BALL = 9;
-	static final int KICK = 10;
-	static final int APELL = 11;
-	static final int TAP = 12;
-	static final int WHOLE_FOOT = 13;
-	static final int HEEL_TAP = 14;
-	static final int TOE_TAP = 15;
-	static final int JUMP = 16;
-	static final int WITHOUT_WEIGHT = 17;
+	static public final int NOT_SPECIFIED = 0;
+	static public final int FOOT_NOT_MOVED = 1;
+	static public final int HEEL_STEP = 2;
+	static public final int BALL_STEP = 3;
+	static public final int BALL_STEP_STAY = 4;
+	static public final int BALL_STAY = 5;
+	static public final int FOOT_IN_THE_AIR = 6;
+	static public final int HEEL_TURN = 7;
+	static public final int STAND_ON_FOOT = 8;
+	static public final int STAND_IN_BALL = 9;
+	static public final int KICK = 10;
+	static public final int APELL = 11;
+	static public final int TAP = 12;
+	static public final int WHOLE_FOOT = 13;
+	static public final int HEEL_TAP = 14;
+	static public final int TOE_TAP = 15;
+	static public final int JUMP = 16;
+	static public final int WITHOUT_WEIGHT = 17;
 	
 	private LinkedList<WayPoint> wayPointList = new LinkedList<>();
 	private int type = NOT_SPECIFIED;
@@ -237,7 +237,7 @@ public class Foot
 		this.type = type;
 	}
 
-	protected void setLongRotation(boolean longRotation)
+	public void setLongRotation(boolean longRotation)
 	{
 		this.longRotation = longRotation;
 	}
