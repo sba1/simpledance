@@ -19,6 +19,7 @@
 	</repositories>
 
 	<modules>
+		<module>../simpledance.core</module>
 		<module>../simpledance</module>
 		<module>../simpledance.linux.amd64</module>
 		<module>../simpledance.linux.i386</module>
