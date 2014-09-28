@@ -5,6 +5,7 @@ import static java.lang.Math.min;
 
 import java.awt.Polygon;
 
+import de.sonumina.simpledance.core.WayPoint;
 import de.sonumina.simpledance.graphics.Color;
 import de.sonumina.simpledance.graphics.Context;
 import de.sonumina.simpledance.graphics.LineStyle;

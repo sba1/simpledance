@@ -51,6 +51,8 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 
+import de.sonumina.simpledance.core.WayPoint;
+
 /**
  * This class implements the main view and the corresponding
  * controller.

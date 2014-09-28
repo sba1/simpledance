@@ -1,6 +1,7 @@
 package de.sonumina.simpledance;
 
 import static de.sonumina.simpledance.core.I18n.N_;
+import de.sonumina.simpledance.core.WayPoint;
 
 /**
  * This class represents a single step within a dance pattern.
