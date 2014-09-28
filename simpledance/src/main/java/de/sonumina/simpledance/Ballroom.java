@@ -53,27 +53,9 @@ public class Ballroom extends Canvas
 
 	private SWTContext context;
 	private Render render;
-	
-	private Color leftFeetColor;
-	private Color leftFeetSelectedColor;
-	private Color leftFeetBorderColor;
-	private Color rightFeetColor;
-	private Color rightFeetSelectedColor;
-	private Color rightFeetBorderColor;
-	private Color femaleLeftColor;
-	private Color femaleRightColor;
-	private Color maleLeftColor;
-	private Color maleRightColor;
-	private Color darkGreyColor;
-	private Color shineGreyColor;
+
 	private Color ballroomColor;
-	private Color lineColor;
-	private Color animationColor;
-	private Color animationSelectedColor;
 	private Color countColor;
-	private Color gridColor;
-	private Color yellowColor;
-	private Color redColor;
 	private Cursor cursor;
 	private Menu contextMenu;
 	private Font countFont;
@@ -240,29 +222,9 @@ public class Ballroom extends Canvas
 	{
 		super.dispose();
 
-		femaleLeftColor.dispose();
-		femaleRightColor.dispose();
-		maleLeftColor.dispose();
-		maleRightColor.dispose();
-		leftFeetColor.dispose();
-		darkGreyColor.dispose();
-		shineGreyColor.dispose();
-		rightFeetColor.dispose();
 		ballroomColor.dispose();
-		lineColor.dispose();
-		animationColor.dispose();
-		animationSelectedColor.dispose();
-		yellowColor.dispose();
-		redColor.dispose();
-		gridColor.dispose();
 		countFont.dispose();
 		countColor.dispose();
-		leftFeetSelectedColor.dispose();
-		leftFeetColor.dispose();
-		leftFeetBorderColor.dispose();
-		rightFeetSelectedColor.dispose();
-		rightFeetColor.dispose();
-		rightFeetBorderColor.dispose();
 		bufferGC.dispose();
 		bufferImage.dispose();
 		render.dispose();
@@ -277,34 +239,10 @@ public class Ballroom extends Canvas
 		context = new SWTContext(getDisplay());
 		render = new Render(context);
 		
-		leftFeetColor = new Color(getDisplay(),5,5,5);
-		leftFeetSelectedColor = new Color(getDisplay(),250,250,170);
-		leftFeetBorderColor = new Color(getDisplay(),15,15,15);
-
-		rightFeetColor = new Color(getDisplay(),5,5,5);
-		rightFeetSelectedColor = new Color(getDisplay(),80,80,0);
-		rightFeetBorderColor = new Color(getDisplay(),15,15,15);
-
-		darkGreyColor = new Color(getDisplay(),70,70,70); 
-		shineGreyColor = new Color(getDisplay(),180,180,180);
 		ballroomColor = new Color(getDisplay(),240,240,200);
 		
-		lineColor = new Color(getDisplay(),200,200,0);
-		
-		yellowColor = new Color(getDisplay(),240,240,0);
-		redColor = new Color(getDisplay(),240,0,0);
-
-		animationColor = new Color(getDisplay(),200,200,54);
-		animationSelectedColor = new Color(getDisplay(),200,200,54);
-		gridColor = new Color(getDisplay(),0,0,0);
-
 		countColor = new Color(getDisplay(),255,255,255);
 		countFont = new Font(getDisplay(),"Thorndale",20,0);
-
-		femaleLeftColor = new Color(getDisplay(),244,231,240);
-		femaleRightColor = new Color(getDisplay(),244,61,195);
-		maleLeftColor = new Color(getDisplay(),228,229,240);
-		maleRightColor = new Color(getDisplay(),61,78,240);
 
 		SelectionListener selectionListener = new SelectionListener()
 		{
