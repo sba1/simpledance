@@ -1,8 +1,6 @@
-package de.sonumina.simpledance;
+package de.sonumina.simpledance.core;
 import java.util.LinkedList;
 import java.util.ListIterator;
-
-import de.sonumina.simpledance.core.WayPoint;
 
 /**
  * Represents a single foot.

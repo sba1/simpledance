@@ -1,6 +1,7 @@
 package de.sonumina.simpledance;
 
 import static de.sonumina.simpledance.core.I18n.N_;
+import de.sonumina.simpledance.core.Foot;
 import de.sonumina.simpledance.core.WayPoint;
 
 /**
