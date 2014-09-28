@@ -1,6 +1,6 @@
 package de.sonumina.simpledance;
 
-import static de.sonumina.simpledance.I18n._;
+import static de.sonumina.simpledance.core.I18n._;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;

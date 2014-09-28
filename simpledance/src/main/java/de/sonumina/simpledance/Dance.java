@@ -1,6 +1,6 @@
 package de.sonumina.simpledance;
 
-import static de.sonumina.simpledance.I18n._;
+import static de.sonumina.simpledance.core.I18n._;
 
 import java.io.File;
 import java.io.FileInputStream;

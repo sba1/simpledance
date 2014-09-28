@@ -1,6 +1,6 @@
 package de.sonumina.simpledance;
 
-import static de.sonumina.simpledance.I18n._;
+import static de.sonumina.simpledance.core.I18n._;
 import static java.lang.Math.atan;
 import static java.lang.Math.cos;
 import static java.lang.Math.round;

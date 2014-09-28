@@ -1,6 +1,6 @@
 package de.sonumina.simpledance;
 
-import static de.sonumina.simpledance.I18n.N_;
+import static de.sonumina.simpledance.core.I18n.N_;
 
 import java.util.LinkedList;
 
