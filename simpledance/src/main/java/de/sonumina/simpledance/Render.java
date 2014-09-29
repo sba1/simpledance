@@ -109,10 +109,8 @@ public class Render
 		context.deallocateColor(femaleRightColor);
 		context.deallocateColor(maleLeftColor);
 		context.deallocateColor(maleRightColor);
-		context.deallocateColor(leftFeetColor);
 		context.deallocateColor(darkGreyColor);
 		context.deallocateColor(shineGreyColor);
-		context.deallocateColor(rightFeetColor);
 		context.deallocateColor(ballroomColor);
 		context.deallocateColor(lineColor);
 		context.deallocateColor(animationColor);
