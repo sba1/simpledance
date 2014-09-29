@@ -1646,7 +1646,8 @@ public class Dance
 	}
 
 	/**
-	 * The runnable for driving animations.
+	 * The runnable for driving animations. This is called on the context of
+	 * the GUI thread.
 	 */
 	Runnable animTimerRunnable = new Runnable()
 	{

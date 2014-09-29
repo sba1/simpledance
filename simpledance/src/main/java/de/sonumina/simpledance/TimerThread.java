@@ -2,12 +2,10 @@ package de.sonumina.simpledance;
 import org.eclipse.swt.widgets.Display;
 
 /**
- * @author Standard
- *
- * To change this generated comment edit the template variable "typecomment":
- * Window>Preferences>Java>Templates.
- * To enable and disable the creation of type comments go to
- * Window>Preferences>Java>Code Generation.
+ * A special thread that invokes the given runnable on the context
+ * of the main user interface thread in a periodic fashion.
+ *s
+ * @author Sebastian Bauer
  */
 public class TimerThread extends Thread
 {
@@ -17,8 +15,11 @@ public class TimerThread extends Thread
 
 	/**
 	 * Constructor TimerThread.
-	 * @param i
-	 * @param display
+	 *
+	 * @param display the display that is attached to the user interface thread.
+	 * @param millis the period at which the runnable is invoked.
+	 * @param runnable defines the runnable that is invoked on the context of the GUI
+	 *  thread.
 	 */
 	public TimerThread(Display display, int millis, Runnable runnable)
 	{
