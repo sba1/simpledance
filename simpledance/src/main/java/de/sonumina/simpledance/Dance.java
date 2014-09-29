@@ -1609,7 +1609,7 @@ public class Dance implements Runnable
 	 * Starts playing the animation sequence..
 	 * 
 	 * @param singleStep defines if only one step should be animated
-	 * @param backward defines if the anomation should be played packward
+	 * @param backward defines if the animation should be played backwards
 	 */
 	private void play(boolean singleStep, boolean backward)
 	{
