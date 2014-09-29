@@ -63,7 +63,7 @@ import de.sonumina.simpledance.core.WayPoint;
  *
  * @author Sebastian Bauer
  */
-public class Dance implements Runnable
+public class Dance
 {
 	private Shell shell;
 
@@ -1615,7 +1615,7 @@ public class Dance implements Runnable
 	{
 		if (timerThread != null) return;
 		Pattern.AnimationInfo ai = pattern.getAnimationInfo(25);
-		timerThread = new TimerThread(1000*1000/ai.fp1000s,this);
+		timerThread = new TimerThread(getDisplay(), 1000*1000/ai.fp1000s, animTimerRunnable);
 		ballroom.animationInit(singleStep,backward);
 		ballroom.redraw();
 		timerThread.start();
@@ -1644,22 +1644,26 @@ public class Dance implements Runnable
 		timerThread = null;
 		ballroom.animationStop();
 	}
-	
-	//***BEGIN Runnable
-	public void run()
-	{
-		if (ballroom.isDisposed())
-			return;
 
-		if (!ballroom.animationNext())
+	/**
+	 * The runnable for driving animations.
+	 */
+	Runnable animTimerRunnable = new Runnable()
+	{
+		public void run()
 		{
-			if (timerThread != null)
+			if (ballroom.isDisposed())
+				return;
+
+			if (!ballroom.animationNext())
 			{
-				timerThread.interrupt();
-				timerThread = null;
+				if (timerThread != null)
+				{
+					timerThread.interrupt();
+					timerThread = null;
+				}
+				ballroom.animationStop();
 			}
-			ballroom.animationStop();
 		}
-	}
-	//***END Runnable
+	};
 }

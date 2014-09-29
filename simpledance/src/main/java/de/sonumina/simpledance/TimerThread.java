@@ -13,20 +13,18 @@ public class TimerThread extends Thread
 {
 	private int millis;
 	private Display display;
-	private Dance dance;
+	private Runnable runnable;
 
 	/**
 	 * Constructor TimerThread.
 	 * @param i
 	 * @param display
 	 */
-	public TimerThread(int millis, Dance dance)
+	public TimerThread(Display display, int millis, Runnable runnable)
 	{
 		this.millis = millis; 
-		this.display = dance.getDisplay();
-		this.dance = dance;
-		
-		
+		this.display = display;
+		this.runnable = runnable;
 	}
 
 	public void run()
@@ -37,7 +35,7 @@ public class TimerThread extends Thread
 			{
 				Thread.sleep(millis);
 				if (display.isDisposed()) break;
-				display.asyncExec(dance);
+				display.asyncExec(runnable);
 			}
 		}
 		catch (InterruptedException e)
