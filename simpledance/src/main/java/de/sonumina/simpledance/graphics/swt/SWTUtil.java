@@ -17,7 +17,7 @@ import org.eclipse.swt.graphics.PaletteData;
  */
 public class SWTUtil
 {
-	static public ImageData getRectangleGradient(int width, int height, int angle, de.sonumina.simpledance.graphics.RGB startRGB, de.sonumina.simpledance.graphics.RGB endRGB)
+	static public ImageData getRectangleGradient(int width, int height, int angle, de.sonumina.simpledance.core.graphics.RGB startRGB, de.sonumina.simpledance.core.graphics.RGB endRGB)
 	{
 		/* The basic idea of this algorithm is to calc the intersection between the
 		 * diagonal of the rectangle (xs,ys) with dimension (xw,yw) a with the line starting

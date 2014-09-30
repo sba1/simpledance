@@ -8,7 +8,7 @@ package de.sonumina.simpledance.graphics.swt;
 
 import org.eclipse.swt.widgets.Display;
 
-import de.sonumina.simpledance.graphics.Color;
+import de.sonumina.simpledance.core.graphics.Color;
 
 
 /**

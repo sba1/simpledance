@@ -9,11 +9,11 @@ import de.sonumina.simpledance.core.Foot;
 import de.sonumina.simpledance.core.Pattern;
 import de.sonumina.simpledance.core.Step;
 import de.sonumina.simpledance.core.WayPoint;
-import de.sonumina.simpledance.graphics.Color;
-import de.sonumina.simpledance.graphics.Context;
-import de.sonumina.simpledance.graphics.LineStyle;
-import de.sonumina.simpledance.graphics.Point;
-import de.sonumina.simpledance.graphics.RGB;
+import de.sonumina.simpledance.core.graphics.Color;
+import de.sonumina.simpledance.core.graphics.Context;
+import de.sonumina.simpledance.core.graphics.LineStyle;
+import de.sonumina.simpledance.core.graphics.Point;
+import de.sonumina.simpledance.core.graphics.RGB;
 
 /**
  * This class is responsible for actually drawing the scene

@@ -1,4 +1,4 @@
-package de.sonumina.simpledance.graphics;
+package de.sonumina.simpledance.core.graphics;
 
 /**
  * A simple enum for defining line styles.

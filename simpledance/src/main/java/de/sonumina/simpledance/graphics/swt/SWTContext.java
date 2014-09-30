@@ -15,11 +15,11 @@ import org.eclipse.swt.graphics.Pattern;
 import org.eclipse.swt.graphics.Transform;
 import org.eclipse.swt.widgets.Display;
 
-import de.sonumina.simpledance.graphics.Color;
-import de.sonumina.simpledance.graphics.Context;
-import de.sonumina.simpledance.graphics.LineStyle;
-import de.sonumina.simpledance.graphics.Point;
-import de.sonumina.simpledance.graphics.RGB;
+import de.sonumina.simpledance.core.graphics.Color;
+import de.sonumina.simpledance.core.graphics.Context;
+import de.sonumina.simpledance.core.graphics.LineStyle;
+import de.sonumina.simpledance.core.graphics.Point;
+import de.sonumina.simpledance.core.graphics.RGB;
 
 
 class Transformation

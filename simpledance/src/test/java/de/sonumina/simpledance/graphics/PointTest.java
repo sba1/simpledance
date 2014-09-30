@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import de.sonumina.simpledance.core.graphics.Point;
+
 public class PointTest
 {
 	@Test

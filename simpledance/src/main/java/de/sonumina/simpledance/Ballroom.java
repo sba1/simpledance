@@ -38,7 +38,7 @@ import org.eclipse.swt.widgets.ScrollBar;
 import de.sonumina.simpledance.core.Pattern;
 import de.sonumina.simpledance.core.Step;
 import de.sonumina.simpledance.core.WayPoint;
-import de.sonumina.simpledance.graphics.Point;
+import de.sonumina.simpledance.core.graphics.Point;
 import de.sonumina.simpledance.graphics.swt.SWTContext;
 
 /**
@@ -85,7 +85,7 @@ public class Ballroom extends Canvas
 	private boolean showGradients = true;
 
 	private boolean mousePressed = false;
-	private de.sonumina.simpledance.graphics.Point rotationCenterBallroomPoint;
+	private de.sonumina.simpledance.core.graphics.Point rotationCenterBallroomPoint;
 	private int distance;
 	private int dragOperation;
 	private int contextFeetIndex;
