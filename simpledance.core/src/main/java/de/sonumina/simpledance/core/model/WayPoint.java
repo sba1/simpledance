@@ -1,4 +1,4 @@
-package de.sonumina.simpledance.core;
+package de.sonumina.simpledance.core.model;
 /**
  * A waypoint consists of a location and an angle. 
  *

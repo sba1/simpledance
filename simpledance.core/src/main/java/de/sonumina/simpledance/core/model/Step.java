@@ -1,4 +1,4 @@
-package de.sonumina.simpledance.core;
+package de.sonumina.simpledance.core.model;
 
 import static de.sonumina.simpledance.core.I18n.N_;
 

@@ -51,11 +51,11 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 
-import de.sonumina.simpledance.core.Pattern;
-import de.sonumina.simpledance.core.PatternListener;
-import de.sonumina.simpledance.core.Step;
-import de.sonumina.simpledance.core.Util;
-import de.sonumina.simpledance.core.WayPoint;
+import de.sonumina.simpledance.core.model.Pattern;
+import de.sonumina.simpledance.core.model.PatternListener;
+import de.sonumina.simpledance.core.model.Step;
+import de.sonumina.simpledance.core.model.Util;
+import de.sonumina.simpledance.core.model.WayPoint;
 
 /**
  * This class implements the main view and the corresponding

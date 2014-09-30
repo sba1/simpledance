@@ -1,8 +1,10 @@
-package de.sonumina.simpledance.core;
+package de.sonumina.simpledance.core.model;
 
 import static de.sonumina.simpledance.core.I18n.N_;
 
 import java.util.LinkedList;
+
+import de.sonumina.simpledance.core.Fraction;
 
 /**
  * This class represents a single dance pattern.

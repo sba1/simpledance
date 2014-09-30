@@ -8,7 +8,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Shell;
 
-import de.sonumina.simpledance.core.Pattern;
+import de.sonumina.simpledance.core.model.Pattern;
 
 /**
  * @author Standard

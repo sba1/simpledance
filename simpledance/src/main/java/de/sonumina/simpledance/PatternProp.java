@@ -14,7 +14,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-import de.sonumina.simpledance.core.Pattern;
+import de.sonumina.simpledance.core.model.Pattern;
 
 /**
  * Class responsible for the Pattern properties GUI.

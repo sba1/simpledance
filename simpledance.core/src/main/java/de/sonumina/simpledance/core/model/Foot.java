@@ -1,4 +1,4 @@
-package de.sonumina.simpledance.core;
+package de.sonumina.simpledance.core.model;
 import java.util.LinkedList;
 import java.util.ListIterator;
 

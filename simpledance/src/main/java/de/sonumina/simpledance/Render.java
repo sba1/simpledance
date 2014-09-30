@@ -5,15 +5,15 @@ import static java.lang.Math.min;
 
 import java.awt.Polygon;
 
-import de.sonumina.simpledance.core.Foot;
-import de.sonumina.simpledance.core.Pattern;
-import de.sonumina.simpledance.core.Step;
-import de.sonumina.simpledance.core.WayPoint;
 import de.sonumina.simpledance.core.graphics.Color;
 import de.sonumina.simpledance.core.graphics.Context;
 import de.sonumina.simpledance.core.graphics.LineStyle;
 import de.sonumina.simpledance.core.graphics.Point;
 import de.sonumina.simpledance.core.graphics.RGB;
+import de.sonumina.simpledance.core.model.Foot;
+import de.sonumina.simpledance.core.model.Pattern;
+import de.sonumina.simpledance.core.model.Step;
+import de.sonumina.simpledance.core.model.WayPoint;
 
 /**
  * This class is responsible for actually drawing the scene

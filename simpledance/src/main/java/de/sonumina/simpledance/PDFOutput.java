@@ -17,9 +17,9 @@ import com.lowagie.text.PageSize;
 import com.lowagie.text.Table;
 import com.lowagie.text.pdf.PdfWriter;
 
-import de.sonumina.simpledance.core.Pattern;
-import de.sonumina.simpledance.core.Step;
 import de.sonumina.simpledance.core.graphics.Point;
+import de.sonumina.simpledance.core.model.Pattern;
+import de.sonumina.simpledance.core.model.Step;
 import de.sonumina.simpledance.graphics.swt.SWTContext;
 
 /*

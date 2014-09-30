@@ -1,4 +1,4 @@
-package de.sonumina.simpledance.core;
+package de.sonumina.simpledance.core.model;
 
 /**
  * Interface listener for observing changes in a pattern.

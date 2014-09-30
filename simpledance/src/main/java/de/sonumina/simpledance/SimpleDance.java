@@ -3,7 +3,7 @@ import org.eclipse.swt.graphics.DeviceData;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
-import de.sonumina.simpledance.core.Pattern;
+import de.sonumina.simpledance.core.model.Pattern;
 
 /**
  * The class that provides the main entry point of SimpleDance.

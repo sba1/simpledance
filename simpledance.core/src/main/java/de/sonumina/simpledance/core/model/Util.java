@@ -1,4 +1,4 @@
-package de.sonumina.simpledance.core;
+package de.sonumina.simpledance.core.model;
 
 import java.io.File;
 import java.io.FileInputStream;
