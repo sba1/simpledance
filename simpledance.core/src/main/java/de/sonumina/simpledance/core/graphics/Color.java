@@ -1,9 +1,3 @@
-/*
- * Created on 01.04.2004
- *
- * To change the template for this generated file go to
- * Window>Preferences>Java>Code Generation>Code and Comments
- */
 package de.sonumina.simpledance.core.graphics;
 
 /**
