@@ -26,4 +26,13 @@
 		<module>../simpledance.win32</module>
 	</modules>
 
+	<profiles>
+		<profile>
+			<id>Android</id>
+			<modules>
+				<module>../simpledance.android</module>
+			</modules>
+		</profile>
+	</profiles>
+
 </project>
