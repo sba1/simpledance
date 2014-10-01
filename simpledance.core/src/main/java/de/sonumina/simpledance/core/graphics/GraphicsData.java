@@ -1,4 +1,4 @@
-package de.sonumina.simpledance;
+package de.sonumina.simpledance.core.graphics;
 /**
  * @author Standard
  *

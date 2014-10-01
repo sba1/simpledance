@@ -1,15 +1,10 @@
-package de.sonumina.simpledance;
+package de.sonumina.simpledance.core.graphics;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 
 import java.awt.Polygon;
 
-import de.sonumina.simpledance.core.graphics.Color;
-import de.sonumina.simpledance.core.graphics.Context;
-import de.sonumina.simpledance.core.graphics.LineStyle;
-import de.sonumina.simpledance.core.graphics.Point;
-import de.sonumina.simpledance.core.graphics.RGB;
 import de.sonumina.simpledance.core.model.Foot;
 import de.sonumina.simpledance.core.model.Pattern;
 import de.sonumina.simpledance.core.model.Step;
@@ -734,7 +729,7 @@ public class Render
 	 *
 	 * @return the new view settings.
 	 */
-	ViewWholePatternResult viewWholePattern(RenderSceneArgs rsa)
+	public ViewWholePatternResult viewWholePattern(RenderSceneArgs rsa)
 	{
 		ViewWholePatternResult result = new ViewWholePatternResult();
 
