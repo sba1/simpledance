@@ -137,11 +137,11 @@ public class Render
 
 	static public class CoordinateInfo
 	{
-		Point rotationCenterBallroomPoint;
-		int feetIndex = -1;
-		FootPart feetPart = FootPart.NO;
-		int waypoint = -1;
-		int distance;
+		public Point rotationCenterBallroomPoint;
+		public int feetIndex = -1;
+		public FootPart feetPart = FootPart.NO;
+		public int waypoint = -1;
+		public int distance;
 	};
 
 	static public class RenderSceneArgs
