@@ -103,7 +103,7 @@ public class Render
 	/**
 	 * Free all resources
 	 */
-	void dispose()
+	public void dispose()
 	{
 		context.deallocateColor(femaleLeftColor);
 		context.deallocateColor(femaleRightColor);
