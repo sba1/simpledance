@@ -720,10 +720,10 @@ public class Render
 	 */
 	static public class ViewWholePatternResult
 	{
-		boolean valid;
-		int zoomFactor;
-		int visibleLeft;
-		int visibleTop;
+		public boolean valid;
+		public int zoomFactor;
+		public int visibleLeft;
+		public int visibleTop;
 	}
 
 	/**
