@@ -3,7 +3,6 @@ package de.sonumina.simpledance;
 import static de.sonumina.simpledance.core.I18n._;
 import static java.lang.Math.atan;
 import static java.lang.Math.cos;
-import static java.lang.Math.round;
 import static java.lang.Math.sin;
 import static java.lang.Math.toDegrees;
 import static java.lang.Math.toRadians;
@@ -810,56 +809,17 @@ public class Ballroom extends Canvas
 		if (redraw) redraw();
 	}
 
+	/**
+	 * Rotate selected feet by the given angle arround their common center.
+	 *
+	 * @param rsa
+	 * @param da
+	 */
 	public void rotateSelectedFeets(int da)
 	{
-		int numSelected = 0;
-		int rotationCenterX = 0;
-		int rotationCenterY = 0;
-
 		if (pattern == null) return;
-		Step step = pattern.getCurrentStep();
-		if (step == null) return;
-
-		for (int i=0;i<selectedArray.length;i++)
-		{
-			if (selectedArray[i])
-			{
-				WayPoint feetCoord = step.getStartingWayPoint(i);
-				rotationCenterX += feetCoord.x;
-				rotationCenterY += feetCoord.y;
-				numSelected++;
-			}
-		}
-		
-		if (numSelected > 0)
-		{
-			rotationCenterX = (rotationCenterX) / numSelected;
-			rotationCenterY = (rotationCenterY) / numSelected;
-			
-			for (int i=0;i<selectedArray.length;i++)
-			{		
-				if (selectedArray[i])
-				{
-					WayPoint feetCoord = step.getStartingWayPoint(i);
-
-					int px =  feetCoord.x - rotationCenterX;
-					int py =  feetCoord.y - rotationCenterY;
-
-					double cosa = cos(toRadians(-da));
-					double sina = sin(toRadians(-da));
-    		
-					double newx = (px * cosa + py * sina);
-					double newy = (-px * sina + py * cosa);
-					
-					feetCoord.x = (int)round(newx) + rotationCenterX;
-					feetCoord.y = (int)round(newy) + rotationCenterY;
-					feetCoord.a += da;
-					if (feetCoord.a < 0) feetCoord.a += 360;
-					if (feetCoord.a > 359) feetCoord.a -= 360;
-				}
-			}
-			redraw();
-		} 
+		pattern.rotateFeet(da, selectedArray);
+		redraw();
 	}
 
 	public final boolean [] getSelectionArray()

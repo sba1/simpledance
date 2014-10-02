@@ -1,6 +1,10 @@
 package de.sonumina.simpledance.core.model;
 
 import static de.sonumina.simpledance.core.I18n.N_;
+import static java.lang.Math.cos;
+import static java.lang.Math.round;
+import static java.lang.Math.sin;
+import static java.lang.Math.toRadians;
 
 import java.util.LinkedList;
 
@@ -259,6 +263,61 @@ public class Pattern
 		if (prevStep == null) return;
 		
 		prevStep.getFoot(footNum).removeAllWayPoints();
+	}
+
+	/**
+	 * Rotate the feet as specified in the toRotate field by the given angle around their center.
+	 *
+	 * @param angle
+	 * @param toRotate
+	 */
+	public void rotateFeet(int angle, boolean [] toRotate)
+	{
+		int numSelected = 0;
+		int rotationCenterX = 0;
+		int rotationCenterY = 0;
+
+		Step step = getCurrentStep();
+		if (step == null) return;
+
+		for (int i=0;i<toRotate.length;i++)
+		{
+			if (toRotate[i])
+			{
+				WayPoint feetCoord = step.getStartingWayPoint(i);
+				rotationCenterX += feetCoord.x;
+				rotationCenterY += feetCoord.y;
+				numSelected++;
+			}
+		}
+
+		if (numSelected == 0) return;
+
+		rotationCenterX = (rotationCenterX) / numSelected;
+		rotationCenterY = (rotationCenterY) / numSelected;
+
+		for (int i=0;i<toRotate.length;i++)
+		{
+			if (toRotate[i])
+			{
+				WayPoint feetCoord = step.getStartingWayPoint(i);
+
+				int px =  feetCoord.x - rotationCenterX;
+				int py =  feetCoord.y - rotationCenterY;
+
+				double cosa = cos(toRadians(-angle));
+				double sina = sin(toRadians(-angle));
+
+				double newx = (px * cosa + py * sina);
+				double newy = (-px * sina + py * cosa);
+
+				feetCoord.x = (int)round(newx) + rotationCenterX;
+				feetCoord.y = (int)round(newy) + rotationCenterY;
+				feetCoord.a += angle;
+				if (feetCoord.a < 0) feetCoord.a += 360;
+				if (feetCoord.a > 359) feetCoord.a -= 360;
+			}
+		}
 	}
 
 	public int [] getPatternBounds() 
