@@ -493,7 +493,7 @@ public class Dance
 		{
 			public void widgetSelected(SelectionEvent ev)
 			{
-				ballroom.rotateSelectedFeets(10);
+				ballroom.rotateSelectedFeet(10);
 				refreshStepCoordiantes();
 				detailedOverviewShell.refresh();
 			}
@@ -505,7 +505,7 @@ public class Dance
 		{
 			public void widgetSelected(SelectionEvent ev)
 			{
-				ballroom.rotateSelectedFeets(-10);
+				ballroom.rotateSelectedFeet(-10);
 				refreshStepCoordiantes();
 				detailedOverviewShell.refresh();
 			}

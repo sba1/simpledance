@@ -815,7 +815,7 @@ public class Ballroom extends Canvas
 	 * @param rsa
 	 * @param da
 	 */
-	public void rotateSelectedFeets(int da)
+	public void rotateSelectedFeet(int da)
 	{
 		if (pattern == null) return;
 		pattern.rotateFeet(da, selectedArray);
