@@ -381,7 +381,7 @@ public class Dance
 		{
 			public void widgetSelected(SelectionEvent ev)
 			{
-				ballroom.moveSelectedFeets(-1, 1);
+				ballroom.moveSelectedFeet(-1, 1);
 				refreshStepCoordiantes();
 				detailedOverviewShell.refresh();
 			}
@@ -394,7 +394,7 @@ public class Dance
 		{
 			public void widgetSelected(SelectionEvent ev)
 			{
-				ballroom.moveSelectedFeets(0, 1);
+				ballroom.moveSelectedFeet(0, 1);
 				refreshStepCoordiantes();
 				detailedOverviewShell.refresh();
 			}
@@ -406,7 +406,7 @@ public class Dance
 		{
 			public void widgetSelected(SelectionEvent ev)
 			{
-				ballroom.moveSelectedFeets(1, 1);
+				ballroom.moveSelectedFeet(1, 1);
 				refreshStepCoordiantes();
 				detailedOverviewShell.refresh();
 			}
@@ -419,7 +419,7 @@ public class Dance
 		{
 			public void widgetSelected(SelectionEvent ev)
 			{
-				ballroom.moveSelectedFeets(-1, 0);
+				ballroom.moveSelectedFeet(-1, 0);
 				refreshStepCoordiantes();
 				detailedOverviewShell.refresh();
 			}
@@ -432,7 +432,7 @@ public class Dance
 		{
 			public void widgetSelected(SelectionEvent ev)
 			{
-				ballroom.moveSelectedFeets(1, 0);
+				ballroom.moveSelectedFeet(1, 0);
 				refreshStepCoordiantes();
 				detailedOverviewShell.refresh();
 			}
@@ -445,7 +445,7 @@ public class Dance
 		{
 			public void widgetSelected(SelectionEvent ev)
 			{
-				ballroom.moveSelectedFeets(-1, -1);
+				ballroom.moveSelectedFeet(-1, -1);
 				refreshStepCoordiantes();
 				detailedOverviewShell.refresh();
 			}
@@ -457,7 +457,7 @@ public class Dance
 		{
 			public void widgetSelected(SelectionEvent ev)
 			{
-				ballroom.moveSelectedFeets(0, -1);
+				ballroom.moveSelectedFeet(0, -1);
 				refreshStepCoordiantes();
 				detailedOverviewShell.refresh();
 			}
@@ -469,7 +469,7 @@ public class Dance
 		{
 			public void widgetSelected(SelectionEvent ev)
 			{
-				ballroom.moveSelectedFeets(1, -1);
+				ballroom.moveSelectedFeet(1, -1);
 				refreshStepCoordiantes();
 				detailedOverviewShell.refresh();
 			}

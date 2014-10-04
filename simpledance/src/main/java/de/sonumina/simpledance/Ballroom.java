@@ -610,7 +610,7 @@ public class Ballroom extends Canvas
 				}
 				if (dx != 0 || dy != 0)
 				{
-					moveSelectedFeets(dx, dy);
+					moveSelectedFeet(dx, dy);
 					emitFeetCoordinatesChangedEvent();
 				}
 			}
@@ -784,7 +784,7 @@ public class Ballroom extends Canvas
 		update();
 	}
 	
-	public void moveSelectedFeets(int dx, int dy)
+	public void moveSelectedFeet(int dx, int dy)
 	{
 		if (pattern == null) return;
 		pattern.moveFeet(dx, dy, selectedArray);
