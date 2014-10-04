@@ -85,7 +85,7 @@ public class Ballroom extends Canvas
 	private boolean showGradients = true;
 
 	private boolean mousePressed = false;
-	private de.sonumina.simpledance.core.graphics.Point rotationCenterBallroomPoint;
+	private Point rotationCenterBallroomPoint;
 	private int distance;
 	private int dragOperation;
 	private int contextFeetIndex;
