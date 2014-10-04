@@ -786,27 +786,9 @@ public class Ballroom extends Canvas
 	
 	public void moveSelectedFeets(int dx, int dy)
 	{
-		boolean redraw = false;
-		for (int i=0;i<selectedArray.length;i++)
-		{
-			if (selectedArray[i])
-			{
-				if (pattern == null) return;
-				Step step = pattern.getCurrentStep();
-				if (step == null) return;
-
-				WayPoint feetCoord = step.getStartingWayPoint(i);
-				feetCoord.x += dx;
-				feetCoord.y += dy;
-				
-				if (feetCoord.x < 0) feetCoord.x = 0;
-				else if (feetCoord.x > 1199) feetCoord.x = 1199;
-				if (feetCoord.y < 0) feetCoord.y = 0;
-				else if (feetCoord.y > 1199) feetCoord.y = 1199;
-				redraw = true;
-			}
-		}
-		if (redraw) redraw();
+		if (pattern == null) return;
+		pattern.moveFeet(dx, dy, selectedArray);
+		redraw();
 	}
 
 	/**

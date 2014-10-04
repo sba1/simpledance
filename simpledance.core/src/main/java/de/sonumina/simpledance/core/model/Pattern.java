@@ -265,6 +265,35 @@ public class Pattern
 		prevStep.getFoot(footNum).removeAllWayPoints();
 	}
 
+
+	/**
+	 * Move the selected feet by the given delta (in ballroom space).
+	 *
+	 * @param dx
+	 * @param dy
+	 * @param selectedArray
+	 */
+	public void moveFeet(int dx, int dy, boolean[] selectedArray)
+	{
+		Step step = getCurrentStep();
+		if (step == null) return;
+
+		for (int i=0;i<selectedArray.length;i++)
+		{
+			if (selectedArray[i])
+			{
+				WayPoint feetCoord = step.getStartingWayPoint(i);
+				feetCoord.x += dx;
+				feetCoord.y += dy;
+
+				if (feetCoord.x < 0) feetCoord.x = 0;
+				else if (feetCoord.x > 1199) feetCoord.x = 1199;
+				if (feetCoord.y < 0) feetCoord.y = 0;
+				else if (feetCoord.y > 1199) feetCoord.y = 1199;
+			}
+		}
+	}
+
 	/**
 	 * Rotate the feet as specified in the toRotate field by the given angle around their center.
 	 *
