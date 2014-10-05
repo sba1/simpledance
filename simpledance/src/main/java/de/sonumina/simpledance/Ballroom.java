@@ -376,16 +376,16 @@ public class Ballroom extends Canvas
 						if (dragOperation == DRAG_ROTATE_HEEL)
 						{
 							Point p = transformPixToBallroom(event.x,event.y);
-							int winkel = calculateBallroomAngle(
+							int angle = calculateBallroomAngle(
 								rotationCenterBallroomPoint.x,
 								rotationCenterBallroomPoint.y,
 								p.x,p.y) - 180;
-							if (winkel < 0) winkel += 360;
+							if (angle < 0) angle += 360;
 
 							WayPoint feetCoord = pattern.getStep(lastSelectedStepIndex).getFoot(lastSelectedFootIndex).getStartingWayPoint();
-							feetCoord.x = rotationCenterBallroomPoint.x + (int)((distance * sin(toRadians(winkel))));
-							feetCoord.y = rotationCenterBallroomPoint.y - (int)((distance * cos(toRadians(winkel))));
-							feetCoord.a = winkel;
+							feetCoord.x = rotationCenterBallroomPoint.x + (int)((distance * sin(toRadians(angle))));
+							feetCoord.y = rotationCenterBallroomPoint.y - (int)((distance * cos(toRadians(angle))));
+							feetCoord.a = angle;
 						} else
 						if (dragOperation == DRAG_MOVE_WAYPOINT)
 						{
