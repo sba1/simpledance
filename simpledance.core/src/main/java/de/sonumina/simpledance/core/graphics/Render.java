@@ -708,6 +708,31 @@ public class Render
 		return ci;
 	}
 
+	static public class RotateViewResult
+	{
+		public int visibleLeft;
+		public int visibleTop;
+		public int rotation;
+	}
+
+	/**
+	 * Rotate the view and return the new state.
+	 *
+	 * @param rsa
+	 * @param angle
+	 * @return
+	 */
+	public RotateViewResult rotateView(RenderSceneArgs rsa, int angle)
+	{
+		RotateViewResult rvr = new RotateViewResult();
+		Point center = rsa.visibleLeftTop.center(rsa.visibleRightBottom);
+		Point newVisibleLeftTop = rsa.visibleLeftTop.rotate(angle, center);
+		rvr.visibleLeft = newVisibleLeftTop.x;
+		rvr.visibleTop = newVisibleLeftTop.y;
+		rvr.rotation = rsa.visibleRotation + angle;
+		return rvr;
+	}
+
 	/**
 	 * The result of viewWholePattern().
 	 *

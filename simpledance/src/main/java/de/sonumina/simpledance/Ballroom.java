@@ -677,21 +677,10 @@ public class Ballroom extends Canvas
 	 */
 	public void rotate(int angle)
 	{
-		int visibleLeft = this.visibleLeft;
-		int visibleTop = this.visibleTop;
-
-		int visibleWidth = getClientArea().width * 100 / zoomFactor;
-		int visibleHeight = getClientArea().height * 100 / zoomFactor;
-
-		Point extend = new Point(visibleWidth, -visibleHeight).rotate(rotation);
-		Point visibleLeftTop = new Point(visibleLeft, visibleTop);
-		Point visibleRightBottom = new Point(visibleLeft + extend.x, visibleTop + extend.y);
-		Point center = visibleLeftTop.center(visibleRightBottom);
-
-		Point newVisibleLeftTop = visibleLeftTop.rotate(angle, center);
-		this.visibleLeft = newVisibleLeftTop.x;
-		this.visibleTop = newVisibleLeftTop.y;
-		rotation += angle;
+		Render.RotateViewResult rvr = render.rotateView(getRenderSceneArgs(), angle);
+		visibleLeft = rvr.visibleLeft;
+		visibleTop = rvr.visibleTop;
+		rotation = rvr.rotation;
 
 		redraw();
 		refreshScrollBars();
