@@ -725,8 +725,9 @@ public class Ballroom extends Canvas
 	}
 
 	/**
-	 * Sets the showNextStep.
-	 * @param showNextStep The showNextStep to set
+	 * Sets whether the next step should be displayed.
+	 *
+	 * @param showNextStep
 	 */
 	public void setShowNextStep(boolean showNextStep)
 	{
@@ -735,8 +736,9 @@ public class Ballroom extends Canvas
 	}
 
 	/**
-	 * Sets the showPrevStep.
-	 * @param showPrevStep The showPrevStep to set
+	 * Sets whether the previous step should be displayed.
+	 *
+	 * @param showPrevStep
 	 */
 	public void setShowPrevStep(boolean showPrevStep)
 	{
@@ -746,8 +748,9 @@ public class Ballroom extends Canvas
 	}
 
 	/**
-	 * Sets the showAnimation.
-	 * @param showAnimation The showAnimation to set
+	 * Set whether an outline of the animation should be displayed.
+	 *
+	 * @param showAnimation
 	 */
 	public void setShowAnimationOutline(boolean showAnimation)
 	{
@@ -756,6 +759,11 @@ public class Ballroom extends Canvas
 		update();
 	}
 
+	/**
+	 * Set whether the gent feet should be displayed.
+	 *
+	 * @param showGent
+	 */
 	public void setShowGent(boolean showGent)
 	{
 		this.showGent = showGent;
@@ -763,27 +771,48 @@ public class Ballroom extends Canvas
 		update();
 	}
 
+	/**
+	 * Set whether the lady feet should be displayed.
+	 *
+	 * @param showLady
+	 */
 	public void setShowLady(boolean showLady)
 	{
 		this.showLady = showLady;
 		redraw();
 		update();
 	}
-	
+
+	/**
+	 * Set whether the grid should be displayed.
+	 *
+	 * @param showGrid
+	 */
 	public void setShowGrid(boolean showGrid)
 	{
 		this.showGrid = showGrid;
 		redraw();
 		update();
 	}
-	
+
+	/**
+	 * Set whether a color gradient should be used to fill the feet.
+	 *
+	 * @param showGradients
+	 */
 	public void setShowGradients(boolean showGradients)
 	{
 		this.showGradients = showGradients;
 		redraw();
 		update();
 	}
-	
+
+	/**
+	 * Move the currently selected feet by the given coordinate delta.
+	 *
+	 * @param dx
+	 * @param dy
+	 */
 	public void moveSelectedFeet(int dx, int dy)
 	{
 		if (pattern == null) return;
@@ -792,7 +821,7 @@ public class Ballroom extends Canvas
 	}
 
 	/**
-	 * Rotate selected feet by the given angle arround their common center.
+	 * Rotate selected feet by the given angle around their common center.
 	 *
 	 * @param rsa
 	 * @param da
@@ -804,6 +833,11 @@ public class Ballroom extends Canvas
 		redraw();
 	}
 
+	/**
+	 * Return the sense boolean array of selected feet.
+	 *
+	 * @return
+	 */
 	public final boolean [] getSelectionArray()
 	{
 		return selectedArray;
@@ -888,10 +922,10 @@ public class Ballroom extends Canvas
 		animationMaxNumber = framesperstep;
 		animationNumber = 0;
 	}
-	
+
 	/**
-	 * Interate the animation.
-	 * 
+	 * Switch to the next (possibly interpolated) animation frame.
+	 *
 	 * @return false if animation has been completed (depending
 	 *          on the parameters given at animationInit().
 	 */
