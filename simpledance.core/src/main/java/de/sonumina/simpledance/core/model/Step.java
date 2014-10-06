@@ -82,15 +82,23 @@ public class Step
 	{
 		return feet[feetNum].isLeft();
 	}
-	
+
+	/**
+	 * Return the number the feet associated with this step.
+	 *
+	 * @return
+	 */
 	public int getNumberOfFeets()
 	{
 		return 4;
 	}
+
 	/**
-	 * Method getFeet.
+	 * Return a foot corresponding to the given index.
+	 *
 	 * @param i
-	 * @return Foot
+	 *
+	 * @return the foot
 	 */
 	public Foot getFoot(int i)
 	{
@@ -98,6 +106,11 @@ public class Step
 		return feet[i];
 	}
 
+	/**
+	 * Return the bounds of this step.
+	 *
+	 * @return
+	 */
 	public int [] getStepBounds()
 	{
 		int [] bounds = new int[4];
@@ -119,15 +132,18 @@ public class Step
 	}
 
 	/**
-	 * Method setDescription.
+	 * Set a description of this foot.
+	 *
 	 * @param string
 	 */
 	public void setDescription(String string)
 	{
 		description = new String(string);
 	}
+
 	/**
 	 * Returns the description.
+	 *
 	 * @return String
 	 */
 	public String getDescription()
@@ -135,8 +151,10 @@ public class Step
 		if (description == null) description = "";
 		return description;
 	}
+
 	/**
-	 * Method setCount.
+	 * Set the count string.
+	 *
 	 * @param string
 	 */
 	public void setCount(String string)
@@ -144,17 +162,32 @@ public class Step
 		count = new String(string);
 	}
 
+	/**
+	 * Return the count.
+	 *
+	 * @return
+	 */
 	public String getCount()
 	{
 		if (count == null) count = "";
 		return count;
 	}
 
+	/**
+	 * Return whether the duration "quick" is associated with this step.
+	 *
+	 * @return
+	 */
 	public boolean isQuick()
 	{
 		return duration.equalsIgnoreCase("quick");
 	}
 
+	/**
+	 * Return whether the duration "slow" is associated with this step.
+	 *
+	 * @return
+	 */
 	public boolean isSlow()
 	{
 		return duration.equalsIgnoreCase("slow");
@@ -177,9 +210,11 @@ public class Step
 		}
 		return step;
 	}
+
 	/**
 	 * Returns the duration.
-	 * @return String
+	 *
+	 * @return the duration as a string.
 	 */
 	public String getDuration()
 	{
@@ -188,7 +223,8 @@ public class Step
 
 	/**
 	 * Sets the duration.
-	 * @param duration The duration to set
+	 *
+	 * @param the new duration as a string.
 	 */
 	public void setDuration(String duration)
 	{
