@@ -305,7 +305,7 @@ public class DetailedOverviewCanvas extends Canvas
 	public void setPattern(Pattern pattern)
 	{
 		columns = 1 + pattern.getStepLength();
-		rows = 2 + pattern.getStep(0).getNumberOfFeets() * 4;
+		rows = 2 + pattern.getStep(0).getNumberOfFeet() * 4;
 
 		cells = new Cell[columns][rows];
 		columnWidths = new int[columns];
@@ -332,7 +332,7 @@ public class DetailedOverviewCanvas extends Canvas
 			
 			Step step = pattern.getStep(j);
 			i++;
-			for (int k=0;k<step.getNumberOfFeets();k++)
+			for (int k=0;k<step.getNumberOfFeet();k++)
 			{
 				WayPoint wp = step.getFoot(k).getStartingWayPoint();
 				cells[j+1][i++] = new Cell(wp.x + ""); 

@@ -552,7 +552,7 @@ public class Render
 		{
 			if (rsa.showPrevStep)
 			{
-				for (int i=0;i<previousStep.getNumberOfFeets();i++)
+				for (int i=0;i<previousStep.getNumberOfFeet();i++)
 				{
 					if (previousStep.isFemaleFoot(i) && !rsa.showLady) continue;
 					if (!previousStep.isFemaleFoot(i) && !rsa.showGent) continue;
@@ -573,7 +573,7 @@ public class Render
 			{
 				for (int j=1;j<6;j++)
 				{
-					for (int i=0;i<previousStep.getNumberOfFeets();i++)
+					for (int i=0;i<previousStep.getNumberOfFeet();i++)
 					{
 						if (previousStep.isFemaleFoot(i) && !rsa.showLady) continue;
 						if (!previousStep.isFemaleFoot(i) && !rsa.showGent) continue;
@@ -592,7 +592,7 @@ public class Render
 		}
 
 		/* Show every foot */
-		for (int i=0;i<step.getNumberOfFeets();i++)
+		for (int i=0;i<step.getNumberOfFeet();i++)
 		{
 			boolean isSelected = rsa.selectedArray[i];
 
@@ -647,7 +647,7 @@ public class Render
 	{
 		CoordinateInfo ci = new CoordinateInfo();
 
-		for (int i=0;i<step.getNumberOfFeets();i++)
+		for (int i=0;i<step.getNumberOfFeet();i++)
 		{
 			GraphicsData graphicsData = getGraphicsData(step,i);
 			WayPoint feetCoord = step.getStartingWayPoint(i);

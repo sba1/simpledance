@@ -88,7 +88,7 @@ public class Step
 	 *
 	 * @return
 	 */
-	public int getNumberOfFeets()
+	public int getNumberOfFeet()
 	{
 		return 4;
 	}

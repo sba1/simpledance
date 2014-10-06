@@ -175,7 +175,7 @@ public class Pattern
 		Step lastStep = stepList.getLast();
 		if (lastStep != null)
 		{
-			for (int i=0;i<lastStep.getNumberOfFeets();i++)
+			for (int i=0;i<lastStep.getNumberOfFeet();i++)
 			{
 				WayPoint destFeetCoord = step.getStartingWayPoint(i);
 				WayPoint srcFeetCoord = lastStep.getStartingWayPoint(i);
@@ -631,7 +631,7 @@ public class Pattern
 				if (!linefeed) buf.append("\n");
 			}
 			buf.append("step."+i+".tempo=" + step.getDuration() + "\n");
-			for (int j=0;j<step.getNumberOfFeets();j++)
+			for (int j=0;j<step.getNumberOfFeet();j++)
 			{
 				Foot foot = step.getFoot(j);
 				WayPoint footCoord;
