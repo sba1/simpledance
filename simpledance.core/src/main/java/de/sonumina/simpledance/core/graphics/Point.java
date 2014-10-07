@@ -32,6 +32,17 @@ public class Point
 	}
 
 	/**
+	 * Sub the coordinates of the given point from this one.
+	 *
+	 * @param p
+	 * @return
+	 */
+	public Point sub(Point p)
+	{
+		return new Point(x - p.x, y - p.y);
+	}
+
+	/**
 	 * Return the middle of this point and the given point.
 	 *
 	 * @param p
