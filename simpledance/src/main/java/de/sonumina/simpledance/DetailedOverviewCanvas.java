@@ -23,12 +23,10 @@ import de.sonumina.simpledance.core.model.Step;
 import de.sonumina.simpledance.core.model.WayPoint;
 
 /**
- * @author Standard
+ * The graphical element that displays the overall overview
+ * of a dance pattern.
  *
- * To change this generated comment edit the template variable "typecomment":
- * Window>Preferences>Java>Templates.
- * To enable and disable the creation of type comments go to
- * Window>Preferences>Java>Code Generation.
+ * @author Sebastian Bauer
  */
 public class DetailedOverviewCanvas extends Canvas
 {
