@@ -21,7 +21,7 @@ public class Point
 	}
 
 	/**
-	 * Add the coordiantes of the given point to the this one.
+	 * Add the coordinates of the given point to the this one.
 	 *
 	 * @param p
 	 * @return
