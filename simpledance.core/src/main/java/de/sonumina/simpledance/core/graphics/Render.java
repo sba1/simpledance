@@ -708,6 +708,28 @@ public class Render
 		return ci;
 	}
 
+	static public class ZoomViewResult
+	{
+		public int visibleLeft;
+		public int visibleTop;
+		public int zoomFactor;
+	}
+
+	public ZoomViewResult zoomInView(RenderSceneArgs rsa)
+	{
+		ZoomViewResult zoomViewResult = new ZoomViewResult();
+		Point visible = rsa.visibleRightBottom.sub(rsa.visibleLeftTop).rotate(-rsa.visibleRotation);
+		int visibleWidth = visible.x;
+		int visibleHeight = -visible.y;
+		int zoomFactor = rsa.pixelWidth * 100 / visibleWidth * 3 / 2;
+		int newVisibleWidth = rsa.pixelWidth * 100 / zoomFactor;
+		int newVisibleHeight = rsa.pixelHeight * 100 / zoomFactor;
+		zoomViewResult.visibleLeft = rsa.visibleLeftTop.x + (visibleWidth - newVisibleWidth) / 2;
+		zoomViewResult.visibleTop = rsa.visibleLeftTop.y - (visibleHeight - newVisibleHeight) / 2;
+		zoomViewResult.zoomFactor = zoomFactor;
+		return zoomViewResult;
+	}
+
 	static public class RotateViewResult
 	{
 		public int visibleLeft;

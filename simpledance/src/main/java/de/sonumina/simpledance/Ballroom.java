@@ -636,17 +636,11 @@ public class Ballroom extends Canvas
 	
 	public void zoomIn()
 	{
-		int oldBallroomWidth = this.getClientArea().width * 100 / zoomFactor;
-		int oldBallroomHeight = this.getClientArea().height * 100 / zoomFactor;
+		Render.ZoomViewResult result = render.zoomInView(getRenderSceneArgs());
 
-		zoomFactor = zoomFactor * 3 / 2;
-		
-		int ballroomWidth = this.getClientArea().width * 100 / zoomFactor;
-		int ballroomHeight = this.getClientArea().height * 100 / zoomFactor;
-		
-		visibleLeft += (oldBallroomWidth - ballroomWidth)/2;
-		visibleTop -= (oldBallroomHeight - ballroomHeight)/2;
-		
+		visibleLeft = result.visibleLeft;
+		visibleTop = result.visibleTop;
+		zoomFactor = result.zoomFactor;
 		redraw();
 		refreshScrollBars();
 	}
