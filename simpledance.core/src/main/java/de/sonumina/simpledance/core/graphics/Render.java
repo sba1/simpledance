@@ -721,6 +721,12 @@ public class Render
 		return zoomViewResult;
 	}
 
+	public ZoomViewResult zoomOutView(RenderSceneArgs rsa)
+	{
+		ZoomViewResult zoomViewResult = zoomView(rsa, 2, 3);
+		return zoomViewResult;
+	}
+
 	private ZoomViewResult zoomView(RenderSceneArgs rsa, int current, int next) {
 		ZoomViewResult zoomViewResult = new ZoomViewResult();
 		Point visible = rsa.visibleRightBottom.sub(rsa.visibleLeftTop).rotate(-rsa.visibleRotation);
