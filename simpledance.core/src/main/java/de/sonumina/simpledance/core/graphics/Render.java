@@ -727,6 +727,7 @@ public class Render
 		int visibleWidth = visible.x;
 		int visibleHeight = -visible.y;
 		int zoomFactor = rsa.pixelWidth * 100 / visibleWidth * current / next;
+		if (zoomFactor < 25) zoomFactor = 25;
 		int newVisibleWidth = rsa.pixelWidth * 100 / zoomFactor;
 		int newVisibleHeight = rsa.pixelHeight * 100 / zoomFactor;
 		zoomViewResult.visibleLeft = rsa.visibleLeftTop.x + (visibleWidth - newVisibleWidth) / 2;
