@@ -729,15 +729,18 @@ public class Render
 
 	private ZoomViewResult zoomView(RenderSceneArgs rsa, int current, int next) {
 		ZoomViewResult zoomViewResult = new ZoomViewResult();
+
+		Point center = rsa.visibleLeftTop.center(rsa.visibleRightBottom);
+		Point direction = center.sub(rsa.visibleLeftTop).mult(next).div(current);
+		Point newVisibleLeftTop = center.sub(direction);
+
 		Point visible = rsa.visibleRightBottom.sub(rsa.visibleLeftTop).rotate(-rsa.visibleRotation);
 		int visibleWidth = visible.x;
-		int visibleHeight = -visible.y;
 		int zoomFactor = rsa.pixelWidth * 100 / visibleWidth * current / next;
 		if (zoomFactor < 25) zoomFactor = 25;
-		int newVisibleWidth = rsa.pixelWidth * 100 / zoomFactor;
-		int newVisibleHeight = rsa.pixelHeight * 100 / zoomFactor;
-		zoomViewResult.visibleLeft = rsa.visibleLeftTop.x + (visibleWidth - newVisibleWidth) / 2;
-		zoomViewResult.visibleTop = rsa.visibleLeftTop.y - (visibleHeight - newVisibleHeight) / 2;
+
+		zoomViewResult.visibleLeft = newVisibleLeftTop.x;
+		zoomViewResult.visibleTop = newVisibleLeftTop.y;
 		zoomViewResult.zoomFactor = zoomFactor;
 		return zoomViewResult;
 	}
