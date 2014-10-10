@@ -334,11 +334,11 @@ public class Render
 		context.pushCurrentTransform();
 
 		WayPoint transFeetCoord = transformBallroomToPixel(rsa, center);
-		int visibleLeft = rsa.visibleLeftTop.x;
-		int visibleWidth = rsa.visibleRightBottom.x - visibleLeft + 1;
+		int visibleWidth = rsa.visibleLeftTop.distance(rsa.visibleRightTop);
 		float scale = (float)rsa.pixelWidth / pixSize / (float)visibleWidth * ballroomSize;
 		context.applyTranslationTransformation(transFeetCoord.x, transFeetCoord.y);
 		context.applyRotateTransformation(-center.a);
+		context.applyRotateTransformation(rsa.visibleRotation);
 		context.applyScaleTransformation(scale);
 		if (mirror) context.applyScaleXTransformation(-1.f);
 
