@@ -43,6 +43,28 @@ public class Point
 	}
 
 	/**
+	 * Multiply the point (vector) with a given scalar.
+	 *
+	 * @param factor
+	 * @return
+	 */
+	public Point mult(int factor)
+	{
+		return new Point(x * factor, y * factor);
+	}
+
+	/**
+	 * Divide the point (vector) by a given scalar.
+	 *
+	 * @param factor
+	 * @return
+	 */
+	public Point div(int divident)
+	{
+		return new Point(x / divident, y / divident);
+	}
+
+	/**
 	 * Return the middle of this point and the given point.
 	 *
 	 * @param p
