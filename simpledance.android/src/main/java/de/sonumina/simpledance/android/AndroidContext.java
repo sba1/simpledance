@@ -94,22 +94,22 @@ public class AndroidContext extends Context {
 
 	@Override
 	public void applyRotateTransformation(float angle) {
-		// TODO Auto-generated method stub
+		canvas.rotate(angle);
 	}
 
 	@Override
 	public void applyTranslationTransformation(float x, float y) {
-		// TODO Auto-generated method stub
+		canvas.translate(x, y);
 	}
 
 	@Override
 	public void applyScaleTransformation(float scale) {
-		// TODO Auto-generated method stub
+		canvas.scale(scale,  scale);
 	}
 
 	@Override
 	public void applyScaleXTransformation(float f) {
-		// TODO Auto-generated method stub
+		canvas.scale(f, 1);
 	}
 
 	@Override
@@ -119,12 +119,12 @@ public class AndroidContext extends Context {
 
 	@Override
 	public void pushCurrentTransform() {
-		// TODO Auto-generated method stub
+		canvas.save();
 	}
 
 	@Override
 	public void popCurrentTransform() {
-		// TODO Auto-generated method stub
+		canvas.restore();
 	}
 
 	@Override
