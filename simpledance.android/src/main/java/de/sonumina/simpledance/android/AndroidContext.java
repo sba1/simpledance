@@ -27,12 +27,7 @@ public class AndroidContext extends Context {
         canvas.drawPaint(paint);
 	}
 
-	@Override
-	public void drawPolygon(int[] data) {
-		Paint paint = new Paint();
-		paint.setStyle(Paint.Style.FILL);
-		paint.setColor(android.graphics.Color.BLACK);
-
+	private void polygon(Paint paint, int [] data) {
 		Path p = new Path();
 		p.reset();
 		p.moveTo(data[0], data[1]);
@@ -43,8 +38,21 @@ public class AndroidContext extends Context {
 	}
 
 	@Override
+	public void drawPolygon(int[] data) {
+		Paint paint = new Paint();
+		paint.setStyle(Paint.Style.STROKE);
+		int color = android.graphics.Color.rgb(foreground.getRed(), foreground.getGreen(), foreground.getBlue());
+		paint.setColor(color);
+		polygon(paint, data);
+	}
+
+	@Override
 	public void fillPolygon(int[] data) {
-		// TODO Auto-generated method stub
+		Paint paint = new Paint();
+		paint.setStyle(Paint.Style.FILL);
+		int color = android.graphics.Color.rgb(background.getRed(), background.getGreen(), background.getBlue());
+		paint.setColor(color);
+		polygon(paint, data);
 	}
 
 	@Override
