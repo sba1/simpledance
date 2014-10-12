@@ -15,6 +15,16 @@ public class AndroidContext extends Context {
 		this.canvas = canvas;
 	}
 
+	/**
+	 * Return the color as it can be used in Paints.
+	 *
+	 * @param color
+	 * @return
+	 */
+	private int getAndroidColor(Color color) {
+		return android.graphics.Color.rgb(color.getRed(), color.getGreen(), color.getBlue());
+	}
+
 	@Override
 	public void putPixel(int x, int y) {
 	}
@@ -41,8 +51,7 @@ public class AndroidContext extends Context {
 	public void drawPolygon(int[] data) {
 		Paint paint = new Paint();
 		paint.setStyle(Paint.Style.STROKE);
-		int color = android.graphics.Color.rgb(foreground.getRed(), foreground.getGreen(), foreground.getBlue());
-		paint.setColor(color);
+		paint.setColor(getAndroidColor(foreground));
 		polygon(paint, data);
 	}
 
@@ -50,8 +59,7 @@ public class AndroidContext extends Context {
 	public void fillPolygon(int[] data) {
 		Paint paint = new Paint();
 		paint.setStyle(Paint.Style.FILL);
-		int color = android.graphics.Color.rgb(background.getRed(), background.getGreen(), background.getBlue());
-		paint.setColor(color);
+		paint.setColor(getAndroidColor(background));
 		polygon(paint, data);
 	}
 
