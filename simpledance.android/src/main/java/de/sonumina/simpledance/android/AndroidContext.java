@@ -3,6 +3,7 @@ package de.sonumina.simpledance.android;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.RectF;
 import de.sonumina.simpledance.core.graphics.Color;
 import de.sonumina.simpledance.core.graphics.Context;
 import de.sonumina.simpledance.core.graphics.Point;
@@ -70,7 +71,10 @@ public class AndroidContext extends Context {
 
 	@Override
 	public void drawOval(int x, int y, int mx, int my) {
-		// TODO Auto-generated method stub
+		Paint paint = new Paint();
+		paint.setStyle(Paint.Style.STROKE);
+		paint.setColor(getAndroidColor(foreground));
+		canvas.drawOval(new RectF(x - mx/2, y + my/2, x + mx/2, y - my/2), paint);
 	}
 
 	@Override
