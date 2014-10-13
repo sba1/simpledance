@@ -286,12 +286,8 @@ public class Ballroom extends Canvas
 		{
 			public void paintControl(PaintEvent e)
 			{
-				Rectangle bounds = getClientArea();
 				createImageBuffer();
 				GC gc = bufferGC;
-
-				gc.setBackground(ballroomColor);
-				gc.fillRectangle(bounds);
 
 				render.renderScence(getRenderSceneArgs());
 

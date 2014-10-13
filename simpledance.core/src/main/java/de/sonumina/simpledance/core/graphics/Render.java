@@ -531,6 +531,15 @@ public class Render
 	 */
 	public void renderScence(RenderSceneArgs rsa)
 	{
+		context.setBackground(ballroomColor);
+		context.fillPolygon(new int[]
+		{
+			0, 0,
+			rsa.pixelWidth-1, 0,
+			rsa.pixelWidth-1, rsa.pixelHeight-1,
+			0, rsa.pixelHeight-1
+		});
+
 		drawGrid(rsa);
 
 		Pattern pattern = rsa.pattern;
