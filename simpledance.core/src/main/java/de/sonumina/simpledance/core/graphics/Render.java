@@ -635,6 +635,24 @@ public class Render
 	}
 
 	/**
+	 * Transform current pixel coordinates to ballroom coordinates.
+	 *
+	 * @param x
+	 * @param y
+	 * @return Point
+	 */
+	public Point transformPixToBallroom(RenderSceneArgs rsa, int x, int y)
+	{
+		Point r = new Point(x * 100, y * 100).rotate(-rsa.visibleRotation);
+		Point visible = rsa.visibleRightBottom.sub(rsa.visibleLeftTop).rotate(-rsa.visibleRotation);
+		int visibleWidth = visible.x;
+		int zoomFactor = rsa.pixelWidth * 100 / visibleWidth;
+		x = r.x / zoomFactor + rsa.visibleLeftTop.x;
+		y = - r.y / zoomFactor + rsa.visibleLeftTop.y;
+		return new Point(x,y);
+	}
+
+	/**
 	 * Return the coordinate info for a point given in view space.
 	 *
 	 * @param rsa

@@ -148,17 +148,6 @@ public class Ballroom extends Canvas
 		else if (angle < 0) angle += 360 * ((-angle + 359)/360);
 		return angle;
 	}
-	
-	/**
-	 * Transform current pixel coordinates to ballroom coordinates
-	 * 	 * @param x	 * @param y	 * @return Point	 */
-	private Point transformPixToBallroom(int x, int y)
-	{
-		Point r = new Point(x * 100, y * 100).rotate(-rotation);
-		x = r.x / zoomFactor + visibleLeft;
-		y = - r.y / zoomFactor + visibleTop;
-		return new Point(x,y);
-	}
 
 	/**
 	 * Returns the current scene parameters relevant for rendering.
@@ -347,7 +336,7 @@ public class Ballroom extends Canvas
 		{
 			public void mouseMove(MouseEvent event)
 			{
-				Point ballroomPoint = transformPixToBallroom(event.x,event.y);
+				Point ballroomPoint = render.transformPixToBallroom(getRenderSceneArgs(), event.x, event.y);
 				if (coordinatesX != ballroomPoint.x || coordinatesY != ballroomPoint.y)
 				{
 					coordinatesX = ballroomPoint.x;
@@ -362,7 +351,7 @@ public class Ballroom extends Canvas
 					{
 						if (dragOperation == DRAG_ROTATE_BALE)
 						{
-							Point p = transformPixToBallroom(event.x,event.y);
+							Point p = render.transformPixToBallroom(getRenderSceneArgs(), event.x, event.y);
 							int winkel = calculateBallroomAngle(
 								rotationCenterBallroomPoint.x,
 								rotationCenterBallroomPoint.y,
@@ -375,7 +364,7 @@ public class Ballroom extends Canvas
 						} else
 						if (dragOperation == DRAG_ROTATE_HEEL)
 						{
-							Point p = transformPixToBallroom(event.x,event.y);
+							Point p = render.transformPixToBallroom(getRenderSceneArgs(), event.x, event.y);
 							int angle = calculateBallroomAngle(
 								rotationCenterBallroomPoint.x,
 								rotationCenterBallroomPoint.y,
@@ -389,7 +378,7 @@ public class Ballroom extends Canvas
 						} else
 						if (dragOperation == DRAG_MOVE_WAYPOINT)
 						{
-							Point p = transformPixToBallroom(event.x,event.y);
+							Point p = render.transformPixToBallroom(getRenderSceneArgs(), event.x, event.y);
 							WayPoint feetCoord = pattern.getStep(lastSelectedStepIndex).getFoot(lastSelectedFootIndex).getWayPoint(lastSelectedWaypoint);
 							feetCoord.x = p.x;
 							feetCoord.y = p.y;
