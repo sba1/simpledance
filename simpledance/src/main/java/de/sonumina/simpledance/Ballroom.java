@@ -90,7 +90,6 @@ public class Ballroom extends Canvas
 	private boolean mousePressed = false;
 	private Point rotationCenterBallroomPoint;
 	private int distance;
-	private Drag dragOperation;
 	private int contextFeetIndex;
 	private int contextStepIndex;
 
@@ -99,6 +98,8 @@ public class Ballroom extends Canvas
 		public int selectedStep = -1;
 		public int selectedFoot = -1;
 		public int selectedWaypoint = -1;
+
+		private Drag dragOperation;
 	}
 	private InputContext inputContext = new InputContext();
 
@@ -348,11 +349,11 @@ public class Ballroom extends Canvas
 					update();
 				}
 
-				if (mousePressed && dragOperation != Drag.NO)
+				if (mousePressed && inputContext.dragOperation != Drag.NO)
 				{
 					if (inputContext.selectedFoot != -1)
 					{
-						if (dragOperation == Drag.ROTATE_BALE)
+						if (inputContext.dragOperation == Drag.ROTATE_BALE)
 						{
 							Point p = render.transformPixToBallroom(getRenderSceneArgs(), event.x, event.y);
 							int winkel = calculateBallroomAngle(
@@ -365,7 +366,7 @@ public class Ballroom extends Canvas
 							feetCoord.y = rotationCenterBallroomPoint.y + (int)((distance * cos(toRadians(winkel))));
 							feetCoord.a = winkel;
 						} else
-						if (dragOperation == Drag.ROTATE_HEEL)
+						if (inputContext.dragOperation == Drag.ROTATE_HEEL)
 						{
 							Point p = render.transformPixToBallroom(getRenderSceneArgs(), event.x, event.y);
 							int angle = calculateBallroomAngle(
@@ -379,7 +380,7 @@ public class Ballroom extends Canvas
 							feetCoord.y = rotationCenterBallroomPoint.y - (int)((distance * cos(toRadians(angle))));
 							feetCoord.a = angle;
 						} else
-						if (dragOperation == Drag.MOVE_WAYPOINT)
+						if (inputContext.dragOperation == Drag.MOVE_WAYPOINT)
 						{
 							Point p = render.transformPixToBallroom(getRenderSceneArgs(), event.x, event.y);
 							WayPoint feetCoord = pattern.getStep(inputContext.selectedStep).getFoot(inputContext.selectedFoot).getWayPoint(inputContext.selectedWaypoint);
@@ -468,8 +469,8 @@ public class Ballroom extends Canvas
 						inputContext.selectedWaypoint = ci.waypoint;
 						inputContext.selectedStep = pattern.getCurrentStepNum();
 						inputContext.selectedFoot = ci.feetIndex;
-						dragOperation = ci.feetPart == Render.FootPart.BALE?Drag.ROTATE_BALE:Drag.ROTATE_HEEL;
-						if (ci.waypoint != -1)	dragOperation = Drag.MOVE_WAYPOINT;
+						inputContext.dragOperation = ci.feetPart == Render.FootPart.BALE?Drag.ROTATE_BALE:Drag.ROTATE_HEEL;
+						if (ci.waypoint != -1)	inputContext.dragOperation = Drag.MOVE_WAYPOINT;
 						distance = ci.distance;
 						rotationCenterBallroomPoint = ci.rotationCenterBallroomPoint;
 					}						
@@ -483,7 +484,7 @@ public class Ballroom extends Canvas
 							inputContext.selectedWaypoint = ci.waypoint;
 							inputContext.selectedStep = pattern.getCurrentStepNum() - 1;
 							inputContext.selectedFoot = ci.feetIndex;
-							dragOperation = Drag.MOVE_WAYPOINT;
+							inputContext.dragOperation = Drag.MOVE_WAYPOINT;
 						} else rejectWayPointRequest = true;
 					}
 				}
