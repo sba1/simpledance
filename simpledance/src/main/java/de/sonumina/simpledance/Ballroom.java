@@ -87,7 +87,6 @@ public class Ballroom extends Canvas
 	private boolean showGrid = true;
 	private boolean showGradients = true;
 
-	private boolean mousePressed = false;
 	private Point rotationCenterBallroomPoint;
 	private int distance;
 	private int contextFeetIndex;
@@ -98,7 +97,7 @@ public class Ballroom extends Canvas
 		public int selectedStep = -1;
 		public int selectedFoot = -1;
 		public int selectedWaypoint = -1;
-
+		public boolean mousePressed = false;
 		private Drag dragOperation;
 	}
 	private InputContext inputContext = new InputContext();
@@ -349,7 +348,7 @@ public class Ballroom extends Canvas
 					update();
 				}
 
-				if (mousePressed && inputContext.dragOperation != Drag.NO)
+				if (inputContext.mousePressed && inputContext.dragOperation != Drag.NO)
 				{
 					if (inputContext.selectedFoot != -1)
 					{
@@ -403,7 +402,7 @@ public class Ballroom extends Canvas
 					emitFeetCoordinatesChangedEvent();
 				}
 
-				if (!mousePressed)
+				if (!inputContext.mousePressed)
 				{
 					boolean disposeCursor = true;
 
@@ -522,7 +521,7 @@ public class Ballroom extends Canvas
 					emitEvent(be);
 				}
 
-				if (ev.button != 3) mousePressed = true;
+				if (ev.button != 3) inputContext.mousePressed = true;
 				else
 				{
 					if (contextMenu != null)
@@ -593,7 +592,7 @@ public class Ballroom extends Canvas
 			
 			public void mouseUp(MouseEvent arg0)
 			{
-				mousePressed = false;
+				inputContext.mousePressed = false;
 			}
 		});
 
