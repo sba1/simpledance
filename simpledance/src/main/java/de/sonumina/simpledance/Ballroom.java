@@ -353,39 +353,48 @@ public class Ballroom extends Canvas
 				{
 					if (inputContext.selectedFoot != -1)
 					{
-						if (inputContext.dragOperation == Drag.ROTATE_BALE)
+						switch (inputContext.dragOperation)
 						{
-							Point p = render.transformPixToBallroom(getRenderSceneArgs(), event.x, event.y);
-							int winkel = calculateBallroomAngle(
-								rotationCenterBallroomPoint.x,
-								rotationCenterBallroomPoint.y,
-								p.x,p.y);
+							case	ROTATE_BALE:
+									{
+										Point p = render.transformPixToBallroom(getRenderSceneArgs(), event.x, event.y);
+										int winkel = calculateBallroomAngle(
+											rotationCenterBallroomPoint.x,
+											rotationCenterBallroomPoint.y,
+											p.x,p.y);
+										WayPoint feetCoord = pattern.getStep(inputContext.selectedStep).getFoot(inputContext.selectedFoot).getStartingWayPoint();
+										feetCoord.x = rotationCenterBallroomPoint.x - (int)((distance * sin(toRadians(winkel))));
+										feetCoord.y = rotationCenterBallroomPoint.y + (int)((distance * cos(toRadians(winkel))));
+										feetCoord.a = winkel;
+									}
+									break;
 
-							WayPoint feetCoord = pattern.getStep(inputContext.selectedStep).getFoot(inputContext.selectedFoot).getStartingWayPoint();
-							feetCoord.x = rotationCenterBallroomPoint.x - (int)((distance * sin(toRadians(winkel))));
-							feetCoord.y = rotationCenterBallroomPoint.y + (int)((distance * cos(toRadians(winkel))));
-							feetCoord.a = winkel;
-						} else
-						if (inputContext.dragOperation == Drag.ROTATE_HEEL)
-						{
-							Point p = render.transformPixToBallroom(getRenderSceneArgs(), event.x, event.y);
-							int angle = calculateBallroomAngle(
-								rotationCenterBallroomPoint.x,
-								rotationCenterBallroomPoint.y,
-								p.x,p.y) - 180;
-							if (angle < 0) angle += 360;
+							case	ROTATE_HEEL:
+									{
+										Point p = render.transformPixToBallroom(getRenderSceneArgs(), event.x, event.y);
+										int angle = calculateBallroomAngle(
+											rotationCenterBallroomPoint.x,
+											rotationCenterBallroomPoint.y,
+											p.x,p.y) - 180;
+										if (angle < 0) angle += 360;
+										WayPoint feetCoord = pattern.getStep(inputContext.selectedStep).getFoot(inputContext.selectedFoot).getStartingWayPoint();
+										feetCoord.x = rotationCenterBallroomPoint.x + (int)((distance * sin(toRadians(angle))));
+										feetCoord.y = rotationCenterBallroomPoint.y - (int)((distance * cos(toRadians(angle))));
+										feetCoord.a = angle;
+									}
+									break;
 
-							WayPoint feetCoord = pattern.getStep(inputContext.selectedStep).getFoot(inputContext.selectedFoot).getStartingWayPoint();
-							feetCoord.x = rotationCenterBallroomPoint.x + (int)((distance * sin(toRadians(angle))));
-							feetCoord.y = rotationCenterBallroomPoint.y - (int)((distance * cos(toRadians(angle))));
-							feetCoord.a = angle;
-						} else
-						if (inputContext.dragOperation == Drag.MOVE_WAYPOINT)
-						{
-							Point p = render.transformPixToBallroom(getRenderSceneArgs(), event.x, event.y);
-							WayPoint feetCoord = pattern.getStep(inputContext.selectedStep).getFoot(inputContext.selectedFoot).getWayPoint(inputContext.selectedWaypoint);
-							feetCoord.x = p.x;
-							feetCoord.y = p.y;
+							case	MOVE_WAYPOINT:
+									{
+										Point p = render.transformPixToBallroom(getRenderSceneArgs(), event.x, event.y);
+										WayPoint feetCoord = pattern.getStep(inputContext.selectedStep).getFoot(inputContext.selectedFoot).getWayPoint(inputContext.selectedWaypoint);
+										feetCoord.x = p.x;
+										feetCoord.y = p.y;
+									}
+									break;
+
+							default:
+									break;
 						}
 					}
 
