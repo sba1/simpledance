@@ -357,14 +357,14 @@ public class Ballroom extends Canvas
 							case	ROTATE_BALE:
 									{
 										Point p = render.transformPixToBallroom(getRenderSceneArgs(), event.x, event.y);
-										int winkel = calculateBallroomAngle(
+										int angle = calculateBallroomAngle(
 											inputContext.rotationCenterBallroomPoint.x,
 											inputContext.rotationCenterBallroomPoint.y,
 											p.x,p.y);
 										WayPoint feetCoord = pattern.getStep(inputContext.selectedStep).getFoot(inputContext.selectedFoot).getStartingWayPoint();
-										feetCoord.x = inputContext.rotationCenterBallroomPoint.x - (int)((inputContext.distance * sin(toRadians(winkel))));
-										feetCoord.y = inputContext.rotationCenterBallroomPoint.y + (int)((inputContext.distance * cos(toRadians(winkel))));
-										feetCoord.a = winkel;
+										feetCoord.x = inputContext.rotationCenterBallroomPoint.x - (int)((inputContext.distance * sin(toRadians(angle))));
+										feetCoord.y = inputContext.rotationCenterBallroomPoint.y + (int)((inputContext.distance * cos(toRadians(angle))));
+										feetCoord.a = angle;
 									}
 									break;
 
