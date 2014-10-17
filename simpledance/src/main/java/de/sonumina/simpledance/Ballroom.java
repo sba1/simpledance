@@ -1,11 +1,6 @@
 package de.sonumina.simpledance;
 
 import static de.sonumina.simpledance.core.I18n._;
-import static java.lang.Math.atan;
-import static java.lang.Math.cos;
-import static java.lang.Math.sin;
-import static java.lang.Math.toDegrees;
-import static java.lang.Math.toRadians;
 
 import java.util.LinkedList;
 
@@ -40,7 +35,6 @@ import de.sonumina.simpledance.core.graphics.Point;
 import de.sonumina.simpledance.core.graphics.Render;
 import de.sonumina.simpledance.core.model.Pattern;
 import de.sonumina.simpledance.core.model.Step;
-import de.sonumina.simpledance.core.model.WayPoint;
 import de.sonumina.simpledance.graphics.swt.SWTContext;
 
 /**
@@ -97,48 +91,6 @@ public class Ballroom extends Canvas
 	private int animationMaxNumber;
 
 	private LinkedList<BallroomListener> ballroomListenerList = new LinkedList<>();
-
-	private int calculateBallroomAngle(int mx, int my, int x, int y)
-	{
-		int angle;
-		
-		if (x < mx)
-		{
-			if (my != y)
-			{
-				double t = (mx - x)/(double)(y - my);
-				angle = (int)toDegrees(atan(t));
-				if (my > y) angle = 180 + angle; 				
-			} else angle = 90;
-		} else
-		if (x > mx)
-		{
-			if (my != y)
-			{
-				double t = (mx - x)/(double)(my - y);
-				angle = (int)toDegrees(atan(t));
-				if (my > y) angle = 180 - angle;
-				else angle = 360 - angle; 				
-			} else angle = 270;
-		} else 
-		{
-			if (y < my) angle = 180;
-			else angle = 0;
-		}
-
-		if (angle >= 360) angle -= 360;
-		else if (angle < 0) angle += 360 * ((-angle + 359)/360);
-
-		return angle;
-	}
-
-	public int calculatePixelAngle(int mx, int my, int x, int y)
-	{
-		int angle = 180 - calculateBallroomAngle(mx,my,x,y);
-		if (angle >= 360) angle -= 360;
-		else if (angle < 0) angle += 360 * ((-angle + 359)/360);
-		return angle;
-	}
 
 	/**
 	 * Returns the current scene parameters relevant for rendering.
