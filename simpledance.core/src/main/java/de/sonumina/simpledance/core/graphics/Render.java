@@ -1,7 +1,12 @@
 package de.sonumina.simpledance.core.graphics;
 
+import static java.lang.Math.atan;
+import static java.lang.Math.cos;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
+import static java.lang.Math.sin;
+import static java.lang.Math.toDegrees;
+import static java.lang.Math.toRadians;
 
 import java.awt.Polygon;
 
@@ -869,5 +874,89 @@ public class Render
 		result.valid = true;
 
 		return result;
+	}
+
+	private int calculateBallroomAngle(int mx, int my, int x, int y)
+	{
+		int angle;
+
+		if (x < mx)
+		{
+			if (my != y)
+			{
+				double t = (mx - x)/(double)(y - my);
+				angle = (int)toDegrees(atan(t));
+				if (my > y) angle = 180 + angle;
+			} else angle = 90;
+		} else
+		if (x > mx)
+		{
+			if (my != y)
+			{
+				double t = (mx - x)/(double)(my - y);
+				angle = (int)toDegrees(atan(t));
+				if (my > y) angle = 180 - angle;
+				else angle = 360 - angle;
+			} else angle = 270;
+		} else
+		{
+			if (y < my) angle = 180;
+			else angle = 0;
+		}
+
+		if (angle >= 360) angle -= 360;
+		else if (angle < 0) angle += 360 * ((-angle + 359)/360);
+
+		return angle;
+	}
+
+	public void mouseMove(RenderSceneArgs rsa, InputContext inputContext, int x, int y)
+	{
+		if (inputContext.selectedFoot != -1)
+		{
+			switch (inputContext.dragOperation)
+			{
+				case	ROTATE_BALE:
+						{
+							Point p = transformPixToBallroom(rsa, x, y);
+							int angle = calculateBallroomAngle(
+								inputContext.rotationCenterBallroomPoint.x,
+								inputContext.rotationCenterBallroomPoint.y,
+								p.x,p.y);
+							WayPoint feetCoord = rsa.pattern.getStep(inputContext.selectedStep).getFoot(inputContext.selectedFoot).getStartingWayPoint();
+							feetCoord.x = inputContext.rotationCenterBallroomPoint.x - (int)((inputContext.distance * sin(toRadians(angle))));
+							feetCoord.y = inputContext.rotationCenterBallroomPoint.y + (int)((inputContext.distance * cos(toRadians(angle))));
+							feetCoord.a = angle;
+						}
+						break;
+
+				case	ROTATE_HEEL:
+						{
+							Point p = transformPixToBallroom(rsa, x, y );
+							int angle = calculateBallroomAngle(
+								inputContext.rotationCenterBallroomPoint.x,
+								inputContext.rotationCenterBallroomPoint.y,
+								p.x,p.y) - 180;
+							if (angle < 0) angle += 360;
+							WayPoint feetCoord = rsa.pattern.getStep(inputContext.selectedStep).getFoot(inputContext.selectedFoot).getStartingWayPoint();
+							feetCoord.x = inputContext.rotationCenterBallroomPoint.x + (int)((inputContext.distance * sin(toRadians(angle))));
+							feetCoord.y = inputContext.rotationCenterBallroomPoint.y - (int)((inputContext.distance * cos(toRadians(angle))));
+							feetCoord.a = angle;
+						}
+						break;
+
+				case	MOVE_WAYPOINT:
+						{
+							Point p = transformPixToBallroom(rsa, x, y);
+							WayPoint feetCoord = rsa.pattern.getStep(inputContext.selectedStep).getFoot(inputContext.selectedFoot).getWayPoint(inputContext.selectedWaypoint);
+							feetCoord.x = p.x;
+							feetCoord.y = p.y;
+						}
+						break;
+
+				default:
+						break;
+			}
+		}
 	}
 }

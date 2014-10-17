@@ -334,52 +334,7 @@ public class Ballroom extends Canvas
 
 				if (inputContext.mousePressed && inputContext.dragOperation != Drag.NO)
 				{
-					if (inputContext.selectedFoot != -1)
-					{
-						switch (inputContext.dragOperation)
-						{
-							case	ROTATE_BALE:
-									{
-										Point p = render.transformPixToBallroom(getRenderSceneArgs(), event.x, event.y);
-										int angle = calculateBallroomAngle(
-											inputContext.rotationCenterBallroomPoint.x,
-											inputContext.rotationCenterBallroomPoint.y,
-											p.x,p.y);
-										WayPoint feetCoord = pattern.getStep(inputContext.selectedStep).getFoot(inputContext.selectedFoot).getStartingWayPoint();
-										feetCoord.x = inputContext.rotationCenterBallroomPoint.x - (int)((inputContext.distance * sin(toRadians(angle))));
-										feetCoord.y = inputContext.rotationCenterBallroomPoint.y + (int)((inputContext.distance * cos(toRadians(angle))));
-										feetCoord.a = angle;
-									}
-									break;
-
-							case	ROTATE_HEEL:
-									{
-										Point p = render.transformPixToBallroom(getRenderSceneArgs(), event.x, event.y);
-										int angle = calculateBallroomAngle(
-											inputContext.rotationCenterBallroomPoint.x,
-											inputContext.rotationCenterBallroomPoint.y,
-											p.x,p.y) - 180;
-										if (angle < 0) angle += 360;
-										WayPoint feetCoord = pattern.getStep(inputContext.selectedStep).getFoot(inputContext.selectedFoot).getStartingWayPoint();
-										feetCoord.x = inputContext.rotationCenterBallroomPoint.x + (int)((inputContext.distance * sin(toRadians(angle))));
-										feetCoord.y = inputContext.rotationCenterBallroomPoint.y - (int)((inputContext.distance * cos(toRadians(angle))));
-										feetCoord.a = angle;
-									}
-									break;
-
-							case	MOVE_WAYPOINT:
-									{
-										Point p = render.transformPixToBallroom(getRenderSceneArgs(), event.x, event.y);
-										WayPoint feetCoord = pattern.getStep(inputContext.selectedStep).getFoot(inputContext.selectedFoot).getWayPoint(inputContext.selectedWaypoint);
-										feetCoord.x = p.x;
-										feetCoord.y = p.y;
-									}
-									break;
-
-							default:
-									break;
-						}
-					}
+					render.mouseMove(getRenderSceneArgs(), inputContext, event.x, event.y);
 
 					redraw();
 					update();
