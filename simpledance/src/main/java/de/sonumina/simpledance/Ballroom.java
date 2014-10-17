@@ -34,6 +34,8 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.ScrollBar;
 
+import de.sonumina.simpledance.core.graphics.InputContext;
+import de.sonumina.simpledance.core.graphics.InputContext.Drag;
 import de.sonumina.simpledance.core.graphics.Point;
 import de.sonumina.simpledance.core.graphics.Render;
 import de.sonumina.simpledance.core.model.Pattern;
@@ -46,14 +48,6 @@ import de.sonumina.simpledance.graphics.swt.SWTContext;
  */
 public class Ballroom extends Canvas
 {
-	enum Drag
-	{
-		NO,
-		ROTATE_BALE,
-		ROTATE_HEEL,
-		MOVE_WAYPOINT
-	}
-
 	private SWTContext context;
 	private Render render;
 
@@ -90,16 +84,6 @@ public class Ballroom extends Canvas
 	private int contextFeetIndex;
 	private int contextStepIndex;
 
-	private static class InputContext
-	{
-		public int selectedStep = -1;
-		public int selectedFoot = -1;
-		public int selectedWaypoint = -1;
-		public boolean mousePressed = false;
-		private Drag dragOperation;
-		private Point rotationCenterBallroomPoint;
-		private int distance;
-	}
 	private InputContext inputContext = new InputContext();
 
 	private boolean [] selectedArray = new boolean[4];
