@@ -80,8 +80,6 @@ public class Ballroom extends Canvas
 
 	private InputContext inputContext = new InputContext();
 
-	private boolean [] selectedArray = new boolean[4];
-	
 	/* attributes used when painting */
 	private boolean animation;
 	private boolean animationSingleStep;
@@ -122,7 +120,7 @@ public class Ballroom extends Canvas
 		rsa.showLady = showLady;
 		rsa.showGent = showGent;
 		rsa.showAnimationOutline = showAnimationOutline;
-		for (int i=0;i<4;i++) rsa.selectedArray[i] = selectedArray[i];
+		for (int i=0;i<4;i++) rsa.selectedArray[i] = inputContext.selectedArray[i];
 		return rsa;
 	}
 
@@ -390,17 +388,17 @@ public class Ballroom extends Canvas
 
 				boolean wasSomethingSelected = false;
 
-				for (int i=0;i<selectedArray.length;i++)
+				for (int i=0;i<inputContext.selectedArray.length;i++)
 				{
-					if (selectedArray[i])
+					if (inputContext.selectedArray[i])
 					{
 						wasSomethingSelected = true;
-						selectedArray[i] = false;
+						inputContext.selectedArray[i] = false;
 					}
 				}
 
 				if (ci.feetIndex != -1)
-					selectedArray[ci.feetIndex] = true;
+					inputContext.selectedArray[ci.feetIndex] = true;
 
 				redraw();
 				update();
@@ -683,7 +681,7 @@ public class Ballroom extends Canvas
 	public void moveSelectedFeet(int dx, int dy)
 	{
 		if (pattern == null) return;
-		pattern.moveFeet(dx, dy, selectedArray);
+		pattern.moveFeet(dx, dy, inputContext.selectedArray);
 		redraw();
 	}
 
@@ -696,7 +694,7 @@ public class Ballroom extends Canvas
 	public void rotateSelectedFeet(int da)
 	{
 		if (pattern == null) return;
-		pattern.rotateFeet(da, selectedArray);
+		pattern.rotateFeet(da, inputContext.selectedArray);
 		redraw();
 	}
 
@@ -707,13 +705,13 @@ public class Ballroom extends Canvas
 	 */
 	public final boolean [] getSelectionArray()
 	{
-		return selectedArray;
+		return inputContext.selectedArray;
 	}
 	
 	public void setSelectionArray(boolean [] array)
 	{
-		for (int i=0;i<selectedArray.length;i++)
-			selectedArray[i] = array[i];
+		for (int i=0;i<inputContext.selectedArray.length;i++)
+			inputContext.selectedArray[i] = array[i];
 		redraw();
 	}
 	

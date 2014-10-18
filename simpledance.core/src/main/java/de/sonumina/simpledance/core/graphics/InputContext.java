@@ -17,4 +17,7 @@ public class InputContext
 	public Drag dragOperation;
 	public Point rotationCenterBallroomPoint;
 	public int distance;
+
+	/** An array to hold which foot is currently selected */
+	public boolean [] selectedArray = new boolean[4];
 }
