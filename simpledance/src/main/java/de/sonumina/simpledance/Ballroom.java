@@ -431,12 +431,12 @@ public class Ballroom extends Canvas
 
 						menuItem = new MenuItem(contextMenu, SWT.CHECK);
 						menuItem.setText(_("Rotate around long angle"));
-						menuItem.setSelection(pattern.getStep(contextStepIndex).getFoot(contextFeetIndex).isLongRotation());
+						menuItem.setSelection(Ballroom.this.pattern.getStep(contextStepIndex).getFoot(contextFeetIndex).isLongRotation());
 						menuItem.addSelectionListener(new SelectionAdapter()
 						{
 							public void widgetSelected(SelectionEvent event)
 							{
-								pattern.getStep(contextStepIndex).getFoot(contextFeetIndex).setLongRotation(((MenuItem)event.widget).getSelection());
+								Ballroom.this.pattern.getStep(contextStepIndex).getFoot(contextFeetIndex).setLongRotation(((MenuItem)event.widget).getSelection());
 								redraw();
 							}
 						});
@@ -449,7 +449,7 @@ public class Ballroom extends Canvas
 							{
 								public void widgetSelected(SelectionEvent e) {
 									contextMenu.setVisible(false);
-									pattern.addWayPoint(contextFeetIndex, inputContext.selectedWaypoint);
+									Ballroom.this.pattern.addWayPoint(contextFeetIndex, inputContext.selectedWaypoint);
 									redraw();
 								}
 							});
@@ -459,7 +459,7 @@ public class Ballroom extends Canvas
 							{
 								public void widgetSelected(SelectionEvent e) {
 									contextMenu.setVisible(false);
-									pattern.removeAllWayPoints(contextFeetIndex);
+									Ballroom.this.pattern.removeAllWayPoints(contextFeetIndex);
 									redraw();
 								}
 							});
