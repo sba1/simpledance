@@ -348,6 +348,9 @@ public class Ballroom extends Canvas
 			
 			public void mouseDown(MouseEvent ev)
 			{
+				Render.RenderSceneArgs rsa = getRenderSceneArgs();
+				final Pattern pattern = rsa.pattern;
+
 				boolean rejectWayPointRequest = false;
 				if (pattern == null) return;
 				Step step = pattern.getCurrentStep();
@@ -356,7 +359,6 @@ public class Ballroom extends Canvas
 
 				inputContext.selectedFoot = -1;
 
-				Render.RenderSceneArgs rsa = getRenderSceneArgs();
 				Render.CoordinateInfo ci = render.getPixCoordinateInfo(rsa, ev.x, ev.y, step);
 
 				if (ci.feetIndex != -1)
