@@ -424,9 +424,9 @@ public class Ballroom extends Canvas
 					contextMenu = new Menu(getShell());
 					MenuItem menuItem;
 					
-					if (ci.feetIndex != -1)
+					if (inputContext.selectedFoot != -1)
 					{
-						contextFeetIndex = ci.feetIndex;
+						contextFeetIndex = inputContext.selectedFoot;
 						contextStepIndex = inputContext.selectedStep;
 
 						menuItem = new MenuItem(contextMenu, SWT.CHECK);
