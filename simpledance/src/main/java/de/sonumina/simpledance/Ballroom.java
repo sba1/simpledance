@@ -348,6 +348,17 @@ public class Ballroom extends Canvas
 			
 			public void mouseDown(MouseEvent ev)
 			{
+				boolean wasSomethingSelected = false;
+
+				for (int i=0;i<inputContext.selectedArray.length;i++)
+				{
+					if (inputContext.selectedArray[i])
+					{
+						wasSomethingSelected = true;
+						inputContext.selectedArray[i] = false;
+					}
+				}
+
 				Render.RenderSceneArgs rsa = getRenderSceneArgs();
 				final Pattern pattern = rsa.pattern;
 
@@ -385,17 +396,6 @@ public class Ballroom extends Canvas
 							inputContext.selectedFoot = ci.feetIndex;
 							inputContext.dragOperation = Drag.MOVE_WAYPOINT;
 						} else rejectWayPointRequest = true;
-					}
-				}
-
-				boolean wasSomethingSelected = false;
-
-				for (int i=0;i<inputContext.selectedArray.length;i++)
-				{
-					if (inputContext.selectedArray[i])
-					{
-						wasSomethingSelected = true;
-						inputContext.selectedArray[i] = false;
 					}
 				}
 
