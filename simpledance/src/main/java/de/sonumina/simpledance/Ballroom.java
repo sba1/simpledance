@@ -405,7 +405,7 @@ public class Ballroom extends Canvas
 				redraw();
 				update();
 
-				if ((ci.feetIndex == -1 && wasSomethingSelected) || ci.feetIndex != -1)
+				if ((inputContext.selectedFoot == -1 && wasSomethingSelected) || inputContext.selectedFoot != -1)
 				{
 					BallroomEvent be = new BallroomEvent();
 					be.selectionChanged = true;
