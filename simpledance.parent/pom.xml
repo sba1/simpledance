@@ -42,6 +42,13 @@
 				<module>../simpledance.android</module>
 			</modules>
 		</profile>
+
+		<profile>
+			<id>Web</id>
+			<modules>
+				<module>../simpledance.web</module>
+			</modules>
+		</profile>
 	</profiles>
 
 </project>
