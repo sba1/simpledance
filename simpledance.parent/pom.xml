@@ -20,13 +20,22 @@
 
 	<modules>
 		<module>../simpledance.core</module>
-		<module>../simpledance</module>
-		<module>../simpledance.linux.amd64</module>
-		<module>../simpledance.linux.i386</module>
-		<module>../simpledance.win32</module>
 	</modules>
 
 	<profiles>
+		<profile>
+			<id>Desktop</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<modules>
+				<module>../simpledance</module>
+				<module>../simpledance.linux.amd64</module>
+				<module>../simpledance.linux.i386</module>
+				<module>../simpledance.win32</module>
+			</modules>
+		</profile>
+
 		<profile>
 			<id>Android</id>
 			<modules>
