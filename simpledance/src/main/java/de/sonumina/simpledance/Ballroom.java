@@ -59,7 +59,7 @@ public class Ballroom extends Canvas
 	private Image bufferImage;
 	private GC bufferGC;
 
-	private Pattern pattern;
+	private Pattern pattern = new Pattern();
 	private int zoomFactor = 300;
 	private int rotation = 0;
 	private int visibleLeft = 570;
