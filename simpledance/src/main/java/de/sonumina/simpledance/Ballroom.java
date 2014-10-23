@@ -510,22 +510,29 @@ public class Ballroom extends Canvas
 	}
 
 	/**
-	 * Returns the pattern.
-	 * @return Pattern
+	 * Returns the currently displayed pattern.
+	 *
+	 * @return the pattern that is currently displayed.
 	 */
-	public Pattern getPattern() {
+	public Pattern getPattern()
+	{
 		return pattern;
 	}
 
 	/**
-	 * Sets the pattern.
-	 * @param pattern The pattern to set
+	 * Sets the pattern that shall be displayed.
+	 *
+	 * @param pattern defines the pattern to be set.
 	 */
-	public void setPattern(Pattern pattern) {
+	public void setPattern(Pattern pattern)
+	{
 		this.pattern = pattern;
 		viewWholePattern();
 	}
-	
+
+	/**
+	 * Zoom into the view.
+	 */
 	public void zoomIn()
 	{
 		Render.ZoomViewResult result = render.zoomInView(getRenderSceneArgs());
@@ -537,6 +544,9 @@ public class Ballroom extends Canvas
 		refreshScrollBars();
 	}
 
+	/**
+	 * Zoom out from the view.
+	 */
 	public void zoomOut()
 	{
 		Render.ZoomViewResult result = render.zoomOutView(getRenderSceneArgs());
