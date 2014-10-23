@@ -36,7 +36,7 @@ public class CanvasContext extends Context
 		context.setStrokeStyle("gray");
 		context.beginPath();
 		context.moveTo(data[0], data[1]);
-		for (int i=2; i < data.length; i++)
+		for (int i=2; i < data.length; i+=2)
 			context.lineTo(data[i], data[i+1]);
 		context.stroke();
 	}
@@ -49,7 +49,7 @@ public class CanvasContext extends Context
 		context.setStrokeStyle("gray");
 		context.beginPath();
 		context.moveTo(data[0], data[1]);
-		for (int i=2; i < data.length; i++)
+		for (int i=2; i < data.length; i+=2)
 			context.lineTo(data[i], data[i+1]);
 		context.fill();
 	}
