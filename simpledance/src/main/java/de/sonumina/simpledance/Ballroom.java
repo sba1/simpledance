@@ -360,47 +360,7 @@ public class Ballroom extends Canvas
 				}
 
 				Render.RenderSceneArgs rsa = getRenderSceneArgs();
-				final Pattern pattern = rsa.pattern;
-
-				boolean rejectWayPointRequest = false;
-				if (pattern == null) return;
-				Step step = pattern.getCurrentStep();
-				if (step == null) return;
-				Step previousStep = pattern.getPreviousStep();
-
-				inputContext.selectedFoot = -1;
-
-				Render.CoordinateInfo ci = render.getPixCoordinateInfo(rsa, ev.x, ev.y, step);
-
-				if (ci.feetIndex != -1)
-				{
-					if (ci.feetPart != Render.FootPart.NO || ci.waypoint == 0)
-					{
-						inputContext.selectedWaypoint = ci.waypoint;
-						inputContext.selectedStep = pattern.getCurrentStepNum();
-						inputContext.selectedFoot = ci.feetIndex;
-						inputContext.dragOperation = ci.feetPart == Render.FootPart.BALE?Drag.ROTATE_BALE:Drag.ROTATE_HEEL;
-						if (ci.waypoint != -1)	inputContext.dragOperation = Drag.MOVE_WAYPOINT;
-						inputContext.distance = ci.distance;
-						inputContext.rotationCenterBallroomPoint = ci.rotationCenterBallroomPoint;
-					}						
-				} else
-				{
-					if (previousStep != null)
-					{
-						ci = render.getPixCoordinateInfo(rsa, ev.x, ev.y, previousStep);
-						if (ci.waypoint > 0)
-						{
-							inputContext.selectedWaypoint = ci.waypoint;
-							inputContext.selectedStep = pattern.getCurrentStepNum() - 1;
-							inputContext.selectedFoot = ci.feetIndex;
-							inputContext.dragOperation = Drag.MOVE_WAYPOINT;
-						} else rejectWayPointRequest = true;
-					}
-				}
-
-				if (ci.feetIndex != -1)
-					inputContext.selectedArray[ci.feetIndex] = true;
+				boolean rejectWayPointRequest = render.mouseDown(rsa, inputContext, ev.x, ev.y);
 
 				redraw();
 				update();

@@ -10,6 +10,7 @@ import static java.lang.Math.toRadians;
 
 import java.awt.Polygon;
 
+import de.sonumina.simpledance.core.graphics.InputContext.Drag;
 import de.sonumina.simpledance.core.model.Foot;
 import de.sonumina.simpledance.core.model.Pattern;
 import de.sonumina.simpledance.core.model.Step;
@@ -908,6 +909,50 @@ public class Render
 		else if (angle < 0) angle += 360 * ((-angle + 359)/360);
 
 		return angle;
+	}
+
+	public boolean mouseDown(RenderSceneArgs rsa, InputContext inputContext, int x, int y)
+	{
+		final Pattern pattern = rsa.pattern;
+
+		boolean rejectWayPointRequest = false;
+		Step step = pattern.getCurrentStep();
+		Step previousStep = pattern.getPreviousStep();
+
+		inputContext.selectedFoot = -1;
+
+		Render.CoordinateInfo ci = getPixCoordinateInfo(rsa, x, y, step);
+
+		if (ci.feetIndex != -1)
+		{
+			if (ci.feetPart != Render.FootPart.NO || ci.waypoint == 0)
+			{
+				inputContext.selectedWaypoint = ci.waypoint;
+				inputContext.selectedStep = pattern.getCurrentStepNum();
+				inputContext.selectedFoot = ci.feetIndex;
+				inputContext.dragOperation = ci.feetPart == Render.FootPart.BALE?Drag.ROTATE_BALE:Drag.ROTATE_HEEL;
+				if (ci.waypoint != -1)	inputContext.dragOperation = Drag.MOVE_WAYPOINT;
+				inputContext.distance = ci.distance;
+				inputContext.rotationCenterBallroomPoint = ci.rotationCenterBallroomPoint;
+			}
+		} else
+		{
+			if (previousStep != null)
+			{
+				ci = getPixCoordinateInfo(rsa, x, y, previousStep);
+				if (ci.waypoint > 0)
+				{
+					inputContext.selectedWaypoint = ci.waypoint;
+					inputContext.selectedStep = pattern.getCurrentStepNum() - 1;
+					inputContext.selectedFoot = ci.feetIndex;
+					inputContext.dragOperation = Drag.MOVE_WAYPOINT;
+				} else rejectWayPointRequest = true;
+			}
+		}
+
+		if (ci.feetIndex != -1)
+			inputContext.selectedArray[ci.feetIndex] = true;
+		return rejectWayPointRequest;
 	}
 
 	public void mouseMove(RenderSceneArgs rsa, InputContext inputContext, int x, int y)
