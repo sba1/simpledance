@@ -32,8 +32,7 @@ public class CanvasContext extends Context
 	public void drawPolygon(int[] data)
 	{
 		if (data.length < 2) return;
-		context.setFillStyle("gray");
-		context.setStrokeStyle("gray");
+		context.setStrokeStyle("black");
 		context.beginPath();
 		context.moveTo(data[0], data[1]);
 		for (int i=2; i < data.length; i+=2)
@@ -45,8 +44,7 @@ public class CanvasContext extends Context
 	public void fillPolygon(int[] data)
 	{
 		if (data.length < 2) return;
-		context.setFillStyle("gray");
-		context.setStrokeStyle("gray");
+		context.setFillStyle("blue");
 		context.beginPath();
 		context.moveTo(data[0], data[1]);
 		for (int i=2; i < data.length; i+=2)
