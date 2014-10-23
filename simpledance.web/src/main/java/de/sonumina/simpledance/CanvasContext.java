@@ -75,8 +75,8 @@ public class CanvasContext extends Context
 	@Override
 	public Point stringExtent(String string)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		// TODO Implement this correctly.
+		return new Point(1,1);
 	}
 
 	@Override
