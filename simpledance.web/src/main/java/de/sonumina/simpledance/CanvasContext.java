@@ -37,6 +37,7 @@ public class CanvasContext extends Context
 		context.moveTo(data[0], data[1]);
 		for (int i=2; i < data.length; i+=2)
 			context.lineTo(data[i], data[i+1]);
+		context.closePath();
 		context.stroke();
 	}
 
