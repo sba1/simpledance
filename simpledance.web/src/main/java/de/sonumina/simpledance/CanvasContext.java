@@ -31,13 +31,27 @@ public class CanvasContext extends Context
 	@Override
 	public void drawPolygon(int[] data)
 	{
-		// TODO Auto-generated method stub
+		if (data.length < 2) return;
+		context.setFillStyle("gray");
+		context.setStrokeStyle("gray");
+		context.beginPath();
+		context.moveTo(data[0], data[1]);
+		for (int i=2; i < data.length; i++)
+			context.lineTo(data[i], data[i+1]);
+		context.stroke();
 	}
 
 	@Override
 	public void fillPolygon(int[] data)
 	{
-		// TODO Auto-generated method stub
+		if (data.length < 2) return;
+		context.setFillStyle("gray");
+		context.setStrokeStyle("gray");
+		context.beginPath();
+		context.moveTo(data[0], data[1]);
+		for (int i=2; i < data.length; i++)
+			context.lineTo(data[i], data[i+1]);
+		context.fill();
 	}
 
 	@Override
@@ -87,19 +101,19 @@ public class CanvasContext extends Context
 	@Override
 	public void applyRotateTransformation(float angle)
 	{
-		// TODO Auto-generated method stub
+		context.rotate(angle);
 	}
 
 	@Override
 	public void applyTranslationTransformation(float x, float y)
 	{
-		// TODO Auto-generated method stub
+		context.translate(x, y);
 	}
 
 	@Override
 	public void applyScaleTransformation(float scale)
 	{
-		// TODO Auto-generated method stub
+		context.scale(scale, scale);
 	}
 
 	@Override
@@ -117,13 +131,13 @@ public class CanvasContext extends Context
 	@Override
 	public void pushCurrentTransform()
 	{
-		// TODO Auto-generated method stub
+		context.save();
 	}
 
 	@Override
 	public void popCurrentTransform()
 	{
-		// TODO Auto-generated method stub
+		context.restore();
 	}
 
 	@Override
