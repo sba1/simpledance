@@ -1,4 +1,4 @@
 language: java
 
 before_script:
-	- cd simpledance.parent
+    - cd simpledance.parent
