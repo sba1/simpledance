@@ -11,18 +11,21 @@ import java.util.ResourceBundle;
  */
 public class I18n
 {
-	// *** BEGIN I18N
 	static private ResourceBundle localeResource;
-	static
+	static private boolean localeResourceAttempted;
+
+	static final private void initLocaleResource()
 	{
 		try
 		{
 			localeResource = GettextResource.getBundle("SimpleDanceBundle");
 		} catch(Exception e){};
+		localeResourceAttempted = true;
 	};
 
 	static final public String _(String str)
 	{
+		if (!localeResourceAttempted) initLocaleResource();
 		if (localeResource == null) return str;
 		return GettextResource.gettext(localeResource,str);
 	}
