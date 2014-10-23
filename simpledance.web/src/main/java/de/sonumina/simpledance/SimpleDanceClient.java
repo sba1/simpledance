@@ -62,6 +62,7 @@ public class SimpleDanceClient
 		visibleLeft = result.visibleLeft;
 		visibleTop = result.visibleTop;
 		zoomFactor = result.zoomFactor;
+		render.renderScence(getRenderSceneArgs());
 	}
 
 	public static void main(String[] args)
