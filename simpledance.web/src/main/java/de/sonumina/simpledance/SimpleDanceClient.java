@@ -74,6 +74,12 @@ public class SimpleDanceClient
 		return rsa;
 	}
 
+	private void updateCanvasSizes()
+	{
+		canvas.setWidth(window.getInnerWidth());
+		canvas.setHeight(window.getInnerHeight());
+	}
+
 	public SimpleDanceClient()
 	{
 		canvas = (HTMLCanvasElement) document.createElement("canvas");
@@ -82,8 +88,7 @@ public class SimpleDanceClient
 			@Override
 			public void handleEvent(Event evt)
 			{
-				canvas.setWidth(window.getInnerWidth());
-				canvas.setHeight(window.getInnerHeight());
+				updateCanvasSizes();
 				render.renderScence(getRenderSceneArgs());
 			}
 		});
