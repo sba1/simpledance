@@ -118,7 +118,7 @@ public class CanvasContext extends Context
 	@Override
 	public void applyScaleXTransformation(float f)
 	{
-		// TODO Auto-generated method stub
+		context.scale(f, 1);
 	}
 
 	@Override
