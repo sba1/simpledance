@@ -2,10 +2,12 @@ package de.sonumina.simpledance;
 
 import org.teavm.dom.browser.Window;
 import org.teavm.dom.canvas.CanvasRenderingContext2D;
+import org.teavm.dom.events.Event;
+import org.teavm.dom.events.EventListener;
 import org.teavm.dom.html.HTMLCanvasElement;
 import org.teavm.dom.html.HTMLDocument;
-import org.teavm.dom.html.HTMLElement;
 import org.teavm.jso.JS;
+import org.teavm.jso.JSProperty;
 
 import de.sonumina.simpledance.core.graphics.Point;
 import de.sonumina.simpledance.core.graphics.Render;
@@ -15,11 +17,23 @@ import de.sonumina.simpledance.core.model.Pattern;
 
 public class SimpleDanceClient
 {
-	private static Window window = (Window)JS.getGlobal();
+	public static interface MyWindow extends Window
+	{
+		@JSProperty
+		int getInnerWidth();
+
+		@JSProperty
+		int getInnerHeight();
+
+		void addEventListener(String type, EventListener listener);
+	}
+
+	private static MyWindow window = (MyWindow)JS.getGlobal();
 	private static HTMLDocument document = window.getDocument();
 
 	private Pattern pattern = new Pattern();
 	private Render render;
+	private HTMLCanvasElement canvas;
 
 	private int visibleLeft;
 	private int visibleTop;
@@ -28,12 +42,17 @@ public class SimpleDanceClient
 
 	private int getWidth()
 	{
-		return 200;
+		return canvas.getWidth();
 	}
 
 	private int getHeight()
 	{
-		return 200;
+		return canvas.getHeight();
+	}
+
+	private HTMLCanvasElement getCanvas()
+	{
+		return canvas;
 	}
 
 	private RenderSceneArgs getRenderSceneArgs()
@@ -55,8 +74,21 @@ public class SimpleDanceClient
 		return rsa;
 	}
 
-	public SimpleDanceClient(CanvasRenderingContext2D context)
+	public SimpleDanceClient()
 	{
+		canvas = (HTMLCanvasElement) document.createElement("canvas");
+		window.addEventListener("resize", new EventListener()
+		{
+			@Override
+			public void handleEvent(Event evt)
+			{
+				canvas.setWidth(window.getInnerWidth());
+				canvas.setHeight(window.getInnerHeight());
+				render.renderScence(getRenderSceneArgs());
+			}
+		});
+
+		CanvasRenderingContext2D context = (CanvasRenderingContext2D)canvas.getContext("2d");
 		render = new Render(new CanvasContext(context));
 		ViewWholePatternResult result = render.viewWholePattern(getRenderSceneArgs());
 		visibleLeft = result.visibleLeft;
@@ -67,11 +99,7 @@ public class SimpleDanceClient
 
 	public static void main(String[] args)
 	{
-		HTMLElement div = document.createElement("div");
-		HTMLCanvasElement canvas = (HTMLCanvasElement) document.createElement("canvas");
-		CanvasRenderingContext2D context = (CanvasRenderingContext2D)canvas.getContext("2d");
-		new SimpleDanceClient(context);
-		div.appendChild(canvas);
-		document.getBody().appendChild(div);
+		SimpleDanceClient client = new SimpleDanceClient();
+		document.getBody().appendChild(client.getCanvas());
 	}
 }
