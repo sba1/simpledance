@@ -105,6 +105,7 @@ public class SimpleDanceClient
 	public static void main(String[] args)
 	{
 		SimpleDanceClient client = new SimpleDanceClient();
+		document.getBody().setAttribute("style", "margin: 0px");
 		document.getBody().appendChild(client.getCanvas());
 	}
 }
