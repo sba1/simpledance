@@ -53,10 +53,7 @@ public class CanvasContext extends Context
 	{
 		if (data.length < 2) return;
 		context.setStrokeStyle("black");
-		context.beginPath();
-		context.moveTo(data[0], data[1]);
-		for (int i=2; i < data.length; i+=2)
-			context.lineTo(data[i], data[i+1]);
+		preparePolygon(data);
 		context.closePath();
 		context.stroke();
 	}
@@ -66,11 +63,16 @@ public class CanvasContext extends Context
 	{
 		if (data.length < 2) return;
 		context.setFillStyle("blue");
+		preparePolygon(data);
+		context.fill();
+	}
+
+	private void preparePolygon(int[] data)
+	{
 		context.beginPath();
 		context.moveTo(data[0], data[1]);
 		for (int i=2; i < data.length; i+=2)
 			context.lineTo(data[i], data[i+1]);
-		context.fill();
 	}
 
 	@Override
