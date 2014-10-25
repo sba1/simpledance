@@ -11,6 +11,26 @@ public class CanvasContext extends Context
 {
 	private CanvasRenderingContext2D context;
 
+	/**
+	 * Convert the given color into a html one.
+	 *
+	 * @param color
+	 * @return
+	 */
+	private String htmlColor(Color color)
+	{
+		if (color == null)
+			return "black";
+		/* TeaVM doesn't provide sprintf() for now so we have to manually convert
+		 * the string. This "one"-liner has been found in
+		 *  https://stackoverflow.com/questions/8689526/integer-to-two-digits-hex-in-java
+		 */
+		String redString = Integer.toHexString(color.getRed() | 0x100).substring(1);
+		String greenString = Integer.toHexString(color.getGreen() | 0x100).substring(1);
+		String blueString = Integer.toHexString(color.getBlue() | 0x100).substring(1);
+		return "#" + redString + greenString + blueString;
+	}
+
 	public CanvasContext(CanvasRenderingContext2D context)
 	{
 		this.context = context;
