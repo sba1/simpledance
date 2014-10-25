@@ -87,14 +87,14 @@ public class CanvasContext extends Context
 	@Override
 	public Color allocateColor(int r, int g, int b)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return new Color(r, g, b)
+		{
+		};
 	}
 
 	@Override
 	public void deallocateColor(Color color)
 	{
-		// TODO Auto-generated method stub
 	}
 
 	@Override
