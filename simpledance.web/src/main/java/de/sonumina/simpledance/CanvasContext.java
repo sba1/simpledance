@@ -81,7 +81,7 @@ public class CanvasContext extends Context
 	@Override
 	public void drawLine(int x0, int y0, int x1, int y1)
 	{
-		// TODO Auto-generated method stub
+		drawPolyline(new int[]{x0,y0,x1,y1});
 	}
 
 	@Override
