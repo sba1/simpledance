@@ -45,7 +45,10 @@ public class CanvasContext extends Context
 	@Override
 	public void drawPolyline(int[] data)
 	{
-		// TODO Auto-generated method stub
+		if (data.length < 2) return;
+		context.setStrokeStyle(htmlColor(foreground));
+		preparePolygon(data);
+		context.stroke();
 	}
 
 	@Override
