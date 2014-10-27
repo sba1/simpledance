@@ -20,4 +20,30 @@ public class InputContext
 
 	/** An array to hold which foot is currently selected */
 	public boolean [] selectedArray = new boolean[4];
+
+	/**
+	 * Return whether any foot is selected (according to the selectedArray)
+	 *
+	 * @return
+	 */
+	public boolean anySelected()
+	{
+		for (int i=0;i<selectedArray.length;i++)
+		{
+			if (selectedArray[i])
+				return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Clear the foot selection.
+	 */
+	public void clearSelection()
+	{
+		for (int i=0;i<selectedArray.length;i++)
+		{
+			selectedArray[i] = false;
+		}
+	}
 }

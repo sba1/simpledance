@@ -348,16 +348,8 @@ public class Ballroom extends Canvas
 			
 			public void mouseDown(MouseEvent ev)
 			{
-				boolean wasSomethingSelected = false;
-
-				for (int i=0;i<inputContext.selectedArray.length;i++)
-				{
-					if (inputContext.selectedArray[i])
-					{
-						wasSomethingSelected = true;
-						inputContext.selectedArray[i] = false;
-					}
-				}
+				boolean wasSomethingSelected = inputContext.anySelected();
+				inputContext.clearSelection();
 
 				Render.RenderSceneArgs rsa = getRenderSceneArgs();
 				boolean rejectWayPointRequest = render.mouseDown(rsa, inputContext, ev.x, ev.y);
