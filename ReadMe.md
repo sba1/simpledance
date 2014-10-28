@@ -52,6 +52,8 @@ SimpleDance probably has many bugs. So please send bug reports to
 
  [mail@sebastianbauer.info](mailto:mail@sebastianbauer.info)
 
+or even better, file a new issue.
+
 Also new dance patterns would be much appreciated. As I'm a dance
 beginner I cannot do this myself. So this depends on you.
 Feel free to send me also suggestion how to improve this software.
