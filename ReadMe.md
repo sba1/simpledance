@@ -42,7 +42,7 @@ The latest build (JAR-only) can be obtained from
 
 Usage
 -----
-Windows user just need to double click the simpledance.bat file. It
+Windows user just need to double click the executable file. It
 should work right out the box (if the requirements are fulfilled).
 
 
