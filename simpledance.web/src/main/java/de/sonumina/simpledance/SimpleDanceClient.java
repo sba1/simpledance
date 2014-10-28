@@ -94,6 +94,7 @@ public class SimpleDanceClient
 			}
 		});
 
+		updateCanvasSizes();
 		CanvasRenderingContext2D context = (CanvasRenderingContext2D)canvas.getContext("2d");
 		render = new Render(new CanvasContext(context));
 		ViewWholePatternResult result = render.viewWholePattern(getRenderSceneArgs());
