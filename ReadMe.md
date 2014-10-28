@@ -1,5 +1,3 @@
-[![Build Status](https://sonumina.de/jenkins/buildStatus/icon?job=simpledance)](https://sonumina.de/jenkins/job/simpledance/)
-
 SimpleDance
 ===========
 
