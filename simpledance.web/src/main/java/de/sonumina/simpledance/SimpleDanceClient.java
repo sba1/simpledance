@@ -83,6 +83,7 @@ public class SimpleDanceClient
 	public SimpleDanceClient()
 	{
 		canvas = (HTMLCanvasElement) document.createElement("canvas");
+		canvas.setAttribute("style", "display: block;");
 		window.addEventListener("resize", new EventListener()
 		{
 			@Override
