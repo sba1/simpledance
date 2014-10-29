@@ -4,11 +4,13 @@ import org.teavm.dom.browser.Window;
 import org.teavm.dom.canvas.CanvasRenderingContext2D;
 import org.teavm.dom.events.Event;
 import org.teavm.dom.events.EventListener;
+import org.teavm.dom.events.MouseEvent;
 import org.teavm.dom.html.HTMLCanvasElement;
 import org.teavm.dom.html.HTMLDocument;
 import org.teavm.jso.JS;
 import org.teavm.jso.JSProperty;
 
+import de.sonumina.simpledance.core.graphics.InputContext;
 import de.sonumina.simpledance.core.graphics.Point;
 import de.sonumina.simpledance.core.graphics.Render;
 import de.sonumina.simpledance.core.graphics.Render.RenderSceneArgs;
@@ -39,6 +41,7 @@ public class SimpleDanceClient
 	private int visibleTop;
 	private int zoomFactor = 100;
 	private int rotation;
+	private InputContext inputContext = new InputContext();
 
 	private int getWidth()
 	{
@@ -91,6 +94,15 @@ public class SimpleDanceClient
 			{
 				updateCanvasSizes();
 				render.renderScence(getRenderSceneArgs());
+			}
+		});
+
+		canvas.addEventListener("click", new EventListener() {
+			@Override
+			public void handleEvent(Event evt) {
+				MouseEvent mevt = (MouseEvent)evt;
+				if (mevt.getButton() != 0) return;
+				render.mouseDown(getRenderSceneArgs(), inputContext, mevt.getClientX(), mevt.getClientY());
 			}
 		});
 
