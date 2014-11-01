@@ -106,6 +106,18 @@ public class SimpleDanceClient
 			}
 		});
 
+		canvas.addEventListener("mousemove", new EventListener() {
+			@Override
+			public void handleEvent(Event evt)
+			{
+				if (inputContext.mousePressed)
+				{
+					MouseEvent mevt = (MouseEvent)evt;
+					render.mouseMove(getRenderSceneArgs(), inputContext, mevt.getClientX(), mevt.getClientY());
+				}
+			}
+		});
+
 		updateCanvasSizes();
 		CanvasRenderingContext2D context = (CanvasRenderingContext2D)canvas.getContext("2d");
 		render = new Render(new CanvasContext(context));
