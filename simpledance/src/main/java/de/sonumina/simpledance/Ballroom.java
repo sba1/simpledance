@@ -674,8 +674,7 @@ public class Ballroom extends Canvas
 	
 	public void setSelectionArray(boolean [] array)
 	{
-		for (int i=0;i<inputContext.selectedArray.length;i++)
-			inputContext.selectedArray[i] = array[i];
+		inputContext.setSelection(array);
 		redraw();
 	}
 	

@@ -46,4 +46,16 @@ public class InputContext
 			selectedArray[i] = false;
 		}
 	}
+
+	/**
+	 * Set the selection according to the given array.
+	 *
+	 * @param array
+	 */
+	public void setSelection(boolean [] array)
+	{
+		for (int i=0;i<selectedArray.length;i++)
+			selectedArray[i] = array[i];
+
+	}
 }
