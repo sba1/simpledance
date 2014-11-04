@@ -126,6 +126,8 @@ public class Dance
 
 	private boolean coordinatesAreRelative = true;
 	private boolean useGradients = true;
+	private boolean showLady = true;
+	private boolean showGent = true;
 
 	private Text createInteger(Composite parent, ModifyListener modifyListener, Object data)
 	{
@@ -1179,7 +1181,33 @@ public class Dance
 		});
 
 		subItem = new MenuItem(menu, SWT.SEPARATOR);
-		
+
+		subItem = new MenuItem(menu, SWT.CHECK);
+		subItem.setText(_("Show lady's feet"));
+		subItem.setSelection(showLady);
+		subItem.addSelectionListener(new SelectionAdapter()
+		{
+			public void widgetSelected(SelectionEvent event)
+			{
+				MenuItem mi = (MenuItem)event.widget;
+				showLady = mi.getSelection();
+				ballroom.setShowLady(showLady);
+			}
+		});
+
+		subItem = new MenuItem(menu, SWT.CHECK);
+		subItem.setText(_("Show gent's feet"));
+		subItem.setSelection(showGent);
+		subItem.addSelectionListener(new SelectionAdapter()
+		{
+			public void widgetSelected(SelectionEvent event)
+			{
+				MenuItem mi = (MenuItem)event.widget;
+				showGent = mi.getSelection();
+				ballroom.setShowGent(showGent);
+			}
+		});
+
 		subItem = new MenuItem(menu, SWT.CHECK);
 		subItem.setText(_("Show gradients"));
 		subItem.setSelection(useGradients);
