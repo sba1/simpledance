@@ -116,6 +116,49 @@ public class Point
 	}
 
 	/**
+	 * Checks whether ray starting at (xa, ya) with constant ya crosses (xb,yb) to (xc,yc)
+	 *
+	 * @param xa
+	 * @param ya
+	 * @param xb
+	 * @param yb
+	 * @param xc
+	 * @param yc
+	 * @return
+	 * @see https://de.wikipedia.org/wiki/Punkt-in-Polygon-Test_nach_Jordan
+	 */
+	private int crossTest(int xa, int ya, int xb, int yb, int xc, int yc)
+	{
+		if (ya == yb && yb == yc)
+		{
+			if (xb <= xa && xa <= xc  || xc <= xa && xa <= xb)
+			{
+				return 0;
+			}
+			return 1;
+		}
+		/* Make sure that yb is not larger than yc */
+		if (yb > yc)
+		{
+			int t = yb;
+			yb = yc;
+			yc = t;
+			t = xb;
+			xb = xc;
+			xc = t;
+		}
+		if (ya == yb && xa == xb)
+			return 0;
+		if (ya <= yb && ya >= yc)
+			return 1;
+		double delta = (xb - xa)*(yc - ya) - (yb - ya)*(xc - xa);
+
+		if (delta > 0) return -1;
+		if (delta < 0) return 1;
+		return 0;
+	}
+
+	/**
 	 * Checks whether the point is contained in the given polygon.
 	 *
 	 * @param data
@@ -123,6 +166,11 @@ public class Point
 	 */
 	public boolean isContainedIn(int data [])
 	{
-		return false;
+		double t = -1;
+		int i;
+		for (i=0; i < data.length - 2; i+=2)
+			t *= crossTest(x,y,data[i],data[i+1],data[i+2],data[i+3]);
+		t *= crossTest(x,y,data[i],data[i+1],data[0],data[1]);
+		return t > 0;
 	}
 }

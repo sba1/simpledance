@@ -1,6 +1,7 @@
 package de.sonumina.simpledance.graphics;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -43,5 +44,7 @@ public class PointTest
 				10,10
 		};
 		assertTrue(new Point(1,5).isContainedIn(data));
+		assertFalse(new Point(100,5).isContainedIn(data));
+		assertFalse(new Point(100,-5).isContainedIn(data));
 	}
 }
