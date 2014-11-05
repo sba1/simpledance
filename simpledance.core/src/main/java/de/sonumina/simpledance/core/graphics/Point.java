@@ -114,4 +114,15 @@ public class Point
 	{
 		return rotate(angle, ORIGIN);
 	}
+
+	/**
+	 * Checks whether the point is contained in the given polygon.
+	 *
+	 * @param data
+	 * @return
+	 */
+	public boolean isContainedIn(int data [])
+	{
+		return false;
+	}
 }

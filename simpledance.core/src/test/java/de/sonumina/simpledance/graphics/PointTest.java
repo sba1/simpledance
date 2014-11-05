@@ -1,6 +1,7 @@
 package de.sonumina.simpledance.graphics;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -30,5 +31,17 @@ public class PointTest
 		result = new Point(2,0).rotate(180);
 		assertEquals(-2, result.x);
 		assertEquals(0, result.y);
+	}
+
+	@Test
+	public void testIsContainedIn()
+	{
+		int data [] = new int[]
+		{
+				0,0,
+				0,10,
+				10,10
+		};
+		assertTrue(new Point(1,5).isContainedIn(data));
 	}
 }
