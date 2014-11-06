@@ -46,5 +46,21 @@ public class PointTest
 		assertTrue(new Point(1,5).isContainedIn(data));
 		assertFalse(new Point(100,5).isContainedIn(data));
 		assertFalse(new Point(100,-5).isContainedIn(data));
+
+		data = new int[]
+		{
+				0,0,
+				0,10,
+				0,20,
+				0,30,
+				10,40,
+				20,50,
+				30,40,
+				50,30,
+				50,0
+		};
+
+		for (int i=0; i < 50; i++)
+			assertFalse(new Point(i,60).isContainedIn(data));
 	}
 }
