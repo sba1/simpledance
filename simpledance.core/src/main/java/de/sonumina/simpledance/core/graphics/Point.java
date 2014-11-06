@@ -149,7 +149,7 @@ public class Point
 		}
 		if (ya == yb && xa == xb)
 			return 0;
-		if (ya <= yb && ya >= yc)
+		if (ya <= yb || ya >= yc)
 			return 1;
 		double delta = (xb - xa)*(yc - ya) - (yb - ya)*(xc - xa);
 
