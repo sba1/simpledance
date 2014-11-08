@@ -171,6 +171,6 @@ public class Point
 		for (i=0; i < data.length - 2; i+=2)
 			t *= crossTest(x,y,data[i],data[i+1],data[i+2],data[i+3]);
 		t *= crossTest(x,y,data[i],data[i+1],data[0],data[1]);
-		return t > 0;
+		return t >= 0;
 	}
 }
