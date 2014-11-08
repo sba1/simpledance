@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import de.sonumina.simpledance.core.graphics.GraphicsData;
 import de.sonumina.simpledance.core.graphics.Point;
 
 public class PointTest
@@ -62,5 +63,36 @@ public class PointTest
 
 		for (int i=0; i < 50; i++)
 			assertFalse(new Point(i,60).isContainedIn(data));
+
+		String [] hitMask = new String[]
+		{
+			"--------------------", /* 21 */
+			"------XXXXXXXX------", /* 22 */
+			"----XXXXXXXXXXXX----", /* 23 */
+			"----XXXXXXXXXXXX----", /* 24 */
+			"----XXXXXXXXXXXX----", /* 25 */
+			"----XXXXXXXXXXXX----", /* 26 */
+			"----XXXXXXXXXXXX----", /* 27 */
+			"----XXXXXXXXXXXX----", /* 28 */
+			"----XXXXXXXXXXXX----", /* 29 */
+			"----XXXXXXXXXXXX----", /* 30 */
+			"-----XXXXXXXXXX-----", /* 31 */
+			"------XXXXXXXX------", /* 32 */
+			"-------XXXXXX-------", /* 33 */
+			"-------XXXXXX-------", /* 34 */
+			"--------------------"  /* 35 */
+		};
+
+		GraphicsData graphicsData = new GraphicsData(1);
+
+		for (int i=21;i<36;i++)
+		{
+			for (int j=-10;j<10;j++)
+			{
+				boolean expected = hitMask[i-21].charAt(j+10) == 'X';
+				assertEquals(expected, new Point(j, i).isContainedIn(graphicsData.getHeel()));
+			}
+		}
+
 	}
 }
