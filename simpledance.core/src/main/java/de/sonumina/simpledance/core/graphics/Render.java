@@ -8,8 +8,6 @@ import static java.lang.Math.sin;
 import static java.lang.Math.toDegrees;
 import static java.lang.Math.toRadians;
 
-import java.awt.Polygon;
-
 import de.sonumina.simpledance.core.graphics.InputContext.Drag;
 import de.sonumina.simpledance.core.model.Foot;
 import de.sonumina.simpledance.core.model.Pattern;
@@ -353,10 +351,7 @@ public class Render
 
 		context.popCurrentTransform();
 
-		Polygon polygon = new Polygon();
-		for (int i=0; i<data.length; i+=2)
-			polygon.addPoint(transformedData[i], transformedData[i+1]);
-		return polygon.contains(tx,ty);
+		return new Point(tx, ty).isContainedIn(transformedData);
 	}
 
 	/**
