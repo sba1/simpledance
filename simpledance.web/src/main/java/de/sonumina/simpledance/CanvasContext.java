@@ -1,5 +1,11 @@
 package de.sonumina.simpledance;
 
+import static java.lang.Math.PI;
+import static java.lang.Math.cos;
+import static java.lang.Math.sin;
+
+import java.util.LinkedList;
+
 import org.teavm.dom.canvas.CanvasRenderingContext2D;
 
 import de.sonumina.simpledance.core.graphics.Color;
@@ -10,6 +16,56 @@ import de.sonumina.simpledance.core.graphics.RGB;
 public class CanvasContext extends Context
 {
 	private CanvasRenderingContext2D context;
+
+	/**
+	 * A simple class representing transformation matrices.
+	 *
+	 * @author Sebastian Bauer
+	 */
+	private static class Transform
+	{
+		public double [] m = new double[6];
+
+		public Transform()
+		{
+			m[0] = 1; m[1] = 0;
+			m[2] = 0; m[3] = 1;
+		}
+
+		public void translate(float x, float y)
+		{
+			m[4] += m[0] * x + m[2] * y;
+			m[5] += m[1] * x + m[3] * y;
+		}
+
+		public void rotate(float degree)
+		{
+			double rad = degree * PI / 180.0;
+
+			m[0] = m[0] * cos(rad) + m[2] * sin(rad);
+			m[1] = m[1] * cos(rad) + m[3] * sin(rad);
+			m[2] = - m[0] * sin(rad) + m[2] * cos(rad);
+			m[3] = - m[1] * sin(rad) + m[3] * cos(rad);
+		}
+
+		public void scale(float sx, float sy)
+		{
+			m[0] *= sx;
+			m[1] *= sx;
+			m[2] *= sy;
+			m[3] *= sy;
+		}
+
+		public Transform clone()
+		{
+			Transform cloned = new Transform();
+			for (int i=0; i < m.length; i++)
+				cloned.m[i] = m[i];
+			return cloned;
+		}
+	}
+
+	private LinkedList<Transform> transformList = new LinkedList<Transform>();
 
 	/**
 	 * Convert the given color into a html one.
@@ -34,6 +90,7 @@ public class CanvasContext extends Context
 	public CanvasContext(CanvasRenderingContext2D context)
 	{
 		this.context = context;
+		transformList.add(new Transform());
 	}
 
 	@Override
@@ -122,28 +179,41 @@ public class CanvasContext extends Context
 	{
 	}
 
+	/**
+	 * Set the current transform to the context.
+	 */
+	private void setCurrentTransform()
+	{
+		Transform current = transformList.peekFirst();
+		context.setTransform(current.m[0], current.m[1], current.m[2], current.m[3], current.m[4], current.m[5]);
+	}
+
 	@Override
 	public void applyRotateTransformation(float angle)
 	{
-		context.rotate(angle);
+		transformList.peekFirst().rotate(angle);
+		setCurrentTransform();
 	}
 
 	@Override
 	public void applyTranslationTransformation(float x, float y)
 	{
-		context.translate(x, y);
+		transformList.peekFirst().translate(x, y);
+		setCurrentTransform();
 	}
 
 	@Override
 	public void applyScaleTransformation(float scale)
 	{
-		context.scale(scale, scale);
+		transformList.peekFirst().scale(scale,  scale);
+		setCurrentTransform();
 	}
 
 	@Override
 	public void applyScaleXTransformation(float f)
 	{
-		context.scale(f, 1);
+		transformList.peekFirst().scale(f, 1);
+		setCurrentTransform();
 	}
 
 	@Override
@@ -155,13 +225,15 @@ public class CanvasContext extends Context
 	@Override
 	public void pushCurrentTransform()
 	{
-		context.save();
+		transformList.push(transformList.peekFirst().clone());
+		setCurrentTransform();
 	}
 
 	@Override
 	public void popCurrentTransform()
 	{
-		context.restore();
+		transformList.remove(); /* Cannot use pop() in TeaVM 0.2.1, it pops the wrong end */
+		setCurrentTransform();
 	}
 
 	@Override
