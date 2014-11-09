@@ -56,6 +56,11 @@ public class CanvasContext extends Context
 			m[3] *= sy;
 		}
 
+		public Point transform(float x, float y)
+		{
+			return new Point((int)(x * m[0] + y*m[2] + m[4]), (int)(x * m[1] + y * m[3] + m[5]));
+		}
+
 		public Transform clone()
 		{
 			Transform cloned = new Transform();
@@ -239,6 +244,11 @@ public class CanvasContext extends Context
 	@Override
 	public void applyTransformation(int[] sourcePointArray, int[] destPointArray)
 	{
-		// TODO Auto-generated method stub
+		for (int i = 0; i < sourcePointArray.length; i += 2)
+		{
+			Point tp = transformList.peekFirst().transform(sourcePointArray[i], sourcePointArray[i+1]);
+			destPointArray[i] = tp.x;
+			destPointArray[i+1] = tp.y;
+		}
 	}
 }
